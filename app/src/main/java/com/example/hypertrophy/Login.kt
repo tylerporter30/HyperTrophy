@@ -92,7 +92,7 @@ fun LoginContent(navController: NavHostController) {
 
         Button(
             onClick = { navController.navigate(NavRoutes.Home.route) },
-            enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank()
+            //enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank() //This is only commented out for development purposes.
         ) {
             Text(text = "Login")
         }
