@@ -6,10 +6,9 @@ sealed class NavRoutes(val route: String) {
     object SignUp: NavRoutes("signup")
     object Home: NavRoutes("home")
     object Analyze: NavRoutes("analyze")
-
-}
-
-sealed class BottomNavRoutes(val route: String) {
-    object Home: BottomNavRoutes("home")
-    object Analyze: BottomNavRoutes("analyze")
+    object Templates: NavRoutes("templates")
+    object Log: NavRoutes("log")
+    object Programs: NavRoutes("programs")
+    object Equipment: NavRoutes("equipment")
+    object WeighIn: NavRoutes("weighIn")
 }

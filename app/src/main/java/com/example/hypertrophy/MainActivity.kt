@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -68,28 +70,32 @@ fun MainScreen(navController: NavHostController) {
         }
 
         composable(NavRoutes.Analyze.route) {
-            AnalyzeScreen()
+            AnalyzeScreen(navController = navController)
         }
+
+        composable(NavRoutes.Templates.route) {
+            ListOfWorkoutTemplatesScreen(navController = navController)
+        }
+
+        composable(NavRoutes.Log.route) {
+            LogScreen(navController = navController)
+        }
+
+        composable(NavRoutes.Programs.route) {
+            SuggestedProgramsScreen(navController = navController)
+        }
+
+        composable(NavRoutes.Equipment.route) {
+            EquipmentMatcherScreen(navController = navController)
+        }
+
+        composable(NavRoutes.WeighIn.route) {
+            WeighInScreen(navController = navController)
+        }
+
     }
 }
 
-@Composable
-fun BottomBar(navController: NavHostController) {
-    NavHost(
-        navController = navController, 
-        startDestination = BottomNavRoutes.Home.route)
-    {
-        composable(BottomNavRoutes.Home.route) {
-            HomeScreen(navController = navController)
-        }
-
-        composable(BottomNavRoutes.Analyze.route) {
-            AnalyzeScreen()
-        }
-    }
-    
-
-}
 
 @Composable
 fun BottomBarNavigation(navController: NavHostController) {
@@ -104,7 +110,7 @@ fun BottomBarNavigation(navController: NavHostController) {
                           navController.navigate(navItem.route)
                 },
                 icon = { Icon(imageVector = navItem.image, contentDescription = navItem.title) },
-                label = { Text(text = navItem.title) }
+                //label = { Text(text = navItem.title) }
             )
         }
     }
