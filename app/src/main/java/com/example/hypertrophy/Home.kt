@@ -15,7 +15,8 @@ import androidx.navigation.NavHostController
 fun HomeScreen(navController: NavHostController) {
     Scaffold(
         topBar = { TopAppBar( title = { Text(text = "Home")})},
-        content = { HomeContent(navController = navController) }
+        content = { HomeContent(navController = navController) },
+        bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
