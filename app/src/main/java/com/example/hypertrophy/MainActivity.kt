@@ -62,5 +62,9 @@ fun MainScreen(navController: NavHostController) {
         composable(NavRoutes.SignUp.route) {
             SignUpScreen(navController = navController)
         }
+
+        composable(NavRoutes.Home.route) {
+            HomeScreen(navController = navController)
+        }
     }
 }
