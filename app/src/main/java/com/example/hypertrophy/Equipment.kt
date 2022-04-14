@@ -40,6 +40,7 @@ fun EquipmentMatcherScreen(navController: NavHostController) {
 @Composable
 fun EquipmentCheckbox() {
 
+    //list of equipment
     val equipmentList = listOf("Assisted", "Band", "Barbell", "Body Weight", "BOSU Ball",
         "Cables", "Dumbbell", "Elliptical", "EZ Bar", "Hammer", "Kettlebell",
         "Leverage Machine", "Medicine Ball", "Olympic Barbell", "Resistance Band"
