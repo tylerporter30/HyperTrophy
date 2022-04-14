@@ -80,7 +80,7 @@ fun HomeContent(navController: NavHostController) {
         Row(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.Bottom,
-            modifier = Modifier.padding(bottom = 60.dp, end = 20.dp).fillMaxSize()
+            modifier = Modifier.padding(bottom = 65.dp, end = 20.dp).fillMaxSize()
         ) {
             IconButton(onClick = {
                 Toast.makeText(context, "Click on a workout to start", Toast.LENGTH_LONG).show()
