@@ -110,7 +110,7 @@ fun BottomBarNavigation(navController: NavHostController) {
                           navController.navigate(navItem.route)
                 },
                 icon = { Icon(imageVector = navItem.image, contentDescription = navItem.title) },
-                //label = { Text(text = navItem.title) }
+                label = { Text(text = navItem.title) }
             )
         }
     }
