@@ -5,11 +5,11 @@ import androidx.compose.material.icons.filled.*
 
 object NavBarItems {
     val BarItems = listOf(
-        BarItem(
+        /*BarItem(
             title = "Home",
             image = Icons.Filled.Home,
             route = "home"
-        ),
+        ),*/ // Commented this out because we replaced it with an IconButton in the TopAppBar
         BarItem(
             title = "Analyze",
             image = Icons.Default.Settings,

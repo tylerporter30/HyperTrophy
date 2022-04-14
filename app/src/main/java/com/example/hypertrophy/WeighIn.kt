@@ -1,15 +1,12 @@
 package com.example.hypertrophy
 
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +20,11 @@ import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 @Composable
 fun WeighInScreen(navController: NavHostController) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text(text = "Weigh In") }) },
+        topBar = { TopAppBar(title = {
+            IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
+                Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
+            }
+            Text(text = "Weigh In") }) },
         content = { },
         bottomBar = { BottomBarNavigation(navController = navController) }
     )
