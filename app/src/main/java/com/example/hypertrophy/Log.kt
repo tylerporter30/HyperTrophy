@@ -1,9 +1,10 @@
 package com.example.hypertrophy
 
-import android.widget.NumberPicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,15 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 
 @Composable
 fun LogScreen(navController: NavHostController) {
@@ -29,7 +24,7 @@ fun LogScreen(navController: NavHostController) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
             Text(text = "Log") }) },
-        content = {  },
+        content = { LogScreenUI() },
         bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }

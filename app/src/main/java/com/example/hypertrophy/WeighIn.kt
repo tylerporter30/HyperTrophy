@@ -1,11 +1,11 @@
 package com.example.hypertrophy
 
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,9 +14,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 
+/**
+ * Four points of user input:
+ *  Current weight
+ *  Track daily Calories
+ *  Body part measurements (for hypertrophy tracking)
+ *  Body Fat Percentage
+ *
+ * Units for each input must be adaptable for user preference
+ */
 @Composable
 fun WeighInScreen(navController: NavHostController) {
     Scaffold(
@@ -25,19 +35,115 @@ fun WeighInScreen(navController: NavHostController) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
             Text(text = "Weigh In") }) },
-        content = { },
+        content = { WeighInScreenUI() },
         bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
 @Composable
+fun WeighInScreenUI() {
+    var state by remember { mutableStateOf(0) }
+    val titles = listOf("Weight", "Diet", "Measure", "Body Fat %")
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TabRow(
+            selectedTabIndex = state,
+            divider = { },
+        ) {
+            titles.forEachIndexed { index, title ->
+                Tab(
+                    text = { Text(title) },
+                    selected = state == index,
+                    onClick = { state = index }
+                )
+            }
+        }
+        when (state) {
+            0 -> WeighInWeight()
+            1 -> WeighInDiet()
+            2 -> WeighInMeasurements()
+            3 -> WeighInBodyFat()
+            else -> WeighInWeight()
+        }
+    }
+}
+
+@Composable
 fun WeighInWeight() {
-    //
+    // TEMP STATE HOLDERS
+    var pickerPercentInt by remember { mutableStateOf(189) }
+    var pickerPercentDec by remember { mutableStateOf(5) }
+
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Current Weight")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NumberPicker(
+                value = pickerPercentInt,
+                onValueChange = { pickerPercentInt = it },
+                dividersColor = MaterialTheme.colors.secondary,
+                range = 0..999
+            )
+            Text(".")
+            NumberPicker(
+                value = pickerPercentDec,
+                onValueChange = { pickerPercentDec = it },
+                dividersColor = MaterialTheme.colors.secondary,
+                range = 0..9
+            )
+            Text("lbs") // CHANGE WITH SETTINGS
+        }
+    }
 }
 
 @Composable
 fun WeighInDiet() {
-    //
+    // TEMP STATE HOLDERS
+    var calorieCount by remember { mutableStateOf(1543.0) }
+    var calorieNew by remember { mutableStateOf("0.0") }
+
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Calories: ${ calorieCount.toInt() }")
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextField(
+                value = calorieNew,
+                onValueChange = { calorieNew = String.format("%f", it) },
+                label = { Text("Add") },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            calorieCount += calorieNew.toFloat()
+                            calorieNew = "0.0"
+                        }
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                shape = MaterialTheme.shapes.small
+            )
+        }
+    }
 }
 
 @Composable
@@ -275,17 +381,33 @@ fun WeighInBodyFat() {
             NumberPicker(
                 value = pickerPercentInt,
                 onValueChange = { pickerPercentInt = it },
-                dividersColor = MaterialTheme.colors.secondaryVariant,
+                dividersColor = MaterialTheme.colors.secondary,
                 range = 0..99
             )
             Text(".")
             NumberPicker(
                 value = pickerPercentDec,
                 onValueChange = { pickerPercentDec = it },
-                dividersColor = MaterialTheme.colors.secondaryVariant,
+                dividersColor = MaterialTheme.colors.secondary,
                 range = 0..9
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewWeighInWeight() {
+    HyperTrophyTheme {
+        WeighInWeight()
+    }
+}
+
+@Preview
+@Composable
+fun PreviewWeighInDiet() {
+    HyperTrophyTheme {
+        WeighInDiet()
     }
 }
 
