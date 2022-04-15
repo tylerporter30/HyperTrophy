@@ -91,11 +91,11 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
         content = {  },
         //bottomBar = { BottomBarNavigation(navController = navController) }
     )
-    FloatingActionButtonComponent()
+    FloatingActionButtonComponent(navController = navController)
 }
 
 @Composable
-fun FloatingActionButtonComponent() {
+fun FloatingActionButtonComponent(navController: NavHostController) {
     val context = LocalContext.current
 
 Column(modifier = Modifier.fillMaxSize().padding(10.dp), verticalArrangement = Arrangement.Bottom,
@@ -104,7 +104,7 @@ Column(modifier = Modifier.fillMaxSize().padding(10.dp), verticalArrangement = A
 
     FloatingActionButton(
         onClick = {
-            Toast.makeText(context, "Thanks for clicking!", Toast.LENGTH_LONG).show()
+            navController.navigate(NavRoutes.CreateNewProgram.route)
         },
         modifier = Modifier.size(50.dp), shape = CircleShape, backgroundColor = Color.Black
     ) {

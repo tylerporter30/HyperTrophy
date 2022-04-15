@@ -89,6 +89,9 @@ fun MainScreen(navController: NavHostController) {
             WeighInScreen(navController = navController)
         }
 
+        composable(NavRoutes.CreateNewProgram.route) {
+            CreateNewProgram(navController = navController)
+        }
     }
 }
 
