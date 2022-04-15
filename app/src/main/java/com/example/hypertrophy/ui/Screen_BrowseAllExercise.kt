@@ -62,7 +62,7 @@ fun TabContent(tabIndex:Int,exercisesViewModel: ExercisesViewModel){
             items(exercisesViewModel.exerciseList.value.filter{ it.bodyPart == exercisesViewModel.bodyPartList[tabIndex] /*&& targetedMuscle in it.target*/}){
 
                 it ->
-                exerciseInfoCard(exerciseInfo = it)
+                ExerciseInfoCard(exerciseInfo = it)
             }
         }
     }
@@ -71,7 +71,7 @@ fun TabContent(tabIndex:Int,exercisesViewModel: ExercisesViewModel){
 
 @ExperimentalCoilApi
 @Composable
-fun exerciseInfoCard(exerciseInfo: ExerciseInfo){
+fun ExerciseInfoCard(exerciseInfo: ExerciseInfo){
 
     Card(
         modifier = Modifier
