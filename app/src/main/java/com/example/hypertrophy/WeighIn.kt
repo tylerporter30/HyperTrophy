@@ -219,7 +219,7 @@ fun WeighInMeasurements() {
     var shoulder by remember { mutableStateOf("18.5") }
 
     val scrollState = rememberScrollState()
-    val numberRegex = """\d+(\.\d+)?""".toRegex()
+    val numberRegex = """^\d+(\.\d+)?$""".toRegex()
 
     Column(
         modifier = Modifier
