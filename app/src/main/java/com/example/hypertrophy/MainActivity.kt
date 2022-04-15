@@ -44,8 +44,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    test(viewModel = programViewModel)
-                    //SplashScreen()
+                    SplashScreen()
                 }
             }
         }
