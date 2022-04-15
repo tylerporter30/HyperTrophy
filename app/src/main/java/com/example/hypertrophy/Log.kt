@@ -109,17 +109,17 @@ fun LogScreenUI() {
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        //Spacer(modifier = Modifier.height(16.dp))
 
         // Big, slap-able button to mark set as complete
         Row(
-            modifier = Modifier.padding(58.dp),
+            //modifier = Modifier.padding(58.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
                 onClick = { /*TODO*/ },
-                modifier = Modifier.fillMaxSize(),
+                //modifier = Modifier.fillMaxSize(),
 //                elevation = ButtonElevation.elevation(enabled = true, interactionSource = TODO()),
                 shape = MaterialTheme.shapes.medium,
 //                colors = /*TODO*/,
