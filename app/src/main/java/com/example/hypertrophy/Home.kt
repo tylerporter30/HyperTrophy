@@ -14,6 +14,10 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -224,10 +228,15 @@ fun CompletedWorkoutCard(date: String, title: String) {
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
+            var isOpen by rememberSaveable{ mutableStateOf(false) }
+
             ClickableText(
                 text = AnnotatedString(date),
                 style = MaterialTheme.typography.h6,
-                onClick = { Toast.makeText(context, "This will expand the card", Toast.LENGTH_LONG).show() } //Send to the details of this completed workout
+                onClick = {
+                    Toast.makeText(context, "This will expand the card", Toast.LENGTH_LONG).show()
+                    isOpen = !isOpen
+                } //Expand Card to show the details of this completed workout
             )
 
             ClickableText(
@@ -235,6 +244,18 @@ fun CompletedWorkoutCard(date: String, title: String) {
                 style = MaterialTheme.typography.h5,
                 onClick = { Toast.makeText(context, "This will navigate to this template", Toast.LENGTH_LONG).show() } //Send to this particular Template
             )
+
+            if (isOpen) {
+                Text(text =
+                        "Exercise\n" +
+                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 6: 8 Reps: 155 lbs: RPE: 7"
+                )
+            }
         }
 
 
