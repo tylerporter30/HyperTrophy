@@ -1,9 +1,13 @@
 package com.example.hypertrophy
 
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -11,13 +15,22 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.ViewCompat
 import androidx.navigation.NavHostController
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
+import kotlin.math.absoluteValue
 
 /**
  * Four points of user input:
@@ -36,15 +49,21 @@ fun WeighInScreen(navController: NavHostController) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
             Text(text = "Weigh In") }) },
-        content = { WeighInScreenUI() },
+        content = {
+            Box(Modifier.padding(it)) {
+                WeighInScreenUI()
+            }
+        },
         bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
+// @ExperimentalPagerApi
 @Composable
 fun WeighInScreenUI() {
-    var state by remember { mutableStateOf(0) }
+    var tabIndex by remember { mutableStateOf(0) }
     val titles = listOf("Weight", "Diet", "Measure", "Body Fat %")
+//    val pagerState = rememberPagerState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -52,18 +71,33 @@ fun WeighInScreenUI() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TabRow(
-            selectedTabIndex = state,
-            divider = { },
+            selectedTabIndex = tabIndex,
+//            indicator = { tabPositions ->
+//                TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions))
+//            }
+//            divider = { },
         ) {
             titles.forEachIndexed { index, title ->
                 Tab(
                     text = { Text(title) },
-                    selected = state == index,
-                    onClick = { state = index }
+                    selected = tabIndex == index,
+                    onClick = { tabIndex = index }
                 )
             }
         }
-        when (state) {
+//        HorizontalPager(
+//            count = titles.size,
+//            state = pagerState
+//        ) { tabIndex ->
+//            when (tabIndex) {
+//                0 -> WeighInWeight()
+//                1 -> WeighInDiet()
+//                2 -> WeighInMeasurements()
+//                3 -> WeighInBodyFat()
+//                else -> WeighInWeight()
+//            }
+//        }
+        when (tabIndex) {
             0 -> WeighInWeight()
             1 -> WeighInDiet()
             2 -> WeighInMeasurements()
@@ -83,7 +117,11 @@ fun WeighInWeight() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Current Weight")
+        Text(
+            text = "Current Weight",
+            modifier = Modifier.padding(vertical = 16.dp),
+            style = MaterialTheme.typography.h4
+        )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -111,13 +149,17 @@ fun WeighInWeight() {
 fun WeighInDiet() {
     // TEMP STATE HOLDERS
     var calorieCount by remember { mutableStateOf(1543.0) }
-    var calorieNew by remember { mutableStateOf("0.0") }
+    var calorieNew by remember { mutableStateOf("") }
 
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Calories: ${ calorieCount.toInt() }")
+        Text(
+            text = "Calories: ${ calorieCount.toInt() }",
+            modifier = Modifier.padding(top = 16.dp),
+            style = MaterialTheme.typography.h4
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -125,21 +167,35 @@ fun WeighInDiet() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val focusManager = LocalFocusManager.current
+
             TextField(
                 value = calorieNew,
-                onValueChange = { calorieNew = String.format("%f", it) },
+                onValueChange = { calorieNew = it },
                 label = { Text("Add") },
                 trailingIcon = {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
                         modifier = Modifier.clickable {
-                            calorieCount += calorieNew.toFloat()
-                            calorieNew = "0.0"
+                            try {
+                                calorieCount += calorieNew.toFloat().absoluteValue
+                            } catch (ex: NumberFormatException) {
+                                Log.d(
+                                    "WEIGH IN",
+                                    "Diet entry not a number: ${ ex.localizedMessage }"
+                                )
+                            }
+                            calorieNew = ""
                         }
                     )
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = "[^0-9]".toRegex().containsMatchIn(calorieNew),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions { focusManager.clearFocus() },
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
@@ -162,11 +218,48 @@ fun WeighInMeasurements() {
     var waist by remember { mutableStateOf("30.0") }
     var shoulder by remember { mutableStateOf("18.5") }
 
+    val scrollState = rememberScrollState()
+    val numberRegex = """\d+(\.\d+)?""".toRegex()
+
     Column(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier
+            .padding(8.dp)
+            .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
+        val focusManager = LocalFocusManager.current
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Shoulder",
+                modifier = Modifier.fillMaxWidth(0.33f),
+                textAlign = TextAlign.Left
+            )
+            TextField(
+                value = shoulder,
+                onValueChange = { shoulder = it },
+                modifier = Modifier.width(96.dp),
+//                label = { Text("left") },
+                isError = !numberRegex.containsMatchIn(shoulder),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
+                ),
+                singleLine = true,
+                shape = MaterialTheme.shapes.small
+            )
+            Spacer(Modifier.width(96.dp))
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -181,19 +274,33 @@ fun WeighInMeasurements() {
             )
             TextField(
                 value = upperArmLeft,
-                onValueChange = { upperArmLeft = String.format("%.1f", it) },
+                onValueChange = { upperArmLeft = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("left") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(upperArmLeft),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
             TextField(
                 value = upperArmRight,
-                onValueChange = { upperArmRight = String.format("%.1f", it) },
+                onValueChange = { upperArmRight = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("right") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(upperArmRight),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
@@ -212,19 +319,33 @@ fun WeighInMeasurements() {
             )
             TextField(
                 value = forearmLeft,
-                onValueChange = { forearmLeft = String.format("%.1f", it) },
+                onValueChange = { forearmLeft = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("left") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(forearmLeft),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
             TextField(
                 value = forearmRight,
-                onValueChange = { forearmRight = String.format("%.1f", it) },
+                onValueChange = { forearmRight = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("right") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(forearmRight),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
@@ -243,10 +364,47 @@ fun WeighInMeasurements() {
             )
             TextField(
                 value = chest,
-                onValueChange = { chest = String.format("%.1f", it) },
+                onValueChange = { chest = it },
                 modifier = Modifier.width(96.dp),
 //                label = { Text("left") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(chest),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                ),
+                singleLine = true,
+                shape = MaterialTheme.shapes.small
+            )
+            Spacer(Modifier.width(96.dp))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Waist",
+                modifier = Modifier.fillMaxWidth(0.33f),
+                textAlign = TextAlign.Left
+            )
+            TextField(
+                value = waist,
+                onValueChange = { waist = it },
+                modifier = Modifier.width(96.dp),
+//                label = { Text("left") },
+                isError = !numberRegex.containsMatchIn(waist),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
@@ -266,19 +424,33 @@ fun WeighInMeasurements() {
             )
             TextField(
                 value = thighLeft,
-                onValueChange = { thighLeft = String.format("%.1f", it) },
+                onValueChange = { thighLeft = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("left") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(thighLeft),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
             TextField(
                 value = thighRight,
-                onValueChange = { thighRight = String.format("%.1f", it) },
+                onValueChange = { thighRight = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("right") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(thighRight),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
@@ -297,68 +469,36 @@ fun WeighInMeasurements() {
             )
             TextField(
                 value = calfLeft,
-                onValueChange = { calfLeft = String.format("%.1f", it) },
+                onValueChange = { calfLeft = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("left") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(calfLeft),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
             TextField(
                 value = calfRight,
-                onValueChange = { calfRight = String.format("%.1f", it) },
+                onValueChange = { calfRight = it },
                 modifier = Modifier.width(96.dp),
                 label = { Text("right") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                isError = !numberRegex.containsMatchIn(calfRight),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { focusManager.clearFocus() }
+                ),
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Waist",
-                modifier = Modifier.fillMaxWidth(0.33f),
-                textAlign = TextAlign.Left
-            )
-            TextField(
-                value = waist,
-                onValueChange = { waist = String.format("%.1f", it) },
-                modifier = Modifier.width(96.dp),
-//                label = { Text("left") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
-            )
-            Spacer(Modifier.width(96.dp))
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Shoulder",
-                modifier = Modifier.fillMaxWidth(0.33f),
-                textAlign = TextAlign.Left
-            )
-            TextField(
-                value = shoulder,
-                onValueChange = { shoulder = String.format("%.1f", it) },
-                modifier = Modifier.width(96.dp),
-//                label = { Text("left") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
-            )
-            Spacer(Modifier.width(96.dp))
         }
     }
 }
@@ -373,7 +513,11 @@ fun WeighInBodyFat() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Body Fat Percentage")
+        Text(
+            text = "Body Fat Percentage",
+            modifier = Modifier.padding(top = 16.dp),
+            style = MaterialTheme.typography.h4
+        )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
