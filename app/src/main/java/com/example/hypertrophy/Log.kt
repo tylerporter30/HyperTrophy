@@ -29,6 +29,8 @@ fun LogScreen(navController: NavHostController) {
     )
 }
 
+
+
 @Composable
 fun LogScreenUI() {
     // TEMP STATE HOLDERS

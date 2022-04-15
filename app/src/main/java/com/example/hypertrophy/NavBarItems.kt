@@ -14,19 +14,19 @@ object NavBarItems {
         ),*/ // Commented this out because we replaced it with an IconButton in the TopAppBar
         BarItem(
             title = "Analyze",
-            image = Icons.Default.Menu,
+            image = Icons.Filled.Info,
             route = "analyze"
         ),
         BarItem(
             title = "Templates",
-            image = Icons.Default.AddCircle,
+            image = Icons.Filled.List,
             route = "templates"
         ),
-        BarItem(
+       /* BarItem(
             title = "Log",
             image = Icons.Filled.PlayArrow,
             route = "log"
-        ),
+        ),*/ // Commented this out because it is going to be accessed by hitting 'start' on a template
         /*BarItem(
             title = "Programs",
             image = Icons.Filled.Settings,
@@ -39,7 +39,7 @@ object NavBarItems {
         ),*/  // Commented both of these out because the got moved to a dropdown menu in Templates
         BarItem(
             title = "WeighIn",
-            image = Icons.Filled.AccountCircle,
+            image = Icons.Filled.AccountBox,
             route = "weighIn"
         )
     )
