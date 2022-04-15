@@ -253,11 +253,27 @@ fun CompletedWorkoutCard(date: String, title: String) {
                         "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
                         "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
                         "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Exercise\n" +
+                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Exercise\n" +
+                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Exercise\n" +
+                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
+                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
                         "Set 6: 8 Reps: 155 lbs: RPE: 7"
                 )
             }
         }
-
-
     }
 }
