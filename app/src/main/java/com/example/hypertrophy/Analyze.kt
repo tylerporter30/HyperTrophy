@@ -1,11 +1,9 @@
 package com.example.hypertrophy
 
 import android.widget.Toast
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -16,6 +14,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -129,37 +131,85 @@ fun graphCard(exerciseSelected: String) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-
         ) {
-        var showGraph by rememberSaveable { mutableStateOf(true) }
-        if (showGraph) {
-            Card(
-                Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(0.8f),
-                elevation = 15.dp,
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(
+        Text(
+            text = exerciseSelected,
+            modifier = Modifier
+                .padding(20.dp)
+        )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+                .height(200.dp),
+            shape = RoundedCornerShape(10.dp),
+            elevation = 15.dp
+        ) {
+            Box() {
+                Canvas(
                     modifier = Modifier
-                        .padding(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
+                        .padding(30.dp)
+                        .fillMaxSize()
+                        .background(color = Color.LightGray)
                 ) {
+                    val canvasWidth = size.width
+                    val canvasHeight = size.height
 
-                    Text(text = exerciseSelected)
-                    Text(text = "\n\n\n\nGraph Will Go Here\n\n\n\n")
+                    drawLine(
+                        start = Offset(x = 0f, y = canvasHeight),
+                        end = Offset(x = canvasWidth/4, y = canvasHeight - 100f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/4, y = canvasHeight - 100f),
+                        end = Offset(x = canvasWidth/2, y = canvasHeight - 150f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/2, y = canvasHeight - 150f),
+                        end = Offset(x = canvasWidth/4*3, y = canvasHeight - 225f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/4*3, y = canvasHeight - 225f),
+                        end = Offset(x = canvasWidth, y = canvasHeight - 225f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
                 }
 
-                /*Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(top = 30.dp, bottom = 30.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    IconButton(onClick = { showGraph = false }) {
-                        Icon(imageVector = Icons.Filled.Close, contentDescription = "Hide")
-                    }
-                }*/ // Commenting this out because we're only showing one graph at a time. If
-                // and when we change it to show more than one graph card at a time, we can uncomment this
+                    Text(text = "225")
+                    Text(text = "180")
+                    Text(text = "135")
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 30.dp, end = 30.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Text(text = "4/1")
+                    Text(text = "4/3")
+                    Text(text = "4/5")
+                    Text(text = "4/7")
+                    Text(text = "4/9")
+                }
             }
         }
     }

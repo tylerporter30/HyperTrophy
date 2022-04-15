@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -107,6 +106,9 @@ fun MainScreen(navController: NavHostController) {
             WeighInScreen(navController = navController)
         }
 
+        composable(NavRoutes.CreateNewProgram.route) {
+            CreateNewProgram(navController = navController)
+        }
     }
 }
 
@@ -124,7 +126,7 @@ fun BottomBarNavigation(navController: NavHostController) {
                           navController.navigate(navItem.route)
                 },
                 icon = { Icon(imageVector = navItem.image, contentDescription = navItem.title) },
-                //label = { Text(text = navItem.title) }
+                label = { Text(text = navItem.title) }
             )
         }
     }
