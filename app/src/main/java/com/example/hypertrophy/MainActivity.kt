@@ -1,29 +1,20 @@
 package com.example.hypertrophy
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.hypertrophy.database.Exercise
-import com.example.hypertrophy.database.Program
-import com.example.hypertrophy.database.Sets
-import com.example.hypertrophy.database.Template
-import com.example.hypertrophy.model.network.ExerciseInfo
+import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.test
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
@@ -44,7 +35,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    SplashScreen()
+                    Screen_BrowseAllExercise(exercisesViewModel = exercisesViewModel)
+                    //test(viewModel = programViewModel)
                 }
             }
         }

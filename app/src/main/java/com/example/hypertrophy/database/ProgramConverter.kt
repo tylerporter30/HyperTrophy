@@ -2,7 +2,7 @@ package com.example.hypertrophy.database
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.example.hypertrophy.database.Program
+import com.example.hypertrophy.data.Template
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

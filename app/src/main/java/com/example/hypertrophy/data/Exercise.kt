@@ -1,4 +1,4 @@
-package com.example.hypertrophy.database
+package com.example.hypertrophy.data
 
 import com.example.hypertrophy.model.network.ExerciseInfo
 
