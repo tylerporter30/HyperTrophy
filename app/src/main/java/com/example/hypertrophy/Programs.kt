@@ -1,9 +1,11 @@
 package com.example.hypertrophy
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -70,29 +72,39 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
                         Text(text = "Push Pull Legs")
                     }
 
+                    DropdownMenuItem(onClick = {
+                        selectedProgram = "TGP"
+                        showMenu = !showMenu
+                    }) {
+                        Text(text = "Tyler's Great Program")
+                    }
                 }
             }
 
         ) },
         content = {
+
             ProgramsUI(selectedProgram = selectedProgram)
 
-
+            if(selectedProgram == "TGP" || selectedProgram == "") {
+                AllPrograms(programList = programs)
+            }
         }
     )
     FloatingActionButtonComponent(navController = navController)
 }
 
-class Exercise(s: String, i: Int, i1: Int) {
-    val exercise: String = s
-    var sets: Int = i
-    var reps: Int = i1
+class Exercise(exercise: String, sets: Int, reps: Int) {
+    val exercise: String = exercise
+    var sets: Int = sets
+    var reps: Int = reps
 }
 
 @Composable
 fun ProgramsUI (selectedProgram: String) {
     if (selectedProgram.equals("Starting Strength")) {
         Column(
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Starting Strength")
@@ -104,19 +116,107 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Deadlift", 1, 5)
                 )
             )
+
+            WorkoutCard(
+                title = "B",
+                arrayOf(
+                    Exercise("Squat", 3, 5),
+                    Exercise("Overhead Press", 3, 5),
+                    Exercise("Power Clean", 5, 3)
+                )
+            )
+
+
         }
     }
 
     if (selectedProgram.equals("GreySkull")) {
-        Text(text = "GreySkull")
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "GreySkull")
+            WorkoutCard(
+                title = "A",
+                exercises = arrayOf(
+                    Exercise("Overhead Press", 3, 5),
+                    Exercise("Chin up", 3, 5),
+                    Exercise("Squat", 3, 5)
+                )
+            )
+
+            WorkoutCard(
+                title = "B",
+                exercises = arrayOf(
+                    Exercise("Bench Press", 3, 5),
+                    Exercise("Barbell Row", 3, 5),
+                    Exercise("Deadlift", 1, 5)
+                )
+            )
+        }
     }
 
     if (selectedProgram.equals("StrongLifts 5x5")) {
-        Text(text = "StrongLifts 5x5")
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "StrongLifts 5x5")
+            WorkoutCard(
+                title = "A",
+                arrayOf(
+                    Exercise("Squat", 5, 5),
+                    Exercise("Bench Press", 5, 5),
+                    Exercise("Barbell Row", 5, 5)
+                )
+            )
+
+            WorkoutCard(
+                title = "B",
+                arrayOf(
+                    Exercise("Squat", 5, 5),
+                    Exercise("Overhead Press", 5, 5),
+                    Exercise("Deadlift", 1, 5)
+                )
+            )
+        }
     }
 
     if (selectedProgram.equals("Push Pull Legs")) {
-        Text(text = "Push Pull Legs")
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Push Pull Legs")
+            WorkoutCard(
+                title = "Push",
+                arrayOf(
+                    Exercise("Overhead Press", 3, 12),
+                    Exercise("Bench Press", 3, 8),
+                    Exercise("Cable Push down", 3, 10)
+                )
+            )
+
+            WorkoutCard(
+                title = "Pull",
+                arrayOf(
+                    Exercise("Deadlift", 1, 5),
+                    Exercise("Chin up", 5, 10),
+                    Exercise("Dumbbell Curl", 3, 15)
+                )
+            )
+
+            WorkoutCard(
+                title = "Legs",
+                arrayOf(
+                    Exercise("Squat", 3, 8),
+                    Exercise("Leg Press", 3, 10),
+                    Exercise("Leg Curl", 3, 10)
+                )
+            )
+        }
     }
 
 
@@ -152,27 +252,14 @@ fun WorkoutCard(
                 }
             )
 
-            if (isOpen) {
-                exercises.forEach {
-                    Text(text = it.exercise + ": " + it.sets + " sets of " + it.reps + " reps")
+            Column(
+                horizontalAlignment = Alignment.Start
+            ) {
+                if (isOpen) {
+                    exercises.forEach {
+                        Text(text = it.exercise + ": " + it.sets + " sets of " + it.reps + " reps")
+                    }
                 }
-                    
-                    
-               /* exercise1 + " \n" +
-                sets1 + " Sets " +
-                " of " +
-                reps1 + " Reps\n" + 
-                        
-                exercise2 + " \n" +
-                sets2 + " Sets " +
-                " of " +
-                reps2 + " Reps\n" +
-               
-                exercise3 + " \n" +
-                sets3 + " Sets " +
-                " of " +
-                reps3 + " Reps\n"*/
-                //)
             }
         }
     }
