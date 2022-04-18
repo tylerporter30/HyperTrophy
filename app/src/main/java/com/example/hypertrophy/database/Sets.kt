@@ -6,4 +6,4 @@ data class Sets(
     var Weight: Int = 0,
     var resp: Int = 0,
     var rps:Int = 0
-    )
+)
