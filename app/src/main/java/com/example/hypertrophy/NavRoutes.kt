@@ -12,4 +12,5 @@ sealed class NavRoutes(val route: String) {
     object Equipment: NavRoutes("equipment")
     object WeighIn: NavRoutes("weighIn")
     object CreateNewProgram: NavRoutes("createNewProgram")
+    object Settings: NavRoutes( "settings")
 }

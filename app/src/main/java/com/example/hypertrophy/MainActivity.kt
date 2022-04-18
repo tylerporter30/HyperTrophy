@@ -109,6 +109,10 @@ fun MainScreen(navController: NavHostController) {
         composable(NavRoutes.CreateNewProgram.route) {
             CreateNewProgram(navController = navController)
         }
+
+        composable(NavRoutes.Settings.route) {
+            SettingsScreen(navController = navController)
+        }
     }
 }
 

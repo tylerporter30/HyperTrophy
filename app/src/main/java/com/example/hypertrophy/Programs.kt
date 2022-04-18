@@ -29,6 +29,14 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun SuggestedProgramsScreen(navController: NavHostController) {
+
+   /* var showStartingStrength by rememberSaveable{ mutableStateOf(false) }
+    var showGreySkull by rememberSaveable{ mutableStateOf(false) }
+    var showStrongLifts by rememberSaveable{ mutableStateOf(false) }
+    var showPPL by rememberSaveable{ mutableStateOf(false) }*/
+
+    var selectedProgram by rememberSaveable{ mutableStateOf("") }
+
     Scaffold(
         topBar = { TopAppBar( title = {
             IconButton(onClick = { navController.navigate(NavRoutes.Templates.route) }) {
@@ -45,60 +53,73 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
                 DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
 
                     DropdownMenuItem(onClick = {
-                        //navController.navigate(NavRoutes.Equipment.route)
+                        selectedProgram = "Starting Strength"
                     }) {
                         Text(text = "Starting Strength")
                     }
 
                     DropdownMenuItem(onClick = {
-                        //navController.navigate(NavRoutes.Equipment.route)
+                        selectedProgram = "GreySkull"
                     }) {
                         Text(text = "GreySkull")
                     }
 
                     DropdownMenuItem(onClick = {
-                        //navController.navigate(NavRoutes.Equipment.route)
+                        selectedProgram = "StrongLifts 5x5"
                     }) {
                         Text(text = "StrongLifts 5x5")
                     }
 
                     DropdownMenuItem(onClick = {
-                        //navController.navigate(NavRoutes.Equipment.route)
+                        selectedProgram = "Push Pull Legs"
                     }) {
-                        Text(text = "Push Day")
+                        Text(text = "Push Pull Legs")
                     }
 
-                    DropdownMenuItem(onClick = {
-                        //navController.navigate(NavRoutes.Equipment.route)
-                    }) {
-                        Text(text = "Pull Day")
-                    }
-
-                    DropdownMenuItem(onClick = {
-                        //navController.navigate(NavRoutes.Equipment.route)
-                    }) {
-                        Text(text = "Leg Day")
-                    }
                 }
             }
 
-
-
-
-
-
         ) },
-        content = {  },
+        content = {
+            ProgramsUI(selectedProgram = selectedProgram)
+
+
+        },
         //bottomBar = { BottomBarNavigation(navController = navController) }
     )
     FloatingActionButtonComponent(navController = navController)
 }
 
+
+@Composable
+fun ProgramsUI (selectedProgram: String) {
+    if (selectedProgram.equals("Starting Strength")) {
+        Text(text = "Starting Strength")
+    }
+
+    if (selectedProgram.equals("GreySkull")) {
+        Text(text = "GreySkull")
+    }
+
+    if (selectedProgram.equals("StrongLifts 5x5")) {
+        Text(text = "StrongLifts 5x5")
+    }
+
+    if (selectedProgram.equals("Push Pull Legs")) {
+        Text(text = "Push Pull Legs")
+    }
+
+
+}
+
+
 @Composable
 fun FloatingActionButtonComponent(navController: NavHostController) {
     val context = LocalContext.current
 
-Column(modifier = Modifier.fillMaxSize().padding(10.dp), verticalArrangement = Arrangement.Bottom,
+Column(modifier = Modifier
+    .fillMaxSize()
+    .padding(10.dp), verticalArrangement = Arrangement.Bottom,
     horizontalAlignment = Alignment.End) {
 
 

@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +30,14 @@ import androidx.navigation.NavHostController
 @Composable
 fun HomeScreen(navController: NavHostController) {
     Scaffold(
-        topBar = { TopAppBar( title = { Text(text = "Home")})},
+        topBar = { TopAppBar(
+            title = { Text(text = "Home")},
+            actions = {
+                IconButton(onClick = { navController.navigate(NavRoutes.Settings.route) }) {
+                    Icon(imageVector = Icons.Filled.Settings, contentDescription = "Settings")
+                }
+            }
+        )},
         content = { HomeContent(navController = navController) },
         bottomBar = { BottomBarNavigation(navController = navController) }
     )

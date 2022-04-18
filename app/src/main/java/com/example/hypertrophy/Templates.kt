@@ -1,5 +1,7 @@
 package com.example.hypertrophy
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
@@ -48,9 +50,22 @@ fun ListOfWorkoutTemplatesScreen(navController: NavHostController) {
                 }
             }
             ) },
-        content = {  },
+        content = { templatesUI(navController = navController) },
         bottomBar = { BottomBarNavigation(navController = navController) }
     )
+}
+
+@Composable
+fun templatesUI(navController: NavHostController) {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Button(onClick = { navController.navigate(NavRoutes.Log.route) }) {
+            Text(text = "This is a temporary button for development purposes. Click here to see the workout Log screen")
+        }
+    }
 }
 
 @Composable
