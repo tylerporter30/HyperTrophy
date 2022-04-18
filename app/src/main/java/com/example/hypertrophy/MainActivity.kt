@@ -99,6 +99,9 @@ fun MainScreen(navController: NavHostController) {
             WeighInScreen(navController = navController)
         }
 
+        composable(NavRoutes.CreateNewProgram.route) {
+            CreateNewProgram(navController = navController)
+        }
     }
 }
 
@@ -116,7 +119,7 @@ fun BottomBarNavigation(navController: NavHostController) {
                           navController.navigate(navItem.route)
                 },
                 icon = { Icon(imageVector = navItem.image, contentDescription = navItem.title) },
-                //label = { Text(text = navItem.title) }
+                label = { Text(text = navItem.title) }
             )
         }
     }
