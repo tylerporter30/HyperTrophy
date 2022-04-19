@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    Screen_BrowseAllExercise(exercisesViewModel = exercisesViewModel)
-                    //test(viewModel = programViewModel)
+                    SplashScreen()
                 }
             }
         }
