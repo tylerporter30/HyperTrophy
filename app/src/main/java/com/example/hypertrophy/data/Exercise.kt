@@ -1,6 +1,4 @@
-package com.example.hypertrophy.database
-
-import com.example.hypertrophy.model.network.ExerciseInfo
+package com.example.hypertrophy.data
 
 data class Exercise(
 

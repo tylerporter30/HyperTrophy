@@ -1,16 +1,14 @@
-package com.example.hypertrophy.database
+package com.example.hypertrophy.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.hypertrophy.data.Template
 
 @Entity(tableName = "program")
 data class Program(
 
-    @PrimaryKey(autoGenerate = true)
-    val id:Int = 0,
-
-    @ColumnInfo(name = "name")
+    @PrimaryKey
     val name:String,
 
     @ColumnInfo(name = "template")

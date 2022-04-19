@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hypertrophy.model.network.ExerciseInfo
+import com.example.hypertrophy.data.ExerciseInfo
 import com.example.hypertrophy.model.repository.ExerciseDBHelper
 import kotlinx.coroutines.launch
 import java.lang.Exception
