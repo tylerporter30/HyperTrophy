@@ -51,9 +51,10 @@ fun CreateNewProgramTextField(navController: NavHostController) {
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            onValueChange = { text = it },
+            onValueChange = { text = it }
+        )
 
-            )
+
     }
 
     FloatingActionButtonComponent2(navController = navController, TemplateName = text)

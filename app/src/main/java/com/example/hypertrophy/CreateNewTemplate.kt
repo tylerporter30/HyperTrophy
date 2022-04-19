@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.hypertrophy.database.Template
 
 @Composable
 fun CreateNewTemplate(navController: NavHostController) {
@@ -43,6 +44,11 @@ fun CreateWorkoutTemplateScreen(navController: NavHostController) {
 
         //Add Title
         var TemplateTitle by rememberSaveable {mutableStateOf("")}
+        //var ListOfExercises by rememberSaveable { mutableStateOf(List<Exercise>())}
+
+        //This should create a new instance of Template class, with a name a list of exercises
+        // as parameters
+        var newTemplate = Template(templateName = TemplateTitle, listOfExercise = listOf())
 
         OutlinedTextField(
             value = TemplateTitle,
