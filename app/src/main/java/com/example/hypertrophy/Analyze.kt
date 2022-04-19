@@ -52,6 +52,7 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showDeadlift = false
                         showBenchPress = false
                         showOverheadPress = false
+                        showMenu = !showMenu
 
                     }) {
                         Text(text = "Squat")
@@ -61,7 +62,10 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showSquats = false
                         showDeadlift = true
                         showBenchPress = false
-                        showOverheadPress = false                    }) {
+                        showOverheadPress = false
+                        showMenu = !showMenu
+
+                    }) {
                         Text(text = "Deadlift")
                     }
 
@@ -69,7 +73,10 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showSquats = false
                         showDeadlift = false
                         showBenchPress = true
-                        showOverheadPress = false                    }) {
+                        showOverheadPress = false
+                        showMenu = !showMenu
+
+                    }) {
                         Text(text = "Bench Press")
                     }
 
@@ -77,7 +84,10 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showSquats = false
                         showDeadlift = false
                         showBenchPress = false
-                        showOverheadPress = true                    }) {
+                        showOverheadPress = true
+                        showMenu = !showMenu
+
+                    }) {
                         Text(text = "Overhead Press")
                     }
 
