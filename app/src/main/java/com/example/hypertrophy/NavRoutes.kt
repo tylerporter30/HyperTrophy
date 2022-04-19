@@ -14,4 +14,5 @@ sealed class NavRoutes(val route: String) {
     object CreateNewProgram: NavRoutes("createNewProgram")
     object CreateNewTemplate: NavRoutes("createNewTemplate")
     object Settings: NavRoutes( "settings")
+    object Browse: NavRoutes( "browse")
 }

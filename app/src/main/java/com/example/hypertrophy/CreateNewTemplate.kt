@@ -1,5 +1,6 @@
 package com.example.hypertrophy
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -23,5 +24,10 @@ fun CreateNewTemplate(navController: NavHostController) {
 
 @Composable
 fun CreateWorkoutTemplateScreen(navController: NavHostController) {
-
+    Column() {
+        //Add Exercise
+        Button(onClick = { navController.navigate(NavRoutes.Browse.route) }) {
+            Text(text = "Add Exercise")
+        }
+    }
 }

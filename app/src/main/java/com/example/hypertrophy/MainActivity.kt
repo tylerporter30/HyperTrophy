@@ -23,6 +23,7 @@ import com.example.hypertrophy.database.Program
 import com.example.hypertrophy.database.Sets
 import com.example.hypertrophy.database.Template
 import com.example.hypertrophy.model.network.ExerciseInfo
+import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.test
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
@@ -116,6 +117,10 @@ fun MainScreen(navController: NavHostController) {
 
         composable(NavRoutes.CreateNewTemplate.route) {
             CreateNewTemplate(navController = navController)
+        }
+
+        composable(NavRoutes.Browse.route) {
+            Screen_BrowseAllExercise(exercisesViewModel = ExercisesViewModel())
         }
     }
 }
