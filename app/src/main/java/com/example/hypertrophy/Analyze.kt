@@ -30,6 +30,8 @@ fun AnalyzeScreen(navController: NavHostController) {
     var showDeadlift by rememberSaveable{ mutableStateOf(false) }
     var showBenchPress by rememberSaveable{ mutableStateOf(false) }
     var showOverheadPress by rememberSaveable{ mutableStateOf(false) }
+    var showBodyWeight by rememberSaveable {mutableStateOf(false)}
+    var showBodyFat by rememberSaveable {mutableStateOf(false)}
 
     Scaffold(
         topBar = { TopAppBar(
@@ -52,6 +54,8 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showDeadlift = false
                         showBenchPress = false
                         showOverheadPress = false
+                        showBodyWeight = false
+                        showBodyFat = false
                         showMenu = !showMenu
 
                     }) {
@@ -63,6 +67,8 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showDeadlift = true
                         showBenchPress = false
                         showOverheadPress = false
+                        showBodyWeight = false
+                        showBodyFat = false
                         showMenu = !showMenu
 
                     }) {
@@ -74,6 +80,8 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showDeadlift = false
                         showBenchPress = true
                         showOverheadPress = false
+                        showBodyWeight = false
+                        showBodyFat = false
                         showMenu = !showMenu
 
                     }) {
@@ -85,10 +93,36 @@ fun AnalyzeScreen(navController: NavHostController) {
                         showDeadlift = false
                         showBenchPress = false
                         showOverheadPress = true
+                        showBodyWeight = false
+                        showBodyFat = false
                         showMenu = !showMenu
 
                     }) {
                         Text(text = "Overhead Press")
+                    }
+
+                    DropdownMenuItem(onClick = {
+                        showSquats = false
+                        showDeadlift = false
+                        showBenchPress = false
+                        showOverheadPress = false
+                        showBodyWeight = true
+                        showBodyFat = false
+                        showMenu = !showMenu}) {
+                        Text(text = "Body Weight")
+
+                    }
+
+                    DropdownMenuItem(onClick = {
+                        showSquats = false
+                        showDeadlift = false
+                        showBenchPress = false
+                        showOverheadPress = false
+                        showBodyWeight = false
+                        showBodyFat = true
+                        showMenu = !showMenu}) {
+                        Text(text = "Body Fat %")
+
                     }
 
                 }
@@ -112,6 +146,16 @@ fun AnalyzeScreen(navController: NavHostController) {
 
                       graphCard("Overhead Press")
                   }
+
+            if (showBodyWeight) {
+
+                graphCardBodyWeight("Body Weight")
+            }
+
+            if (showBodyFat) {
+
+                graphCardBodyFat("Body Fat %")
+            }
 
 
             //AnalyzeContent()
@@ -219,6 +263,195 @@ fun graphCard(exerciseSelected: String) {
                     Text(text = "4/5")
                     Text(text = "4/7")
                     Text(text = "4/9")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun graphCardBodyWeight(bodyWeightSelected: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = bodyWeightSelected,
+            modifier = Modifier
+                .padding(20.dp)
+        )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+                .height(300.dp),
+            shape = RoundedCornerShape(10.dp),
+            elevation = 15.dp
+        ) {
+            Box() {
+                Canvas(
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .fillMaxSize()
+                        .background(color = Color.LightGray)
+                ) {
+                    val canvasWidth = size.width
+                    val canvasHeight = size.height
+
+                    drawLine(
+                        start = Offset(x = 0f, y = 150f),
+                        end = Offset(x = canvasWidth/6, y = canvasHeight - 375f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/6, y = canvasHeight - 375f),
+                        end = Offset(x = canvasWidth/2, y = canvasHeight - 310f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/2, y = canvasHeight - 310f),
+                        end = Offset(x = canvasWidth/4*3, y = canvasHeight - 245f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/4*3, y = canvasHeight - 245f),
+                        end = Offset(x = canvasWidth, y = canvasHeight - 130f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(top = 30.dp, bottom = 30.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "240")
+                    Text(text = "230")
+                    Text(text = "220")
+                    Text(text = "210")
+                    Text(text = "200")
+                    Text(text = "190")
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 30.dp, end = 30.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Text(text = "2/1")
+                    Text(text = "2/15")
+                    Text(text = "3/1")
+                    Text(text = "3/15")
+                    Text(text = "3/29")
+                    Text(text = "4/12")
+                    Text(text = "4/16")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun graphCardBodyFat(bodyFatSelected: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = bodyFatSelected,
+            modifier = Modifier
+                .padding(20.dp)
+        )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+                .height(300.dp),
+            shape = RoundedCornerShape(10.dp),
+            elevation = 15.dp
+        ) {
+            Box() {
+                Canvas(
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .fillMaxSize()
+                        .background(color = Color.LightGray)
+                ) {
+                    val canvasWidth = size.width
+                    val canvasHeight = size.height
+
+                    drawLine(
+                        start = Offset(x = 0f, y = 150f),
+                        end = Offset(x = canvasWidth/6, y = canvasHeight - 410f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/6, y = canvasHeight - 410f),
+                        end = Offset(x = canvasWidth/2, y = canvasHeight - 330f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/2, y = canvasHeight - 330f),
+                        end = Offset(x = canvasWidth/4*3, y = canvasHeight - 300f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+
+                    drawLine(
+                        start = Offset(x = canvasWidth/4*3, y = canvasHeight - 300f),
+                        end = Offset(x = canvasWidth, y = canvasHeight - 250f),
+                        color = Color.Black,
+                        strokeWidth = 5F
+                    )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(top = 30.dp, bottom = 30.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "30%")
+                    Text(text = "25%")
+                    Text(text = "20%")
+                    Text(text = "15%")
+                    Text(text = "10%")
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 30.dp, end = 30.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Text(text = "2/1")
+                    Text(text = "2/15")
+                    Text(text = "3/1")
+                    Text(text = "3/15")
+                    Text(text = "3/29")
+                    Text(text = "4/12")
+                    Text(text = "4/16")
                 }
             }
         }
