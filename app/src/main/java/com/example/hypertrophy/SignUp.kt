@@ -94,7 +94,7 @@ fun SignUpContent(navController: NavHostController) {
         )
 
         Button(
-            onClick = { navController.navigate(NavRoutes.Home.route) },
+            onClick = { navController.navigate(NavRoutes.Login.route) },
             enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank()
         ) {
             Text(text = "Sign Up")

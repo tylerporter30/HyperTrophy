@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
@@ -29,7 +30,7 @@ fun EquipmentMatcherScreen(navController: NavHostController) {
     Scaffold(
         topBar = { TopAppBar( title = {
             IconButton(onClick = { navController.navigate(NavRoutes.Templates.route) }) {
-                Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "Templates")
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Templates")
             }
             Text(text = "Equipment") }) },
         content = { EquipmentCheckbox() },

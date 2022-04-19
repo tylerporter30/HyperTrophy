@@ -14,6 +14,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.hypertrophy.database.Exercise
+import com.example.hypertrophy.database.Program
+import com.example.hypertrophy.database.Sets
+import com.example.hypertrophy.database.Template
+import com.example.hypertrophy.model.network.ExerciseInfo
 import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.test
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
@@ -101,6 +106,18 @@ fun MainScreen(navController: NavHostController) {
 
         composable(NavRoutes.CreateNewProgram.route) {
             CreateNewProgram(navController = navController)
+        }
+
+        composable(NavRoutes.Settings.route) {
+            SettingsScreen(navController = navController)
+        }
+
+        composable(NavRoutes.CreateNewTemplate.route) {
+            CreateNewTemplate(navController = navController)
+        }
+
+        composable(NavRoutes.Browse.route) {
+            Screen_BrowseAllExercise(exercisesViewModel = ExercisesViewModel())
         }
     }
 }

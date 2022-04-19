@@ -1,7 +1,11 @@
 package com.example.hypertrophy
 
 
+import android.app.DatePickerDialog
+import android.os.Build
 import android.util.Log
+import android.widget.DatePicker
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,21 +19,22 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.view.ViewCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
-import com.google.accompanist.pager.rememberPagerState
+import com.example.hypertrophy.viewModel.WeighInViewModel
+import java.util.*
 import kotlin.math.absoluteValue
 
 /**
@@ -43,6 +48,8 @@ import kotlin.math.absoluteValue
  */
 @Composable
 fun WeighInScreen(navController: NavHostController) {
+    val viewModel: WeighInViewModel = viewModel()
+
     Scaffold(
         topBar = { TopAppBar(title = {
             IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
@@ -51,7 +58,7 @@ fun WeighInScreen(navController: NavHostController) {
             Text(text = "Weigh In") }) },
         content = {
             Box(Modifier.padding(it)) {
-                WeighInScreenUI()
+                WeighInScreenUI(viewModel)
             }
         },
         bottomBar = { BottomBarNavigation(navController = navController) }
@@ -60,7 +67,7 @@ fun WeighInScreen(navController: NavHostController) {
 
 // @ExperimentalPagerApi
 @Composable
-fun WeighInScreenUI() {
+fun WeighInScreenUI(viewModel: WeighInViewModel) {
     var tabIndex by remember { mutableStateOf(0) }
     val titles = listOf("Weight", "Diet", "Measure", "Body Fat %")
 //    val pagerState = rememberPagerState()
@@ -98,17 +105,52 @@ fun WeighInScreenUI() {
 //            }
 //        }
         when (tabIndex) {
-            0 -> WeighInWeight()
-            1 -> WeighInDiet()
-            2 -> WeighInMeasurements()
-            3 -> WeighInBodyFat()
-            else -> WeighInWeight()
+            0 -> WeighInWeight(viewModel)
+            1 -> WeighInDiet(viewModel)
+            2 -> WeighInMeasurements(viewModel)
+            3 -> WeighInBodyFat(viewModel)
+            else -> WeighInWeight(viewModel)
         }
     }
 }
 
 @Composable
-fun WeighInWeight() {
+fun DateSelection( /* viewModel: WeighInViewModel */) {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    val selectedDateString = remember { mutableStateOf("${month+1}/$day/$year") }
+
+    val datePicker = DatePickerDialog(
+        LocalContext.current,
+        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+            selectedDateString.value = "${mMonth+1}/$mDayOfMonth/$mYear"
+        },
+        year,
+        month,
+        day
+    )
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Current date selected: ${ selectedDateString.value }\nTap to change date",
+            modifier = Modifier
+                .clickable { datePicker.show() }
+                .padding(8.dp)
+                .alpha(0.6f),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.subtitle2
+        )
+    }
+}
+
+@Composable
+fun WeighInWeight(viewModel: WeighInViewModel) {
     // TEMP STATE HOLDERS
     var pickerPercentInt by remember { mutableStateOf(189) }
     var pickerPercentDec by remember { mutableStateOf(5) }
@@ -142,11 +184,20 @@ fun WeighInWeight() {
             )
             Text("lbs") // CHANGE WITH SETTINGS
         }
+        DateSelection()
+        Button(
+            onClick = { /*TODO("Update Database")*/ },
+            modifier = Modifier.padding(16.dp),
+            enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            Text(text = "Save", style = MaterialTheme.typography.button)
+        }
     }
 }
 
 @Composable
-fun WeighInDiet() {
+fun WeighInDiet(viewModel: WeighInViewModel) {
     // TEMP STATE HOLDERS
     var calorieCount by remember { mutableStateOf(1543.0) }
     var calorieNew by remember { mutableStateOf("") }
@@ -200,11 +251,20 @@ fun WeighInDiet() {
                 shape = MaterialTheme.shapes.small
             )
         }
+        DateSelection()
+        Button(
+            onClick = { /*TODO("Update Database")*/ },
+            modifier = Modifier.padding(16.dp),
+            enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            Text(text = "Save", style = MaterialTheme.typography.button)
+        }
     }
 }
 
 @Composable
-fun WeighInMeasurements() {
+fun WeighInMeasurements(viewModel: WeighInViewModel) {
     // TEMP STATE HOLDERS
     var upperArmLeft by remember { mutableStateOf("18.5") }
     var upperArmRight by remember { mutableStateOf("18.5") }
@@ -222,9 +282,7 @@ fun WeighInMeasurements() {
     val numberRegex = """^\d+(\.\d+)?$""".toRegex()
 
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .verticalScroll(state = scrollState),
+        modifier = Modifier.verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
@@ -467,6 +525,15 @@ fun WeighInMeasurements() {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
+//            MeasurementField(
+//                value = calfLeft,
+//                onValueChange = { calfLeft = it },
+//                numberRegex = numberRegex,
+//                imeAction = ImeAction.Next,
+//                label = "left"
+//            ) {
+//                focusManager.moveFocus(FocusDirection.Right)
+//            }
             TextField(
                 value = calfLeft,
                 onValueChange = { calfLeft = it },
@@ -499,12 +566,61 @@ fun WeighInMeasurements() {
                 singleLine = true,
                 shape = MaterialTheme.shapes.small
             )
+//            MeasurementField(
+//                value = calfRight,
+//                onValueChange = { calfRight = it },
+//                numberRegex = numberRegex,
+//                imeAction = ImeAction.Done,
+//                label = "right"
+//            ) {
+//                focusManager.clearFocus()
+//            }
         }
+        DateSelection()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Button(
+                onClick = { /*TODO("Update Database")*/ },
+                modifier = Modifier.padding(16.dp),
+                enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                Text(text = "Save", style = MaterialTheme.typography.button)
+            }
+        }
+        Spacer(Modifier.height(128.dp))
     }
 }
 
 @Composable
-fun WeighInBodyFat() {
+fun MeasurementField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    numberRegex: Regex,
+    imeAction: ImeAction,
+    label: String = "",
+    onKeyboardAction: () -> Unit,
+) {
+    TextField(
+        value = value,
+        onValueChange = { onValueChange(it) },
+        modifier = Modifier.width(96.dp),
+        label = { Text(label) },
+        isError = !numberRegex.containsMatchIn(value),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = imeAction
+        ),
+        keyboardActions = KeyboardActions { onKeyboardAction },
+        singleLine = true,
+        shape = MaterialTheme.shapes.small
+    )
+}
+
+@Composable
+fun WeighInBodyFat(viewModel: WeighInViewModel) {
     // TEMP STATE HOLDERS
     var pickerPercentInt by remember { mutableStateOf(20) }
     var pickerPercentDec by remember { mutableStateOf(5) }
@@ -537,6 +653,15 @@ fun WeighInBodyFat() {
                 range = 0..9
             )
         }
+        DateSelection()
+        Button(
+            onClick = { /*TODO("Update Database")*/ },
+            modifier = Modifier.padding(16.dp),
+            enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            Text(text = "Save", style = MaterialTheme.typography.button)
+        }
     }
 }
 
@@ -544,7 +669,7 @@ fun WeighInBodyFat() {
 @Composable
 fun PreviewWeighInWeight() {
     HyperTrophyTheme {
-        WeighInWeight()
+        WeighInWeight(viewModel = WeighInViewModel())
     }
 }
 
@@ -552,7 +677,7 @@ fun PreviewWeighInWeight() {
 @Composable
 fun PreviewWeighInDiet() {
     HyperTrophyTheme {
-        WeighInDiet()
+        WeighInDiet(viewModel = WeighInViewModel())
     }
 }
 
@@ -560,7 +685,7 @@ fun PreviewWeighInDiet() {
 @Composable
 fun PreviewWeighInMeasurements() {
     HyperTrophyTheme {
-        WeighInMeasurements()
+        WeighInMeasurements(viewModel = WeighInViewModel())
     }
 }
 
@@ -568,6 +693,6 @@ fun PreviewWeighInMeasurements() {
 @Composable
 fun PreviewWeighInBodyFat() {
     HyperTrophyTheme {
-        WeighInBodyFat()
+        WeighInBodyFat(viewModel = WeighInViewModel())
     }
 }

@@ -109,6 +109,10 @@ fun ExerciseInfoCard(exerciseInfo: ExerciseInfo){
                     Text(text = "Targeted Muscle: ${exerciseInfo.target}")
                     Text(text = "Equipment: ${exerciseInfo.equipment}")
                 }
+                
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "Add to Template")
+                }
             }
         }
     }

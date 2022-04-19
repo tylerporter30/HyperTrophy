@@ -16,4 +16,4 @@ data class ExerciseInfo (
     val name:String,
     @SerializedName("target")
     val target:String,
-        )
+)
