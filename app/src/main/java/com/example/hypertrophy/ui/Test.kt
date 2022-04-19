@@ -3,10 +3,10 @@ package com.example.hypertrophy.ui
 import android.util.Log
 import androidx.compose.runtime.Composable
 import com.example.hypertrophy.data.Exercise
-import com.example.hypertrophy.database.Program
+import com.example.hypertrophy.data.Program
 import com.example.hypertrophy.data.Sets
 import com.example.hypertrophy.data.Template
-import com.example.hypertrophy.model.network.ExerciseInfo
+import com.example.hypertrophy.data.ExerciseInfo
 import com.example.hypertrophy.viewModel.ProgramViewModel
 import androidx.compose.runtime.livedata.observeAsState
 import com.example.hypertrophy.data.PersonalWeightInRecord

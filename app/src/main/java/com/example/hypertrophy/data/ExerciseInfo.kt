@@ -1,4 +1,4 @@
-package com.example.hypertrophy.model.network
+package com.example.hypertrophy.data
 
 import com.google.gson.annotations.SerializedName
 

@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.hypertrophy.data.PersonalWeightInRecord
+import com.example.hypertrophy.data.Program
 
 @Database(entities = [Program::class,PersonalWeightInRecord::class], version = 2, exportSchema = false)
 @TypeConverters(ProgramConverter::class)

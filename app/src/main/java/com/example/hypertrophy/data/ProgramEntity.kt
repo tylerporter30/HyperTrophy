@@ -1,4 +1,4 @@
-package com.example.hypertrophy.database
+package com.example.hypertrophy.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,12 +1,12 @@
 package com.example.hypertrophy.database
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.hypertrophy.data.PersonalWeightInRecord
+import com.example.hypertrophy.data.Program
 
 @Dao
 interface ExerciseDao {
