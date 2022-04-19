@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,19 +21,19 @@ fun CreateNewProgram(navController: NavHostController) {
     Scaffold(
         topBar = { TopAppBar( title = {
             IconButton(onClick = { navController.navigate(NavRoutes.Programs.route) }) {
-                Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "Create New Program")
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Create New Program")
             }
 
             Text(text = "Create New Program") }) },
 
-        content = { CreateNewProgramTextField()},
+        content = { CreateNewProgramTextField(navController = navController)},
 
-        bottomBar = { BottomBarNavigation(navController = navController) }
+        //bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
 @Composable
-fun CreateNewProgramTextField() {
+fun CreateNewProgramTextField(navController: NavHostController) {
 
     Column(modifier = Modifier.fillMaxSize(), Arrangement.Center) {
 
@@ -54,11 +55,11 @@ fun CreateNewProgramTextField() {
             )
     }
 
-    FloatingActionButtonComponent()
+    FloatingActionButtonComponent2(navController = navController)
 }
 
 @Composable
-fun FloatingActionButtonComponent() {
+fun FloatingActionButtonComponent2(navController: NavHostController) {
 
     val context = LocalContext.current
 
@@ -71,7 +72,7 @@ fun FloatingActionButtonComponent() {
         FloatingActionButton(
             onClick = {
 
-                //navController.navigate(NavRoutes.CreateNewProgram.route)
+                navController.navigate(NavRoutes.CreateNewTemplate.route)
             },
 
             modifier = Modifier.size(50.dp), shape = CircleShape, backgroundColor = Color.Black

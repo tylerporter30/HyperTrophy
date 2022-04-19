@@ -113,6 +113,10 @@ fun MainScreen(navController: NavHostController) {
         composable(NavRoutes.Settings.route) {
             SettingsScreen(navController = navController)
         }
+
+        composable(NavRoutes.CreateNewTemplate.route) {
+            CreateNewTemplate(navController = navController)
+        }
     }
 }
 

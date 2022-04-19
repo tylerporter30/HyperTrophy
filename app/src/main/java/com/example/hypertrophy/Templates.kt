@@ -68,7 +68,3 @@ fun templatesUI(navController: NavHostController) {
     }
 }
 
-@Composable
-fun CreateWorkoutTemplateScreen() {
-
-}

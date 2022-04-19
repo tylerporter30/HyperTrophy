@@ -2,6 +2,7 @@ package com.example.hypertrophy
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -13,7 +14,7 @@ fun SettingsScreen(navController: NavHostController) {
                  TopAppBar(
                      title = {
                          IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
-                             Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "Back Arrow")
+                             Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back Arrow")
                          }
                          Text(text = "Settings")
                      }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
     Scaffold(
         topBar = { TopAppBar( title = {
             IconButton(onClick = { navController.navigate(NavRoutes.Templates.route) }) {
-                Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "Templates")
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Templates")
             }
             Text(text = "Programs") },
 
@@ -268,6 +269,7 @@ fun WorkoutCard(
 
 @Composable
 fun FloatingActionButtonComponent(navController: NavHostController) {
+
     val context = LocalContext.current
 
     Column(modifier = Modifier
