@@ -35,6 +35,8 @@ fun CreateNewProgram(navController: NavHostController) {
 @Composable
 fun CreateNewProgramTextField(navController: NavHostController) {
 
+    var text by remember { mutableStateOf("") }
+
     Column(modifier = Modifier.fillMaxSize(), Arrangement.Center) {
 
         Row(modifier = Modifier.fillMaxWidth(), Arrangement.Center) {
@@ -43,7 +45,6 @@ fun CreateNewProgramTextField(navController: NavHostController) {
             Text(text = "Create Program Name")
         }
 
-        var text by remember { mutableStateOf("") }
 
         TextField(
             value = text,
@@ -55,11 +56,11 @@ fun CreateNewProgramTextField(navController: NavHostController) {
             )
     }
 
-    FloatingActionButtonComponent2(navController = navController)
+    FloatingActionButtonComponent2(navController = navController, TemplateName = text)
 }
 
 @Composable
-fun FloatingActionButtonComponent2(navController: NavHostController) {
+fun FloatingActionButtonComponent2(navController: NavHostController, TemplateName: String) {
 
     val context = LocalContext.current
 
