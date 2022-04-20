@@ -2,10 +2,7 @@ package com.example.hypertrophy
 
 
 import android.app.DatePickerDialog
-import android.os.Build
-import android.util.Log
 import android.widget.DatePicker
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -17,11 +14,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -35,7 +31,6 @@ import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.viewModel.WeighInViewModel
 import java.util.*
-import kotlin.math.absoluteValue
 
 /**
  * Four points of user input:
@@ -47,8 +42,8 @@ import kotlin.math.absoluteValue
  * Units for each input must be adaptable for user preference
  */
 @Composable
-fun WeighInScreen(navController: NavHostController) {
-    val viewModel: WeighInViewModel = viewModel()
+fun WeighInScreen(navController: NavHostController, viewModel: WeighInViewModel = viewModel()) {
+//    val viewModel: WeighInViewModel = viewModel()
 
     Scaffold(
         topBar = { TopAppBar(title = {
@@ -151,9 +146,8 @@ fun DateSelection( /* viewModel: WeighInViewModel */) {
 
 @Composable
 fun WeighInWeight(viewModel: WeighInViewModel) {
-    // TEMP STATE HOLDERS
-    var pickerPercentInt by remember { mutableStateOf(189) }
-    var pickerPercentDec by remember { mutableStateOf(5) }
+    val pickerPercentInt by viewModel.weightPickerIntLive.observeAsState(189)
+    val pickerPercentDec by viewModel.weightPickerDecLive.observeAsState(5)
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -171,14 +165,14 @@ fun WeighInWeight(viewModel: WeighInViewModel) {
         ) {
             NumberPicker(
                 value = pickerPercentInt,
-                onValueChange = { pickerPercentInt = it },
+                onValueChange = { viewModel.updateWeightPickerInt(it) },
                 dividersColor = MaterialTheme.colors.secondary,
                 range = 0..999
             )
             Text(".")
             NumberPicker(
                 value = pickerPercentDec,
-                onValueChange = { pickerPercentDec = it },
+                onValueChange = { viewModel.updateWeightPickerDec(it) },
                 dividersColor = MaterialTheme.colors.secondary,
                 range = 0..9
             )
@@ -186,9 +180,9 @@ fun WeighInWeight(viewModel: WeighInViewModel) {
         }
         DateSelection()
         Button(
-            onClick = { /*TODO("Update Database")*/ },
+            onClick = { viewModel.saveWeightRecord() },
             modifier = Modifier.padding(16.dp),
-            enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+            enabled = viewModel.enableSaveWeightButton(),
             contentPadding = PaddingValues(8.dp)
         ) {
             Text(text = "Save", style = MaterialTheme.typography.button)
@@ -199,7 +193,8 @@ fun WeighInWeight(viewModel: WeighInViewModel) {
 @Composable
 fun WeighInDiet(viewModel: WeighInViewModel) {
     // TEMP STATE HOLDERS
-    var calorieCount by remember { mutableStateOf(1543.0) }
+//    var calorieCount by remember { mutableStateOf(1543.0) }
+    val calorieCount by viewModel.calorieCountTodayLive.observeAsState(0.0)
     var calorieNew by remember { mutableStateOf("") }
 
     Column(
@@ -229,19 +224,12 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
                         modifier = Modifier.clickable {
-                            try {
-                                calorieCount += calorieNew.toFloat().absoluteValue
-                            } catch (ex: NumberFormatException) {
-                                Log.d(
-                                    "WEIGH IN",
-                                    "Diet entry not a number: ${ ex.localizedMessage }"
-                                )
-                            }
+                            viewModel.updateCalorieCount(calorieNew)
                             calorieNew = ""
                         }
                     )
                 },
-                isError = "[^0-9]".toRegex().containsMatchIn(calorieNew),
+                isError = """[^0-9]""".toRegex().containsMatchIn(calorieNew),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
@@ -253,9 +241,9 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
         }
         DateSelection()
         Button(
-            onClick = { /*TODO("Update Database")*/ },
+            onClick = { viewModel.saveCalorieRecord() },
             modifier = Modifier.padding(16.dp),
-            enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+            enabled = viewModel.enableSaveDietButton(),
             contentPadding = PaddingValues(8.dp)
         ) {
             Text(text = "Save", style = MaterialTheme.typography.button)
@@ -266,17 +254,28 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
 @Composable
 fun WeighInMeasurements(viewModel: WeighInViewModel) {
     // TEMP STATE HOLDERS
-    var upperArmLeft by remember { mutableStateOf("18.5") }
-    var upperArmRight by remember { mutableStateOf("18.5") }
-    var forearmLeft by remember { mutableStateOf("18.5") }
-    var forearmRight by remember { mutableStateOf("18.5") }
-    var chest by remember { mutableStateOf("54.0") }
-    var thighLeft by remember { mutableStateOf("27.0") }
-    var thighRight by remember { mutableStateOf("27.0") }
-    var calfLeft by remember { mutableStateOf("18.5") }
-    var calfRight by remember { mutableStateOf("18.5") }
-    var waist by remember { mutableStateOf("30.0") }
-    var shoulder by remember { mutableStateOf("18.5") }
+//    var upperArmLeft by remember { mutableStateOf("18.5") }
+//    var upperArmRight by remember { mutableStateOf("18.5") }
+//    var forearmLeft by remember { mutableStateOf("18.5") }
+//    var forearmRight by remember { mutableStateOf("18.5") }
+//    var chest by remember { mutableStateOf("54.0") }
+//    var thighLeft by remember { mutableStateOf("27.0") }
+//    var thighRight by remember { mutableStateOf("27.0") }
+//    var calfLeft by remember { mutableStateOf("18.5") }
+//    var calfRight by remember { mutableStateOf("18.5") }
+//    var waist by remember { mutableStateOf("30.0") }
+//    var shoulder by remember { mutableStateOf("18.5") }
+    val shoulder by viewModel.measureShoulderLive.observeAsState("18.5")
+    val upperArmLeft by viewModel.measureUpperArmLeftLive.observeAsState("18.5")
+    val upperArmRight by viewModel.measureUpperArmRightLive.observeAsState("18.5")
+    val forearmLeft by viewModel.measureForearmLeftLive.observeAsState("18.5")
+    val forearmRight by viewModel.measureForearmRightLive.observeAsState("18.5")
+    val chest by viewModel.measureChestLive.observeAsState("54.0")
+    val waist by viewModel.measureWaistLive.observeAsState("30.0")
+    val thighLeft by viewModel.measureThighLeftLive.observeAsState("18.5")
+    val thighRight by viewModel.measureThighRightLive.observeAsState("18.5")
+    val calfLeft by viewModel.measureCalfLive.observeAsState("18.5")
+    val calfRight by viewModel.measureCalfRightLive.observeAsState("18.5")
 
     val scrollState = rememberScrollState()
     val numberRegex = """^\d+(\.\d+)?$""".toRegex()
@@ -300,21 +299,10 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
-            TextField(
+            MeasurementField(
                 value = shoulder,
-                onValueChange = { shoulder = it },
-                modifier = Modifier.width(96.dp),
-//                label = { Text("left") },
-                isError = !numberRegex.containsMatchIn(shoulder),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateShoulder(it) },
+                regex = numberRegex,
             )
             Spacer(Modifier.width(96.dp))
         }
@@ -330,37 +318,17 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
-            TextField(
+            MeasurementField(
                 value = upperArmLeft,
-                onValueChange = { upperArmLeft = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("left") },
-                isError = !numberRegex.containsMatchIn(upperArmLeft),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateUpperArmLeft(it) },
+                regex = numberRegex,
+                label = "left"
             )
-            TextField(
+            MeasurementField(
                 value = upperArmRight,
-                onValueChange = { upperArmRight = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("right") },
-                isError = !numberRegex.containsMatchIn(upperArmRight),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateUpperArmRight(it) },
+                regex = numberRegex,
+                label = "right"
             )
         }
         Row(
@@ -375,37 +343,17 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
-            TextField(
+            MeasurementField(
                 value = forearmLeft,
-                onValueChange = { forearmLeft = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("left") },
-                isError = !numberRegex.containsMatchIn(forearmLeft),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateForearmLeft(it) },
+                regex = numberRegex,
+                label = "left"
             )
-            TextField(
+            MeasurementField(
                 value = forearmRight,
-                onValueChange = { forearmRight = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("right") },
-                isError = !numberRegex.containsMatchIn(forearmRight),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateForearmRight(it) },
+                regex = numberRegex,
+                label = "right"
             )
         }
         Row(
@@ -420,21 +368,10 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
-            TextField(
+            MeasurementField(
                 value = chest,
-                onValueChange = { chest = it },
-                modifier = Modifier.width(96.dp),
-//                label = { Text("left") },
-                isError = !numberRegex.containsMatchIn(chest),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateChest(it) },
+                regex = numberRegex,
             )
             Spacer(Modifier.width(96.dp))
         }
@@ -450,21 +387,10 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
-            TextField(
+            MeasurementField(
                 value = waist,
-                onValueChange = { waist = it },
-                modifier = Modifier.width(96.dp),
-//                label = { Text("left") },
-                isError = !numberRegex.containsMatchIn(waist),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateWaist(it) },
+                regex = numberRegex,
             )
             Spacer(Modifier.width(96.dp))
         }
@@ -480,37 +406,17 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
-            TextField(
+            MeasurementField(
                 value = thighLeft,
-                onValueChange = { thighLeft = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("left") },
-                isError = !numberRegex.containsMatchIn(thighLeft),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateThighLeft(it) },
+                regex = numberRegex,
+                label = "left"
             )
-            TextField(
+            MeasurementField(
                 value = thighRight,
-                onValueChange = { thighRight = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("right") },
-                isError = !numberRegex.containsMatchIn(thighRight),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Next) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateThighRight(it) },
+                regex = numberRegex,
+                label = "right"
             )
         }
         Row(
@@ -525,56 +431,19 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
-//            MeasurementField(
-//                value = calfLeft,
-//                onValueChange = { calfLeft = it },
-//                numberRegex = numberRegex,
-//                imeAction = ImeAction.Next,
-//                label = "left"
-//            ) {
-//                focusManager.moveFocus(FocusDirection.Right)
-//            }
-            TextField(
+            MeasurementField(
                 value = calfLeft,
-                onValueChange = { calfLeft = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("left") },
-                isError = !numberRegex.containsMatchIn(calfLeft),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateCalfLeft(it) },
+                regex = numberRegex,
+                label = "left"
             )
-            TextField(
+            MeasurementField(
                 value = calfRight,
-                onValueChange = { calfRight = it },
-                modifier = Modifier.width(96.dp),
-                label = { Text("right") },
-                isError = !numberRegex.containsMatchIn(calfRight),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = { focusManager.clearFocus() }
-                ),
-                singleLine = true,
-                shape = MaterialTheme.shapes.small
+                onValueChange = { viewModel.updateCalfRight(it) },
+                regex = numberRegex,
+                imeAction = ImeAction.Done,
+                label = "right"
             )
-//            MeasurementField(
-//                value = calfRight,
-//                onValueChange = { calfRight = it },
-//                numberRegex = numberRegex,
-//                imeAction = ImeAction.Done,
-//                label = "right"
-//            ) {
-//                focusManager.clearFocus()
-//            }
         }
         DateSelection()
         Row(
@@ -582,9 +451,9 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             horizontalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { /*TODO("Update Database")*/ },
+                onClick = { viewModel.saveMeasurementsRecord() },
                 modifier = Modifier.padding(16.dp),
-                enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+                enabled = viewModel.enableSaveMeasurementsButton(),
                 contentPadding = PaddingValues(8.dp)
             ) {
                 Text(text = "Save", style = MaterialTheme.typography.button)
@@ -598,22 +467,25 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
 fun MeasurementField(
     value: String,
     onValueChange: (String) -> Unit,
-    numberRegex: Regex,
-    imeAction: ImeAction,
+    regex: Regex,
+    imeAction: ImeAction = ImeAction.Next,
     label: String = "",
-    onKeyboardAction: () -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
+
     TextField(
         value = value,
         onValueChange = { onValueChange(it) },
         modifier = Modifier.width(96.dp),
         label = { Text(label) },
-        isError = !numberRegex.containsMatchIn(value),
+        isError = !regex.containsMatchIn(value),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
             imeAction = imeAction
         ),
-        keyboardActions = KeyboardActions { onKeyboardAction },
+        keyboardActions = KeyboardActions(
+            onDone = { focusManager.clearFocus() }
+        ),
         singleLine = true,
         shape = MaterialTheme.shapes.small
     )
@@ -622,8 +494,10 @@ fun MeasurementField(
 @Composable
 fun WeighInBodyFat(viewModel: WeighInViewModel) {
     // TEMP STATE HOLDERS
-    var pickerPercentInt by remember { mutableStateOf(20) }
-    var pickerPercentDec by remember { mutableStateOf(5) }
+//    var pickerPercentInt by remember { mutableStateOf(20) }
+//    var pickerPercentDec by remember { mutableStateOf(5) }
+    val pickerPercentInt by viewModel.bodyFatPickerIntLive.observeAsState(20)
+    val pickerPercentDec by viewModel.bodyFatPickerDecLive.observeAsState(5)
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -641,23 +515,23 @@ fun WeighInBodyFat(viewModel: WeighInViewModel) {
         ) {
             NumberPicker(
                 value = pickerPercentInt,
-                onValueChange = { pickerPercentInt = it },
+                onValueChange = { viewModel.updateBodyFatPickerInt(it) },
                 dividersColor = MaterialTheme.colors.secondary,
                 range = 0..99
             )
             Text(".")
             NumberPicker(
                 value = pickerPercentDec,
-                onValueChange = { pickerPercentDec = it },
+                onValueChange = { viewModel.updateBodyFatPickerDec(it) },
                 dividersColor = MaterialTheme.colors.secondary,
                 range = 0..9
             )
         }
         DateSelection()
         Button(
-            onClick = { /*TODO("Update Database")*/ },
+            onClick = { viewModel.saveBodyFatRecord() },
             modifier = Modifier.padding(16.dp),
-            enabled = true, // DISABLE IF VALUE IS NOT DIFFERENT?
+            enabled = viewModel.enableSaveBodyFatButton(),
             contentPadding = PaddingValues(8.dp)
         ) {
             Text(text = "Save", style = MaterialTheme.typography.button)
