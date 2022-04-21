@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
@@ -36,6 +37,8 @@ fun HomeScreen(navController: NavHostController) {
                 IconButton(onClick = { navController.navigate(NavRoutes.Settings.route) }) {
                     Icon(imageVector = Icons.Filled.Settings, contentDescription = "Settings")
                 }
+                ClickableText(text = AnnotatedString("Logout"), style = TextStyle(color = Color.White), onClick = { navController.navigate(NavRoutes.Login.route) } )
+
             }
         )},
         content = { HomeContent(navController = navController) },
