@@ -28,12 +28,12 @@ fun LogScreen(navController: NavHostController, viewModel: LogViewModel = viewMo
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
             Text(text = "Log") }) },
+        bottomBar = { BottomBarNavigation(navController = navController) },
         content = {
             Box(Modifier.padding(it)) {
                 LogScreenUI(viewModel)
             }
-        },
-        bottomBar = { BottomBarNavigation(navController = navController) }
+        }
     )
 }
 
@@ -175,13 +175,23 @@ fun LogScreenUI(viewModel: LogViewModel) {
                 onClick = {
                     viewModel.updateSets()
                 },
-                modifier = Modifier.fillMaxSize(),
+                //modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
 //                elevation = ButtonElevation.elevation(enabled = true, interactionSource = TODO()),
                 shape = MaterialTheme.shapes.medium,
 //                colors = /*TODO*/,
                 contentPadding = PaddingValues(8.dp)
             ) {
                 Text("DONE")
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Finish Workout")
             }
         }
     }

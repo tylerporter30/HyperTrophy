@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.hypertrophy.database.Template
+import com.example.hypertrophy.data.Template
 
 @Composable
 fun CreateNewTemplate(navController: NavHostController) {
