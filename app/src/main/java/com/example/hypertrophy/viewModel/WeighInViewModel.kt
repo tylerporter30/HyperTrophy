@@ -33,6 +33,9 @@ class WeighInViewModel : ViewModel() {
         /* TODO() */
     }
 
+    /**
+     * Replace with switch? (use cases to smart cast?)
+     */
     fun enableSaveWeightButton() =
         !(weightPickerInt.value?.equals(weightInt) ?: false && weightPickerDec.value?.equals(weightDec) ?: false)
 

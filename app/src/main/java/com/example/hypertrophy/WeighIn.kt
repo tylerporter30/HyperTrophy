@@ -1,6 +1,5 @@
 package com.example.hypertrophy
 
-
 import android.app.DatePickerDialog
 import android.widget.DatePicker
 import androidx.compose.foundation.clickable
@@ -32,18 +31,8 @@ import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.viewModel.WeighInViewModel
 import java.util.*
 
-/**
- * Four points of user input:
- *  Current weight
- *  Track daily Calories
- *  Body part measurements (for hypertrophy tracking)
- *  Body Fat Percentage
- *
- * Units for each input must be adaptable for user preference
- */
 @Composable
 fun WeighInScreen(navController: NavHostController, viewModel: WeighInViewModel = viewModel()) {
-//    val viewModel: WeighInViewModel = viewModel()
 
     Scaffold(
         topBar = { TopAppBar(title = {
