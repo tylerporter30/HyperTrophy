@@ -28,7 +28,7 @@ fun LogScreen(navController: NavHostController, viewModel: LogViewModel = viewMo
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
             Text(text = "Log") }) },
-        bottomBar = { BottomBarNavigation(navController = navController) },
+        //bottomBar = { BottomBarNavigation(navController = navController) },
         content = {
             Box(Modifier.padding(it)) {
                 LogScreenUI(viewModel)
