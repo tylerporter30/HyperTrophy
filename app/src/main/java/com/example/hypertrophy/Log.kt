@@ -187,7 +187,9 @@ fun LogScreenUI(viewModel: LogViewModel) {
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(32.dp),
             horizontalArrangement = Arrangement.End
         ) {
             Button(onClick = { /*TODO*/ }) {
