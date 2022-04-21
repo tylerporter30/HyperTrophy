@@ -1,12 +1,16 @@
 package com.example.hypertrophy
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.hypertrophy.data.Template
 
 @Composable
 fun CreateNewProgram(navController: NavHostController) {
@@ -37,7 +42,10 @@ fun CreateNewProgramTextField(navController: NavHostController) {
 
     var text by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxSize(), Arrangement.Center) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState()),
+        Arrangement.Center) {
 
         Row(modifier = Modifier.fillMaxWidth(), Arrangement.Center) {
 
@@ -51,9 +59,9 @@ fun CreateNewProgramTextField(navController: NavHostController) {
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            onValueChange = { text = it },
+            onValueChange = { text = it }
+        )
 
-            )
     }
 
     FloatingActionButtonComponent2(navController = navController, TemplateName = text)

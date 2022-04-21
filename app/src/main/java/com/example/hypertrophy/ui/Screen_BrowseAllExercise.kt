@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -97,10 +98,12 @@ fun ExerciseInfoCard(exerciseInfo: ExerciseInfo){
 
             Column (modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center){
 
-                Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
 
-                    Text(text = exerciseInfo.name)
+                    Text(text = exerciseInfo.name, fontWeight = FontWeight.Bold)
                 }
+
+                Spacer(modifier = Modifier.height(5.dp))
 
                 Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
                     Text(text = "Targeted Body Part: ${exerciseInfo.bodyPart}")
