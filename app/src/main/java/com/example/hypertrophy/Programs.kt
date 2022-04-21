@@ -260,6 +260,15 @@ fun WorkoutCard(
                     exercises.forEach {
                         Text(text = it.exercise + ": " + it.sets + " sets of " + it.reps + " reps")
                     }
+                    
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Button(onClick = { /*TODO*/ }) {
+                            Text(text = "Start")
+                        }
+                    }
                 }
             }
         }

@@ -40,6 +40,7 @@ fun HomeScreen(navController: NavHostController) {
                 ClickableText(text = AnnotatedString("Logout"), style = TextStyle(color = Color.White), onClick = { navController.navigate(NavRoutes.Login.route) } )
 
             }
+
         )},
         content = { HomeContent(navController = navController) },
         bottomBar = { BottomBarNavigation(navController = navController) }
