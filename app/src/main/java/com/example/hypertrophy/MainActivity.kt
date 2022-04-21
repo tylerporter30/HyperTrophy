@@ -14,7 +14,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.hypertrophy.data.*
+import com.example.hypertrophy.data.Exercise
 import com.example.hypertrophy.ui.Screen_BrowseAllExercise
+import com.example.hypertrophy.ui.Screen_History
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
 import com.example.hypertrophy.viewModel.ExercisesViewModel
