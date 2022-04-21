@@ -24,9 +24,9 @@ import com.example.hypertrophy.viewModel.LogViewModel
 fun LogScreen(navController: NavHostController, viewModel: LogViewModel = viewModel()) {
     Scaffold(
         topBar = { TopAppBar( title = {
-            IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
+            /*IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
-            }
+            }*/
             Text(text = "Log") }) },
         //bottomBar = { BottomBarNavigation(navController = navController) },
         content = {

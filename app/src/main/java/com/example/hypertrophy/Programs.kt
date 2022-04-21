@@ -242,7 +242,7 @@ fun WorkoutCard(
     Card(
         Modifier
             .padding(20.dp)
-            .fillMaxWidth(0.8f),
+            .fillMaxWidth(),
         elevation = 15.dp,
         shape = RoundedCornerShape(10.dp),
 
