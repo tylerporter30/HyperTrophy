@@ -7,18 +7,21 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
+import com.example.hypertrophy.viewModel.LogViewModel
 
 @Composable
-fun LogScreen(navController: NavHostController) {
+fun LogScreen(navController: NavHostController, viewModel: LogViewModel = viewModel()) {
     Scaffold(
         topBar = { TopAppBar( title = {
             IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
@@ -27,7 +30,7 @@ fun LogScreen(navController: NavHostController) {
             Text(text = "Log") }) },
         content = {
             Box(Modifier.padding(it)) {
-                LogScreenUI()
+                LogScreenUI(viewModel)
             }
         },
         bottomBar = { BottomBarNavigation(navController = navController) }
@@ -37,16 +40,22 @@ fun LogScreen(navController: NavHostController) {
 
 
 @Composable
-fun LogScreenUI() {
+fun LogScreenUI(viewModel: LogViewModel) {
     // TEMP STATE HOLDERS
-    var pickerReps by remember { mutableStateOf(5) }
-    var pickerWeightsInt by remember { mutableStateOf(65) }
-    var pickerWeightsDec by remember { mutableStateOf(0) }
-    var setNumberInt by remember { mutableStateOf(1) }
+//    var pickerReps by remember { mutableStateOf(5) }
+//    var pickerWeightsInt by remember { mutableStateOf(65) }
+//    var pickerWeightsDec by remember { mutableStateOf(0) }
+//    var setNumberInt by remember { mutableStateOf(1) }
     var isNumberPickerEnabled by remember { mutableStateOf(false) }
 
-    val exerciseString = "EXERCISE NAME"
+//    val exerciseName = "EXERCISE NAME"
     val setNumberString = "SET"
+
+    val exerciseName by viewModel.exerciseNameLive.observeAsState("EXERCISE NAME")
+    val setNumberInt by viewModel.setsLive.observeAsState(1)
+    val pickerReps by viewModel.repsLive.observeAsState(5)
+    val pickerWeightsInt by viewModel.weightsIntLive.observeAsState(65)
+    val pickerWeightsDec by viewModel.weightsDecLive.observeAsState(0)
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -66,12 +75,11 @@ fun LogScreenUI() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = exerciseString,
+                    text = exerciseName,
                     modifier = Modifier.padding(all = 8.dp),
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.h4
                 )
-//                Spacer(Modifier.height(16.dp))
                 Text(
                     text = "$setNumberString $setNumberInt",
                     modifier = Modifier.padding(bottom = 8.dp),
@@ -95,7 +103,7 @@ fun LogScreenUI() {
                 NumberPicker(
                     value = pickerReps,
                     onValueChange = {
-                        if (isNumberPickerEnabled) pickerReps = it
+                        if (isNumberPickerEnabled) viewModel.updateReps(it)
                     },
                     dividersColor =
                     if (isNumberPickerEnabled) MaterialTheme.colors.secondaryVariant else Color.Transparent,
@@ -112,7 +120,7 @@ fun LogScreenUI() {
                 NumberPicker(
                     value = pickerWeightsInt,
                     onValueChange = {
-                        if (isNumberPickerEnabled) pickerWeightsInt = it
+                        if (isNumberPickerEnabled) viewModel.updateWeightsPickerInt(it)
                     },
                     dividersColor =
                     if (isNumberPickerEnabled) MaterialTheme.colors.secondaryVariant else Color.Transparent,
@@ -122,7 +130,7 @@ fun LogScreenUI() {
                 NumberPicker(
                     value = pickerWeightsDec,
                     onValueChange = {
-                        if (isNumberPickerEnabled) pickerWeightsDec = it
+                        if (isNumberPickerEnabled) viewModel.updateWeightsPickerDec(it)
                     },
                     dividersColor =
                     if (isNumberPickerEnabled) MaterialTheme.colors.secondaryVariant else Color.Transparent,
@@ -140,8 +148,7 @@ fun LogScreenUI() {
             // Option to duplicate set
             Button(
                 onClick = {
-                    /*TODO*/
-                    setNumberInt++
+                    viewModel.updateSets()
                 },
                 contentPadding = PaddingValues(16.dp)
             ) {
@@ -150,16 +157,13 @@ fun LogScreenUI() {
             // Option to skip set (mark as incomplete)
             Button(
                 onClick = {
-                    /*TODO*/
-                    setNumberInt++
+                    viewModel.updateSets()
                 },
                 contentPadding = PaddingValues(16.dp)
             ) {
                 Text("Skip Set")
             }
         }
-
-//        Spacer(modifier = Modifier.height(32.dp))
 
         // Big, slap-able button to mark set as complete
         Row(
@@ -169,8 +173,7 @@ fun LogScreenUI() {
         ) {
             Button(
                 onClick = {
-                    /*TODO*/
-                    setNumberInt++
+                    viewModel.updateSets()
                 },
                 modifier = Modifier.fillMaxSize(),
 //                elevation = ButtonElevation.elevation(enabled = true, interactionSource = TODO()),
@@ -188,6 +191,6 @@ fun LogScreenUI() {
 @Composable
 fun PreviewLogScreenUI() {
     HyperTrophyTheme {
-        LogScreenUI()
+        LogScreenUI(viewModel = LogViewModel())
     }
 }

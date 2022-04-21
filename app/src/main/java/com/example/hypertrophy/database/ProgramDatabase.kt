@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.hypertrophy.data.PersonalWeightInRecord
+import com.example.hypertrophy.data.Program
 
-@Database(entities = [Program::class], version = 1, exportSchema = false)
+@Database(entities = [Program::class,PersonalWeightInRecord::class], version = 2, exportSchema = false)
 @TypeConverters(ProgramConverter::class)
 abstract class ProgramDatabase: RoomDatabase() {
 
@@ -29,7 +31,7 @@ abstract class ProgramDatabase: RoomDatabase() {
 
                 val instance = Room.databaseBuilder(context.applicationContext, ProgramDatabase::class.java,"myDatabase")
                     .addTypeConverter(ProgramConverter())
-                    .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
 

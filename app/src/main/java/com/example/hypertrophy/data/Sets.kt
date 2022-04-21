@@ -1,4 +1,4 @@
-package com.example.hypertrophy.database
+package com.example.hypertrophy.data
 
 data class Sets(
 

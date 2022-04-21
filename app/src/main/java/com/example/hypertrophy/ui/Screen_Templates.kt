@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.hypertrophy.model.network.ExerciseInfo
+import com.example.hypertrophy.data.ExerciseInfo
 
 @Composable
 fun Screen_Templates(){
