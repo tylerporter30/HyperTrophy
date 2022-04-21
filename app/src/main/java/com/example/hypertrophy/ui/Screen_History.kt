@@ -70,8 +70,8 @@ fun SetOfExercise(listOfSets : List<Sets>){
             Row {
                 Text(text = "Set ${it.setNum}")
                 Text(text = "Weight: ${it.Weight}")
-                Text(text = "RPS: ${it.rps}")
-                Text(text = "resp: ${it.resp}")
+                Text(text = "RPS: ${it.rpe}")
+                Text(text = "resp: ${it.reps}")
             }
         }
     }

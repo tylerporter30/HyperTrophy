@@ -24,6 +24,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.hypertrophy.data.ExerciseInfo
+import com.example.hypertrophy.data.Sets
+import com.example.hypertrophy.data.Template
 
 @Composable
 fun SuggestedProgramsScreen(navController: NavHostController) {
@@ -118,6 +121,23 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                 ),
                 navController = navController
             )
+            /*val startingStrengthTemplateA = Template(
+                templateName = "Starting Strength A",
+                listOfExercise = listOf(
+                    com.example.hypertrophy.data.Exercise(
+                        exerciseInfo = ExerciseInfo(
+                            name = "barbell full squat",
+                            bodyPart = ExerciseInfo.
+                        ),
+                        listOfSets = listOf(
+                            Sets(
+                                setNum = 1,
+                                reps = 5
+                            )
+                        )
+                    )
+                )
+            )*/
 
             WorkoutCard(
                 title = "B",

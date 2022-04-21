@@ -18,9 +18,9 @@ object NavBarItems {
             route = "analyze"
         ),
         BarItem(
-            title = "Templates",
+            title = "Programs",
             image = Icons.Filled.List,
-            route = "templates"
+            route = "programs"
         ),
        /* BarItem(
             title = "Log",

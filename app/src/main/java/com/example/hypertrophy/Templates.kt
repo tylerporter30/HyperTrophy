@@ -14,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.hypertrophy.data.Template
 
 @Composable
 fun ListOfWorkoutTemplatesScreen(navController: NavHostController) {
@@ -62,9 +63,7 @@ fun templatesUI(navController: NavHostController) {
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-       /* Button(onClick = { navController.navigate(NavRoutes.Log.route) }) {
-            Text(text = "This is a temporary button for development purposes. Click here to see the workout Log screen")
-        }*/
+
     }
 }
 
