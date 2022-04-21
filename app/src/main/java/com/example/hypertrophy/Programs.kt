@@ -85,7 +85,7 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
         ) },
         content = {
 
-            ProgramsUI(selectedProgram = selectedProgram)
+            ProgramsUI(selectedProgram = selectedProgram, navController = navController)
 
             if(selectedProgram == "TGP" || selectedProgram == "") {
                 AllPrograms(programList = programs)
@@ -102,7 +102,7 @@ class Exercise(exercise: String, sets: Int, reps: Int) {
 }
 
 @Composable
-fun ProgramsUI (selectedProgram: String) {
+fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
     if (selectedProgram.equals("Starting Strength")) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -115,7 +115,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Squat", 3, 5),
                     Exercise("Bench Press", 3, 5),
                     Exercise("Deadlift", 1, 5)
-                )
+                ),
+                navController = navController
             )
 
             WorkoutCard(
@@ -124,7 +125,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Squat", 3, 5),
                     Exercise("Overhead Press", 3, 5),
                     Exercise("Power Clean", 5, 3)
-                )
+                ),
+                navController = navController
             )
 
 
@@ -143,7 +145,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Overhead Press", 3, 5),
                     Exercise("Chin up", 3, 5),
                     Exercise("Squat", 3, 5)
-                )
+                ),
+                navController = navController
             )
 
             WorkoutCard(
@@ -152,7 +155,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Bench Press", 3, 5),
                     Exercise("Barbell Row", 3, 5),
                     Exercise("Deadlift", 1, 5)
-                )
+                ),
+                navController = navController
             )
         }
     }
@@ -169,7 +173,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Squat", 5, 5),
                     Exercise("Bench Press", 5, 5),
                     Exercise("Barbell Row", 5, 5)
-                )
+                ),
+                navController = navController
             )
 
             WorkoutCard(
@@ -178,7 +183,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Squat", 5, 5),
                     Exercise("Overhead Press", 5, 5),
                     Exercise("Deadlift", 1, 5)
-                )
+                ),
+                navController = navController
             )
         }
     }
@@ -197,7 +203,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Overhead Press", 3, 12),
                     Exercise("Bench Press", 3, 8),
                     Exercise("Cable Push down", 3, 10)
-                )
+                ),
+                navController = navController
             )
 
             WorkoutCard(
@@ -206,7 +213,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Deadlift", 1, 5),
                     Exercise("Chin up", 5, 10),
                     Exercise("Dumbbell Curl", 3, 15)
-                )
+                ),
+                navController = navController
             )
 
             WorkoutCard(
@@ -215,7 +223,8 @@ fun ProgramsUI (selectedProgram: String) {
                     Exercise("Squat", 3, 8),
                     Exercise("Leg Press", 3, 10),
                     Exercise("Leg Curl", 3, 10)
-                )
+                ),
+                navController = navController
             )
         }
     }
@@ -227,7 +236,8 @@ fun ProgramsUI (selectedProgram: String) {
 @Composable
 fun WorkoutCard(
     title: String, 
-    exercises: Array<Exercise>
+    exercises: Array<Exercise>,
+    navController: NavHostController
 ) {
     Card(
         Modifier
@@ -265,7 +275,7 @@ fun WorkoutCard(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        Button(onClick = { /*TODO*/ }) {
+                        Button(onClick = { navController.navigate(NavRoutes.Log.route) }) {
                             Text(text = "Start")
                         }
                     }

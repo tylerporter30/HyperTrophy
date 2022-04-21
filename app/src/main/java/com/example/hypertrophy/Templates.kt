@@ -62,9 +62,9 @@ fun templatesUI(navController: NavHostController) {
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        Button(onClick = { navController.navigate(NavRoutes.Log.route) }) {
+       /* Button(onClick = { navController.navigate(NavRoutes.Log.route) }) {
             Text(text = "This is a temporary button for development purposes. Click here to see the workout Log screen")
-        }
+        }*/
     }
 }
 
