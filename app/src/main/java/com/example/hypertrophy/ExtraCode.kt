@@ -14,9 +14,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -27,6 +27,7 @@ data class Programs(
     val description: String,
 )
 
+
 @Composable
 fun AllPrograms(programList: List<Programs>) {
 
@@ -34,21 +35,15 @@ fun AllPrograms(programList: List<Programs>) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .padding(top = 40.dp, bottom = 80.dp),
+        horizontalAlignment = CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier
-                .align(CenterHorizontally)
-                .padding(top = 40.dp)
-        ) {
 
-            Text(text = "Beginner", fontSize = 22.sp)
-        }
+        Text(text = "Beginner", fontSize = 22.sp)
 
         LazyRow(
 
-            Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(top = 15.dp)
-            // this padding pushes the Beginner text up from the card
+            contentPadding = PaddingValues(top = 15.dp)   // this padding pushes the Beginner text up from the card
         )
         {
 
@@ -62,66 +57,46 @@ fun AllPrograms(programList: List<Programs>) {
         }
         AllPrograms1(programs1)
         AllPrograms2(programs2)
-        }
-        //CreateNewProgramButton()
     }
-
+}
 
 @Composable
 fun CreateNewProgram(name: String, description: String) {
 
-    var isOpen by rememberSaveable{ mutableStateOf(false) }
-    //var size by rememberSaveable { mutableStateOf(Size(700, 700))}
+    var isOpen by rememberSaveable { mutableStateOf(false) }
 
+    Card(
 
-        Card(
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp * .96f)
+            .clickable { isOpen = !isOpen },
 
-            modifier = Modifier
-                .padding(start = 8.dp, end = 8.dp)
-                //.animateContentSize { initialValue: IntSize, targetValue: IntSize ->  }
-                //.size(150.dp)
-                //.onSizeChanged {  300.dp }
-                //.fillMaxHeight()
-                //.wrapContentHeight()
-                //.wrapContentSize()
-                .clickable { isOpen = !isOpen },
-            //.clickable { (name + description) },
-            //shape = MaterialTheme.shapes.medium,
-            elevation = 8.dp,
-            //backgroundColor = MaterialTheme.colors.surface
+        elevation = 8.dp,
+        //backgroundColor = MaterialTheme.colors.surface
 
+    ) {
+
+        //this column padding makes the card bigger or smaller due to the text padding in it
+        Column(
+            Modifier.padding(start = 8.dp, end = 8.dp, top = 24.dp, bottom = 24.dp),
+            horizontalAlignment = CenterHorizontally
         ) {
 
-            Row(
+            Text(
+                text = name,
+                style = MaterialTheme.typography.h6,
+                //color = MaterialTheme.colors.onSurface,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                //this column padding makes the card bigger or smaller due to the text padding in it
-                Column(Modifier.padding(start = 8.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)) {
-
-                    Text(
-                        text = name,
-                        style = MaterialTheme.typography.h6,
-                        //color = MaterialTheme.colors.onSurface,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-
-//                Text(
-//                    text = description,
-//                    style = MaterialTheme.typography.body1,
-//                    color = MaterialTheme.colors.onSurface,
-//                    modifier = Modifier.padding(bottom = 4.dp)
-//                )
-
-                    if (isOpen) { Text(text = description) }
-
-                    }
-                }
+            if (isOpen) {
+                Text(text = description)
             }
+
         }
-
-
+    }
+}
 
 val programs = listOf(
 
@@ -188,9 +163,11 @@ fun AllPrograms1(programList1: List<Programs1>) {
 
     Column(modifier = Modifier.fillMaxWidth()) {
 
-        Row(modifier = Modifier
-            .align(CenterHorizontally)
-            .padding(top = 40.dp)) {
+        Row(
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(top = 40.dp)
+        ) {
 
             Text(text = "Intermediate", fontSize = 22.sp)
         }
@@ -205,17 +182,6 @@ fun AllPrograms1(programList1: List<Programs1>) {
 
         item {
 
-//            Row(
-//
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .wrapContentHeight()
-//                    .padding(vertical = 25.dp),
-//                horizontalArrangement = Arrangement.Center,
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//
-//            }
         }
 
         items(programList1) { programs1 ->
@@ -227,16 +193,13 @@ fun AllPrograms1(programList1: List<Programs1>) {
 @Composable
 fun CreateNewProgram1(name: String, description: String) {
 
-    var isOpen by rememberSaveable{ mutableStateOf(false) }
+    var isOpen by rememberSaveable { mutableStateOf(false) }
 
     Card(
 
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp)
-            //.size(150.dp)
-          //  .onSizeChanged { 300.dp }
-            //.fillMaxWidth()
-            //.wrapContentHeight()
+            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp * .96f)
             .clickable(onClick = { isOpen = !isOpen }),
 
         //shape = MaterialTheme.shapes.medium,
@@ -246,30 +209,20 @@ fun CreateNewProgram1(name: String, description: String) {
 
     ) {
 
-        Row(
-
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 24.dp, bottom = 24.dp),
+            horizontalAlignment = CenterHorizontally
         ) {
 
-            Column( modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.h6,
+                //color = MaterialTheme.colors.onSurface,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.h6,
-                    //color = MaterialTheme.colors.onSurface,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-
-//                Text(
-//                    text = description,
-//                    style = MaterialTheme.typography.body1,
-//                    color = MaterialTheme.colors.onSurface,
-//                    modifier = Modifier.padding(bottom = 4.dp)
-//                )
-
-                if (isOpen) {
-                    Text(text = description)
-                }
+            if (isOpen) {
+                Text(text = description)
             }
         }
     }
@@ -344,9 +297,11 @@ fun AllPrograms2(programList2: List<Programs2>) {
 
     Column(modifier = Modifier.fillMaxWidth()) {
 
-        Row(modifier = Modifier
-            .align(CenterHorizontally)
-            .padding(top = 40.dp)) {
+        Row(
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(top = 40.dp)
+        ) {
 
             Text(text = "Advanced", fontSize = 22.sp)
         }
@@ -361,15 +316,6 @@ fun AllPrograms2(programList2: List<Programs2>) {
 
         item {
 
-//            Row(modifier = Modifier
-//                .fillMaxWidth()
-//                .wrapContentHeight()
-//                .padding(vertical = 25.dp),
-//                horizontalArrangement = Arrangement.Center,
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//
-//            }
         }
 
         items(programList2) { programs2 ->
@@ -381,51 +327,40 @@ fun AllPrograms2(programList2: List<Programs2>) {
 @Composable
 fun CreateNewProgram2(name: String, description: String) {
 
-    var isOpen by rememberSaveable{ mutableStateOf(false) }
+    var isOpen by rememberSaveable { mutableStateOf(false) }
 
     Card(
 
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp)
-           // .onSizeChanged { 300.dp }
-//            .fillMaxWidth()
-//            .wrapContentHeight()
+            .requiredWidth(LocalConfiguration.current.screenWidthDp.dp * .96f)
             .clickable { isOpen = !isOpen },
-            //.clickable { (name + description) },
+
         //shape = MaterialTheme.shapes.medium,
         elevation = 8.dp,
         //backgroundColor = MaterialTheme.colors.surface
 
     ) {
 
-        Row(
-
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp, bottom = 24.dp),
+            horizontalAlignment = CenterHorizontally
         ) {
 
-            Column(Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp, bottom = 24.dp)) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.h6,
+                //color = MaterialTheme.colors.onSurface,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.h6,
-                    //color = MaterialTheme.colors.onSurface,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-
-//                Text(
-//                    text = description,
-//                    style = MaterialTheme.typography.body1,
-//                    color = MaterialTheme.colors.onSurface,
-//                    modifier = Modifier.padding(bottom = 4.dp)
-//                )
-
-                if (isOpen) {
-                    Text(text = description)
-                }
+            if (isOpen) {
+                Text(text = description)
             }
         }
     }
 }
+
 
 val programs2 = listOf(
 
@@ -508,34 +443,3 @@ val programs2 = listOf(
                 "20 Weighted Sit-Ups\n"
     ),
 )
-
-//@Composable
-//fun CreateNewProgramButton() {
-//
-//    var context = LocalContext.current
-//
-//
-//    Text(text = "Don't like these programs?")
-//
-//    Button(
-//        shape = RoundedCornerShape(10.dp),
-//        onClick = {
-//            //context.startActivity(Intent(context, ExerciseCard::class.java))
-//        },
-//        modifier = Modifier
-//            .padding(start = 10.dp, end = 10.dp)
-//            .fillMaxWidth()
-//
-//    ) {
-//
-//        Text(
-//            "Create Custom Program",
-//            color = Color.White,
-//            textAlign = TextAlign.Center,
-//            fontFamily = FontFamily.Serif,
-//            fontWeight = FontWeight.W600,
-//            fontSize = 20.sp,
-//            modifier = Modifier.padding(1.dp)
-//        )
-//    }
-//}
