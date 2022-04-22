@@ -14,6 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.hypertrophy.programs.ProgramNavRoutes
+import com.example.hypertrophy.programs.startingstrength.StartingStrengthWorkoutALog
+import com.example.hypertrophy.programs.startingstrength.StartingStrengthWorkoutBLog
 import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
@@ -112,6 +115,15 @@ fun MainScreen(navController: NavHostController) {
         composable(NavRoutes.Browse.route) {
             Screen_BrowseAllExercise(exercisesViewModel = ExercisesViewModel())
         }
+
+        composable(ProgramNavRoutes.StartingStrengthWorkoutA.route) {
+            StartingStrengthWorkoutALog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.StartingStrengthWorkoutB.route) {
+            StartingStrengthWorkoutBLog(navController = navController)
+        }
+
     }
 }
 
