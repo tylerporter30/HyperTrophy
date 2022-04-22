@@ -347,7 +347,8 @@ fun FloatingActionButtonComponent(navController: NavHostController) {
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(10.dp), verticalArrangement = Arrangement.Bottom,
+        .padding(bottom = 70.dp, end = 10.dp), verticalArrangement = Arrangement.Bottom,
+        //.padding(10.dp), verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.End) {
 
 
