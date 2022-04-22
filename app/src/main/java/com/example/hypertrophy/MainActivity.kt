@@ -1,8 +1,10 @@
 package com.example.hypertrophy
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -15,8 +17,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.hypertrophy.programs.ProgramNavRoutes
+import com.example.hypertrophy.programs.greyskull.GreySkullWorkoutALog
+import com.example.hypertrophy.programs.greyskull.GreySkullWorkoutBLog
+import com.example.hypertrophy.programs.pushpulllegs.LegWorkoutLog
+import com.example.hypertrophy.programs.pushpulllegs.PullWorkoutLog
+import com.example.hypertrophy.programs.pushpulllegs.PushWorkoutLog
 import com.example.hypertrophy.programs.startingstrength.StartingStrengthWorkoutALog
 import com.example.hypertrophy.programs.startingstrength.StartingStrengthWorkoutBLog
+import com.example.hypertrophy.programs.stronglifts.StrongLiftsWorkoutALog
+import com.example.hypertrophy.programs.stronglifts.StrongLiftsWorkoutBLog
 import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
@@ -53,6 +62,7 @@ fun SplashScreen() {
     MainScreen(navController = navController)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(navController: NavHostController) {
     //Create NavHost to navigate between welcome and login/signup
@@ -122,6 +132,34 @@ fun MainScreen(navController: NavHostController) {
 
         composable(ProgramNavRoutes.StartingStrengthWorkoutB.route) {
             StartingStrengthWorkoutBLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.GreySkullWorkoutA.route) {
+            GreySkullWorkoutALog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.GreySkullWorkoutB.route) {
+            GreySkullWorkoutBLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.StrongLiftsWorkoutA.route) {
+            StrongLiftsWorkoutALog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.StrongLiftsWorkoutB.route) {
+            StrongLiftsWorkoutBLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.PushWorkout.route) {
+            PushWorkoutLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.PullWorkout.route) {
+            PullWorkoutLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.LegWorkout.route) {
+            LegWorkoutLog(navController = navController)
         }
 
     }

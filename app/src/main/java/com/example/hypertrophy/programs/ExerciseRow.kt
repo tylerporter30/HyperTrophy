@@ -69,5 +69,5 @@ fun ExerciseRow(setNum: String, suggestedReps: String) : String {
             )
         }
     }
-    return "Reps: $numReps, Weight: $weight"
+    return "Reps: $numReps Weight: $weight"
 }

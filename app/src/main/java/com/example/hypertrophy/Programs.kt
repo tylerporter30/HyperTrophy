@@ -166,7 +166,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             Text(text = "GreySkull")
             WorkoutCard(
                 title = "A",
-                workout = "",
+                workout = "GreySkullWorkoutA",
                 exercises = arrayOf(
                     Exercise("Overhead Press", 3, 5),
                     Exercise("Chin up", 3, 5),
@@ -177,7 +177,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "B",
-                workout = "",
+                workout = "GreySkullWorkoutB",
                 exercises = arrayOf(
                     Exercise("Bench Press", 3, 5),
                     Exercise("Barbell Row", 3, 5),
@@ -196,7 +196,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             Text(text = "StrongLifts 5x5")
             WorkoutCard(
                 title = "A",
-                workout = "",
+                workout = "StrongLiftsWorkoutA",
                 arrayOf(
                     Exercise("Squat", 5, 5),
                     Exercise("Bench Press", 5, 5),
@@ -207,7 +207,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "B",
-                workout = "",
+                workout = "StrongLiftsWorkoutB",
                 arrayOf(
                     Exercise("Squat", 5, 5),
                     Exercise("Overhead Press", 5, 5),
@@ -228,7 +228,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             Text(text = "Push Pull Legs")
             WorkoutCard(
                 title = "Push",
-                workout = "",
+                workout = "PushWorkout",
                 arrayOf(
                     Exercise("Overhead Press", 3, 12),
                     Exercise("Bench Press", 3, 8),
@@ -239,7 +239,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "Pull",
-                workout = "",
+                workout = "PullWorkout",
                 arrayOf(
                     Exercise("Deadlift", 1, 5),
                     Exercise("Chin up", 5, 10),
@@ -250,7 +250,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "Legs",
-                workout = "",
+                workout = "LegWorkout",
                 arrayOf(
                     Exercise("Squat", 3, 8),
                     Exercise("Leg Press", 3, 10),
@@ -336,6 +336,27 @@ fun StartWorkout(
     }
     if(workout == "StartingStrengthWorkoutB") {
         navController.navigate(ProgramNavRoutes.StartingStrengthWorkoutB.route)
+    }
+    if(workout == "GreySkullWorkoutA") {
+        navController.navigate(ProgramNavRoutes.GreySkullWorkoutA.route)
+    }
+    if(workout == "GreySkullWorkoutB") {
+        navController.navigate(ProgramNavRoutes.GreySkullWorkoutB.route)
+    }
+    if(workout == "StrongLiftsWorkoutA") {
+        navController.navigate(ProgramNavRoutes.StrongLiftsWorkoutA.route)
+    }
+    if(workout == "StrongLiftsWorkoutB") {
+        navController.navigate(ProgramNavRoutes.StrongLiftsWorkoutB.route)
+    }
+    if(workout == "PushWorkout") {
+        navController.navigate(ProgramNavRoutes.PushWorkout.route)
+    }
+    if(workout == "PullWorkout") {
+        navController.navigate(ProgramNavRoutes.PullWorkout.route)
+    }
+    if(workout == "LegWorkout") {
+        navController.navigate(ProgramNavRoutes.LegWorkout.route)
     }
 
 }

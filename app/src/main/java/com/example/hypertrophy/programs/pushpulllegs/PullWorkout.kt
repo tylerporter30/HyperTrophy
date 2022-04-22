@@ -1,4 +1,4 @@
-package com.example.hypertrophy.programs.startingstrength
+package com.example.hypertrophy.programs.pushpulllegs
 
 import android.os.Build
 import android.widget.Toast
@@ -35,14 +35,14 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun StartingStrengthWorkoutALog(navController: NavHostController) {
+fun PullWorkoutLog(navController: NavHostController) {
 
     var showHistoryCard by rememberSaveable{ mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Starting Strength Workout A") }
+                title = { Text(text = "Pull Workout") }
             )
         },
         bottomBar = {
@@ -82,32 +82,34 @@ fun StartingStrengthWorkoutALog(navController: NavHostController) {
 
             var listOfExercises= ArrayList<ExerciseData>()
 
-            Text(text = "Squat")
+            Text(text = "Deadlift")
             var exercise1SetsAndReps = ArrayList<String>()
             exercise1SetsAndReps.add(ExerciseRow(setNum = "1", suggestedReps = "5"))
-            exercise1SetsAndReps.add(ExerciseRow(setNum = "2", suggestedReps = "5"))
-            exercise1SetsAndReps.add(ExerciseRow(setNum = "3", suggestedReps = "5"))
-            var exercise1 = ExerciseData(exercisename = "Squat", setsAndReps = exercise1SetsAndReps)
+            var exercise1 = ExerciseData(exercisename = "Deadlift", setsAndReps = exercise1SetsAndReps)
             listOfExercises.add(exercise1)
 
 
-            Text(text = "Bench Press")
+            Text(text = "Chin up")
             var exercise2SetsAndReps = ArrayList<String>()
-            exercise2SetsAndReps.add(ExerciseRow(setNum = "1", suggestedReps = "5"))
-            exercise2SetsAndReps.add(ExerciseRow(setNum = "2", suggestedReps = "5"))
-            exercise2SetsAndReps.add(ExerciseRow(setNum = "3", suggestedReps = "5"))
-            var exercise2 = ExerciseData(exercisename = "Bench Press", setsAndReps = exercise2SetsAndReps)
+            exercise2SetsAndReps.add(ExerciseRow(setNum = "1", suggestedReps = "10"))
+            exercise2SetsAndReps.add(ExerciseRow(setNum = "2", suggestedReps = "10"))
+            exercise2SetsAndReps.add(ExerciseRow(setNum = "3", suggestedReps = "10"))
+            exercise2SetsAndReps.add(ExerciseRow(setNum = "4", suggestedReps = "10"))
+            exercise2SetsAndReps.add(ExerciseRow(setNum = "5", suggestedReps = "10"))
+            var exercise2 = ExerciseData(exercisename = "Chin up", setsAndReps = exercise2SetsAndReps)
             listOfExercises.add(exercise2)
 
-            Text(text = "Deadlift")
+            Text(text = "Dumbbell Curl")
             var exercise3SetsAndReps = ArrayList<String>()
-            exercise3SetsAndReps.add(ExerciseRow(setNum = "1", suggestedReps = "5"))
-            var exercise3 = ExerciseData(exercisename = "Deadlift", setsAndReps = exercise3SetsAndReps)
+            exercise3SetsAndReps.add(ExerciseRow(setNum = "1", suggestedReps = "15"))
+            exercise3SetsAndReps.add(ExerciseRow(setNum = "2", suggestedReps = "15"))
+            exercise3SetsAndReps.add(ExerciseRow(setNum = "3", suggestedReps = "15"))
+            var exercise3 = ExerciseData(exercisename = "Dumbbell Curl", setsAndReps = exercise3SetsAndReps)
             listOfExercises.add(exercise3)
 
             Spacer(modifier = Modifier.height(70.dp))
 
-            var historyCard = HistoryCard(workoutTemplate = "Starting Strength Workout A", date = todaysDate, exercises = listOfExercises)
+            var historyCard = HistoryCard(workoutTemplate = "Pull Workout", date = todaysDate, exercises = listOfExercises)
 
             if(showHistoryCard) {
                 HistoryCardView(historyCardObject = historyCard)

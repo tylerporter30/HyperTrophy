@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.hypertrophy.history.HistoryCard
 import com.example.hypertrophy.history.HistoryCardView
+import com.example.hypertrophy.history.ListOfHistory
+import java.util.ArrayList
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -121,14 +123,13 @@ fun HomeContent(navController: NavHostController) {
 
             //Should show a list of completed workout cards here using history cards
 
-
             Spacer(modifier = Modifier.height(60.dp))
         }
     }
 }
 
 @Composable
-fun CompletedWorkoutCard(date: String, title: String, historyCard: HistoryCard) {
+fun CompletedWorkoutCard(date: String, navController: NavHostController, historyCard: HistoryCard) {
     val context = LocalContext.current
     Card(
         Modifier
@@ -156,9 +157,9 @@ fun CompletedWorkoutCard(date: String, title: String, historyCard: HistoryCard) 
             )
 
             ClickableText(
-                text = AnnotatedString(title), // This should be a workout completed recently
+                text = AnnotatedString(historyCard.workoutTemplate), // This should be a workout completed recently
                 style = MaterialTheme.typography.h5,
-                onClick = { Toast.makeText(context, "This will navigate to this template", Toast.LENGTH_LONG).show() } //Send to this particular Template
+                onClick = { navController.navigate(NavRoutes.Programs.route) }
             )
 
             if (isOpen) {

@@ -1,4 +1,4 @@
-package com.example.hypertrophy.programs.startingstrength
+package com.example.hypertrophy.programs.stronglifts
 
 import android.os.Build
 import android.widget.Toast
@@ -35,14 +35,14 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun StartingStrengthWorkoutALog(navController: NavHostController) {
+fun StrongLiftsWorkoutALog(navController: NavHostController) {
 
     var showHistoryCard by rememberSaveable{ mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Starting Strength Workout A") }
+                title = { Text(text = "StrongLifts Workout A") }
             )
         },
         bottomBar = {
@@ -99,15 +99,17 @@ fun StartingStrengthWorkoutALog(navController: NavHostController) {
             var exercise2 = ExerciseData(exercisename = "Bench Press", setsAndReps = exercise2SetsAndReps)
             listOfExercises.add(exercise2)
 
-            Text(text = "Deadlift")
+            Text(text = "Barbell Row")
             var exercise3SetsAndReps = ArrayList<String>()
             exercise3SetsAndReps.add(ExerciseRow(setNum = "1", suggestedReps = "5"))
-            var exercise3 = ExerciseData(exercisename = "Deadlift", setsAndReps = exercise3SetsAndReps)
+            exercise3SetsAndReps.add(ExerciseRow(setNum = "2", suggestedReps = "5"))
+            exercise3SetsAndReps.add(ExerciseRow(setNum = "3", suggestedReps = "5"))
+            var exercise3 = ExerciseData(exercisename = "Barbell Row", setsAndReps = exercise3SetsAndReps)
             listOfExercises.add(exercise3)
 
             Spacer(modifier = Modifier.height(70.dp))
 
-            var historyCard = HistoryCard(workoutTemplate = "Starting Strength Workout A", date = todaysDate, exercises = listOfExercises)
+            var historyCard = HistoryCard(workoutTemplate = "StrongLifts Workout A", date = todaysDate, exercises = listOfExercises)
 
             if(showHistoryCard) {
                 HistoryCardView(historyCardObject = historyCard)

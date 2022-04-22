@@ -15,6 +15,10 @@ data class ExerciseData (
     var setsAndReps: ArrayList<String>
 )
 
+data class ListOfHistory(
+    var list: ArrayList<HistoryCard>
+)
+
 @Composable
 fun HistoryCardView(historyCardObject: HistoryCard) {
     Text(text = historyCardObject.workoutTemplate)
