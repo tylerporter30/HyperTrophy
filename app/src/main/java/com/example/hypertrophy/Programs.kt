@@ -1,5 +1,6 @@
 package com.example.hypertrophy
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -272,10 +273,14 @@ fun WorkoutCard(
     exercises: Array<Exercise>,
     navController: NavHostController
 ) {
+
+    var isOpen by rememberSaveable{ mutableStateOf(false) }
+
     Card(
         Modifier
             .padding(20.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = { isOpen = !isOpen }),
         elevation = 15.dp,
         shape = RoundedCornerShape(10.dp),
 
@@ -286,15 +291,14 @@ fun WorkoutCard(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            var isOpen by rememberSaveable{ mutableStateOf(false) }
-
-            ClickableText(
+            Text(text = title, style = MaterialTheme.typography.h6)
+            /*ClickableText(
                 text = AnnotatedString(title),
                 style = MaterialTheme.typography.h6,
                 onClick = {
                     isOpen = !isOpen
                 }
-            )
+            )*/
 
             Column(
                 horizontalAlignment = Alignment.Start
