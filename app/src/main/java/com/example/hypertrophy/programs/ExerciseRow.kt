@@ -11,13 +11,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import java.util.*
 
 
 @Composable
-fun ExerciseRow(setNum: String, suggestedReps: String) {
+fun ExerciseRow(setNum: String, suggestedReps: String) : String {
     val focusManager = LocalFocusManager.current
 
     var numReps by rememberSaveable { mutableStateOf("") }
@@ -67,4 +69,5 @@ fun ExerciseRow(setNum: String, suggestedReps: String) {
             )
         }
     }
+    return "Reps: $numReps, Weight: $weight"
 }

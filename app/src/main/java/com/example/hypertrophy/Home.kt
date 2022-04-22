@@ -27,6 +27,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.hypertrophy.history.HistoryCard
+import com.example.hypertrophy.history.HistoryCardView
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -115,116 +117,18 @@ fun HomeContent(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            CompletedWorkoutCard(date = "4/11", title = "Back/Biceps")
+            //CompletedWorkoutCard(date = "4/11", title = "Back/Biceps")
 
-            Card(
-                Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(0.8f),
-                elevation = 15.dp,
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(text = "4/9", style = MaterialTheme.typography.h6)
-                    ClickableText(
-                        text = AnnotatedString("Chest/Triceps"), // This should be a workout completed recently
-                        style = MaterialTheme.typography.h5,
-                        onClick = { } //Send to this particular Template
-                    )
-                }
-            }
-            Card(
-                Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(0.8f),
-                elevation = 15.dp,
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(text = "4/7", style = MaterialTheme.typography.h6)
-                    ClickableText(
-                        text = AnnotatedString("Back/Biceps"), // This should be a workout completed recently
-                        style = MaterialTheme.typography.h5,
-                        onClick = { } //Send to this particular Template
-                    )
-                }
-            }
-            Card(
-                Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(0.8f),
-                elevation = 15.dp,
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(text = "4/5", style = MaterialTheme.typography.h6)
-                    ClickableText(
-                        text = AnnotatedString("Chest/Triceps"), // This should be a workout completed recently
-                        style = MaterialTheme.typography.h5,
-                        onClick = { } //Send to this particular Template
-                    )
-                }
-            }
-            Card(
-                Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(0.8f),
-                elevation = 15.dp,
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(text = "4/3", style = MaterialTheme.typography.h6)
-                    ClickableText(
-                        text = AnnotatedString("Quads/Glutes"), // This should be a workout completed recently
-                        style = MaterialTheme.typography.h5,
-                        onClick = { } //Send to this particular Template
-                    )
-                }
-            }
-            Card(
-                Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth(0.8f),
-                elevation = 15.dp,
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(text = "4/1", style = MaterialTheme.typography.h6)
-                    ClickableText(
-                        text = AnnotatedString("Back/Biceps"), // This should be a workout completed recently
-                        style = MaterialTheme.typography.h5,
-                        onClick = { } //Send to this particular Template
-                    )
-                }
-            }
-            
+            //Should show a list of completed workout cards here using history cards
+
+
             Spacer(modifier = Modifier.height(60.dp))
         }
     }
 }
 
 @Composable
-fun CompletedWorkoutCard(date: String, title: String) {
+fun CompletedWorkoutCard(date: String, title: String, historyCard: HistoryCard) {
     val context = LocalContext.current
     Card(
         Modifier
@@ -258,33 +162,7 @@ fun CompletedWorkoutCard(date: String, title: String) {
             )
 
             if (isOpen) {
-                Text(text =
-                        "Exercise\n" +
-                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Exercise\n" +
-                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Exercise\n" +
-                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Exercise\n" +
-                        "Set 1: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 2: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 3: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 4: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 5: 8 Reps: 155 lbs: RPE: 7\n" +
-                        "Set 6: 8 Reps: 155 lbs: RPE: 7"
-                )
+                HistoryCardView(historyCardObject = historyCard)
             }
         }
     }

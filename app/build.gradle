@@ -104,6 +104,7 @@ dependencies {
     implementation "androidx.room:room-paging:2.5.0-alpha01"
 
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    annotationProcessor "androidx.room:room-compiler:2.4.0"
 
 
 }

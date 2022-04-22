@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -36,8 +37,8 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
 
     Scaffold(
         topBar = { TopAppBar( title = {
-            IconButton(onClick = { navController.navigate(NavRoutes.Templates.route) }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Templates")
+            IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
+                Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
             Text(text = "Programs") },
 
@@ -87,6 +88,7 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
             }
 
         ) },
+        bottomBar = { BottomBarNavigation(navController = navController) },
         content = {
 
             ProgramsUI(selectedProgram = selectedProgram, navController = navController)
