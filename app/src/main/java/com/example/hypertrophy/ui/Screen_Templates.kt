@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.example.hypertrophy.data.ExerciseInfo
 
 @Composable
-fun Screen_Templates(){
+fun Screen_Templates() {
 
     var typeExpanded by remember { mutableStateOf(false) }
 
@@ -23,7 +23,7 @@ fun Screen_Templates(){
 
             Row {
 
-                Row (horizontalArrangement = Arrangement.End){
+                Row(horizontalArrangement = Arrangement.End) {
 
                     DropdownMenu(
                         expanded = typeExpanded,
@@ -32,7 +32,7 @@ fun Screen_Templates(){
                     ) {}
                 }
 
-                LazyColumn(){
+                LazyColumn() {
 
                 }
             }
@@ -42,29 +42,29 @@ fun Screen_Templates(){
 
 
 @Composable
-fun TemplateExerciseCard(exerciseInfo: ExerciseInfo){
+fun TemplateExerciseCard(exerciseInfo: ExerciseInfo) {
 
     Column {
 
-        ExerciseInfoCard(exerciseInfo = exerciseInfo )
+        ExerciseInfoCard(exerciseInfo = exerciseInfo)
 
-        LazyColumn(){
+        LazyColumn() {
 
         }
     }
 }
 
 @Composable
-fun TemplateSetRow(){
+fun TemplateSetRow() {
 
     Row(horizontalArrangement = Arrangement.SpaceBetween) {
 
         Text(text = "Set")
 
         Text(text = "Weight")
-        TextField(value = "", onValueChange = {it})
+        TextField(value = "", onValueChange = { it })
         Text(text = "Reps")
-        TextField(value = "", onValueChange = {it})
+        TextField(value = "", onValueChange = { it })
     }
 
 

@@ -33,13 +33,13 @@ fun Screen_BrowseAllExercise(exercisesViewModel: ExercisesViewModel) {
                         text = { Text(text = title) })
                 }
             }
-            TabContent(tabIndex,exercisesViewModel)
+            TabContent(tabIndex, exercisesViewModel)
         }
     }
 }
 
 @Composable
-fun TabContent(tabIndex:Int,exercisesViewModel: ExercisesViewModel){
+fun TabContent(tabIndex: Int, exercisesViewModel: ExercisesViewModel) {
 
     var typeExpanded by remember { mutableStateOf(false) }
 
@@ -47,7 +47,7 @@ fun TabContent(tabIndex:Int,exercisesViewModel: ExercisesViewModel){
 
     Column {
 
-        Row (horizontalArrangement = Arrangement.End){
+        Row(horizontalArrangement = Arrangement.End) {
 
             DropdownMenu(
                 expanded = typeExpanded,
@@ -56,11 +56,11 @@ fun TabContent(tabIndex:Int,exercisesViewModel: ExercisesViewModel){
             ) {}
         }
 
-        LazyColumn(){
+        LazyColumn() {
 
-            items(exercisesViewModel.exerciseList.value.filter{ it.bodyPart == exercisesViewModel.bodyPartList[tabIndex] /*&& targetedMuscle in it.target*/}){
+            items(exercisesViewModel.exerciseList.value.filter { it.bodyPart == exercisesViewModel.bodyPartList[tabIndex] /*&& targetedMuscle in it.target*/ }) {
 
-                it ->
+                    it ->
                 ExerciseInfoCard(exerciseInfo = it)
             }
         }
@@ -70,7 +70,7 @@ fun TabContent(tabIndex:Int,exercisesViewModel: ExercisesViewModel){
 
 @ExperimentalCoilApi
 @Composable
-fun ExerciseInfoCard(exerciseInfo: ExerciseInfo){
+fun ExerciseInfoCard(exerciseInfo: ExerciseInfo) {
 
     Card(
         modifier = Modifier
@@ -80,14 +80,17 @@ fun ExerciseInfoCard(exerciseInfo: ExerciseInfo){
         shape = MaterialTheme.shapes.medium,
         elevation = 10.dp,
         backgroundColor = MaterialTheme.colors.surface
-    ){
-        Row(verticalAlignment = Alignment.CenterVertically){
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
 
             Image(
                 modifier = Modifier
                     .size(150.dp),
                 painter = rememberImagePainter(
-                    data = exerciseInfo.gifUrl.substring(0,4) + "s" + exerciseInfo.gifUrl.substring(4),
+                    data = exerciseInfo.gifUrl.substring(
+                        0,
+                        4
+                    ) + "s" + exerciseInfo.gifUrl.substring(4),
                     builder = {
                         decoder(GifDecoder()) // gif decoder
                         placeholder(R.drawable.ic_launcher_foreground)
@@ -96,7 +99,7 @@ fun ExerciseInfoCard(exerciseInfo: ExerciseInfo){
                 contentDescription = null
             )
 
-            Column (modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center){
+            Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center) {
 
                 Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
 
@@ -110,7 +113,7 @@ fun ExerciseInfoCard(exerciseInfo: ExerciseInfo){
                     Text(text = "Targeted Muscle: ${exerciseInfo.target}")
                     Text(text = "Equipment: ${exerciseInfo.equipment}")
                 }
-                
+
                 Button(onClick = { /*TODO*/ }) {
                     Text(text = "Add to Template")
                 }

@@ -17,6 +17,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.hypertrophy.ui.Screen_BrowseAllExercise
+import com.example.hypertrophy.ui.Screen_History
+import com.example.hypertrophy.ui.testHistory
 import com.example.hypertrophy.programs.ProgramNavRoutes
 import com.example.hypertrophy.programs.greyskull.GreySkullWorkoutALog
 import com.example.hypertrophy.programs.greyskull.GreySkullWorkoutBLog
@@ -46,11 +49,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             HyperTrophyTheme {
-                // A surface container using the 'background' color from the theme
+//                 A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+
 
                     SplashScreen(weighInViewModel)
                 }
