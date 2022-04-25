@@ -14,10 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.hypertrophy.data.*
-import com.example.hypertrophy.data.Exercise
 import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.Screen_History
+import com.example.hypertrophy.ui.testHistory
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
 import com.example.hypertrophy.viewModel.ExercisesViewModel
@@ -31,13 +30,13 @@ class MainActivity : ComponentActivity() {
         val exercisesViewModel = ExercisesViewModel()
         setContent {
             HyperTrophyTheme {
-                // A surface container using the 'background' color from the theme
+//                 A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
-                    SplashScreen()
+                    testHistory(programViewModel = programViewModel)
+                    //SplashScreen()
                 }
             }
         }
