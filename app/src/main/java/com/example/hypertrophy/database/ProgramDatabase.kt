@@ -15,10 +15,10 @@ abstract class ProgramDatabase: RoomDatabase() {
 
     abstract fun exerciseDao():ExerciseDao
 
-    companion object{
+    companion object {
 
         @Volatile
-        private var INSTANCE:ProgramDatabase ?= null
+        private var INSTANCE:ProgramDatabase? = null
 
         fun getDataBase(context: Context):ProgramDatabase{
 

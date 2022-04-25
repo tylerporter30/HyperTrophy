@@ -21,17 +21,21 @@ interface ExerciseDao {
     @Query("delete FROM program WHERE name = :name")
     suspend fun deleteProgramByName(name:String)
 
-    //For Personal weight in records
+    // For Personal weight in records
+    @Query("SELECT EXISTS(SELECT * FROM personalWeightInRecord)")
+    suspend fun isPersonalWeightInEmpty(): Boolean
     @Query("SELECT * FROM personalWeightInRecord")
     fun fetchAllPersonalWeightInRecord(): LiveData<List<PersonalWeightInRecord>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPersonalWeightInRecord(personalWeightInRecord: PersonalWeightInRecord)
-    @Query("SELECT * FROM personalWeightInRecord where date = :date")
-    suspend fun fetchPersonalWeightInRecordByDate(date:String):List<PersonalWeightInRecord>
+    @Query("SELECT * FROM personalWeightInRecord WHERE date = :date")
+    suspend fun fetchPersonalWeightInRecordByDate(date:String): List<PersonalWeightInRecord>
+    @Query("SELECT * FROM personalWeightInRecord ORDER BY date DESC LIMIT 1")
+    suspend fun fetchPersonalWeightInRecordByLast(): List<PersonalWeightInRecord>
     @Query("delete FROM personalWeightInRecord WHERE date = :date")
     suspend fun deletePersonalWeightInRecordByDate(date:String)
 
-    //For History record
+    // For History record
     @Query("SELECT * FROM historyRecord")
     fun fetchAllHistoryRecord(): LiveData<List<HistoryRecord>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)

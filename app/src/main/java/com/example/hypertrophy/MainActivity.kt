@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
@@ -31,13 +32,18 @@ import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
 import com.example.hypertrophy.viewModel.ExercisesViewModel
 import com.example.hypertrophy.viewModel.ProgramViewModel
+import com.example.hypertrophy.viewModel.WeighInViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val programViewModel = ViewModelProvider(this).get(ProgramViewModel::class.java)
         val exercisesViewModel = ExercisesViewModel()
+        val weighInViewModel: WeighInViewModel by viewModels()
+
         setContent {
             HyperTrophyTheme {
                 // A surface container using the 'background' color from the theme
@@ -46,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    SplashScreen()
+                    SplashScreen(weighInViewModel)
                 }
             }
         }
@@ -54,17 +60,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(weighInViewModel: WeighInViewModel) {
     //Create a navController here, send it through to the next screen as a parameter
     val navController = rememberNavController()
 
     //Implement a splashscreen here, then go to WelcomeScreen()
-    MainScreen(navController = navController)
+    MainScreen(navController = navController, weighInViewModel)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController, weighInViewModel: WeighInViewModel) {
     //Create NavHost to navigate between welcome and login/signup
     NavHost(
         navController = navController,
@@ -107,7 +113,7 @@ fun MainScreen(navController: NavHostController) {
         }
 
         composable(NavRoutes.WeighIn.route) {
-            WeighInScreen(navController = navController)
+            WeighInScreen(navController = navController, weighInViewModel)
         }
 
         composable(NavRoutes.CreateNewProgram.route) {
