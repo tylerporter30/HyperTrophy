@@ -17,23 +17,22 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.chargemap.compose.numberpicker.NumberPicker
-import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.viewModel.WeighInViewModel
-import java.util.*
 
 @Composable
-fun WeighInScreen(navController: NavHostController, viewModel: WeighInViewModel = viewModel()) {
-
+fun WeighInScreen(
+    navController: NavHostController,
+    viewModel: WeighInViewModel
+) {
     Scaffold(
         topBar = { TopAppBar(title = {
             IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
@@ -53,6 +52,9 @@ fun WeighInScreen(navController: NavHostController, viewModel: WeighInViewModel 
 @Composable
 fun WeighInScreenUI(viewModel: WeighInViewModel) {
     var tabIndex by remember { mutableStateOf(0) }
+    val body1 = MaterialTheme.typography.body1
+    var textStyle by remember { mutableStateOf(body1) }
+    var readyToDraw by remember { mutableStateOf(false) }
     val titles = listOf("Weight", "Diet", "Measure", "Body Fat %")
 //    val pagerState = rememberPagerState()
 
@@ -70,7 +72,22 @@ fun WeighInScreenUI(viewModel: WeighInViewModel) {
         ) {
             titles.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(title) },
+                    text = {
+                        Text(
+                            text = title,
+                            modifier = Modifier.drawWithContent { if (readyToDraw) drawContent() },
+                            maxLines = 1,
+                            softWrap = false,
+                            style = textStyle,
+                            onTextLayout = {
+                                if (it.didOverflowWidth) {
+                                    textStyle = textStyle.copy(fontSize = textStyle.fontSize * 0.9f)
+                                } else {
+                                    readyToDraw = true
+                                }
+                            }
+                        )
+                    },
                     selected = tabIndex == index,
                     onClick = { tabIndex = index }
                 )
@@ -81,11 +98,11 @@ fun WeighInScreenUI(viewModel: WeighInViewModel) {
 //            state = pagerState
 //        ) { tabIndex ->
 //            when (tabIndex) {
-//                0 -> WeighInWeight()
-//                1 -> WeighInDiet()
-//                2 -> WeighInMeasurements()
-//                3 -> WeighInBodyFat()
-//                else -> WeighInWeight()
+//                0 -> WeighInWeight(viewModel)
+//                1 -> WeighInDiet(viewModel)
+//                2 -> WeighInMeasurements(viewModel)
+//                3 -> WeighInBodyFat(viewModel)
+//                else -> WeighInWeight(viewModel)
 //            }
 //        }
         when (tabIndex) {
@@ -99,21 +116,16 @@ fun WeighInScreenUI(viewModel: WeighInViewModel) {
 }
 
 @Composable
-fun DateSelection( /* viewModel: WeighInViewModel */) {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-    val selectedDateString = remember { mutableStateOf("${month+1}/$day/$year") }
-
+fun DateSelection(viewModel: WeighInViewModel) {
+    val dateSelected by viewModel.dateSelectedLive.observeAsState()
     val datePicker = DatePickerDialog(
         LocalContext.current,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            selectedDateString.value = "${mMonth+1}/$mDayOfMonth/$mYear"
+            viewModel.updateDateSelected(mYear, mMonth, mDayOfMonth)
         },
-        year,
-        month,
-        day
+        viewModel.dateToday[0],
+        viewModel.dateToday[1],
+        viewModel.dateToday[2]
     )
 
     Row(
@@ -122,7 +134,7 @@ fun DateSelection( /* viewModel: WeighInViewModel */) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Current date selected: ${ selectedDateString.value }\nTap to change date",
+            text = "Current date selected: $dateSelected\nTap to change date",
             modifier = Modifier
                 .clickable { datePicker.show() }
                 .padding(8.dp)
@@ -135,8 +147,8 @@ fun DateSelection( /* viewModel: WeighInViewModel */) {
 
 @Composable
 fun WeighInWeight(viewModel: WeighInViewModel) {
-    val pickerPercentInt by viewModel.weightPickerIntLive.observeAsState(189)
-    val pickerPercentDec by viewModel.weightPickerDecLive.observeAsState(5)
+    val pickerPercentInt by viewModel.weightPickerIntLive.observeAsState(100)
+    val pickerPercentDec by viewModel.weightPickerDecLive.observeAsState(0)
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -165,11 +177,11 @@ fun WeighInWeight(viewModel: WeighInViewModel) {
                 dividersColor = MaterialTheme.colors.secondary,
                 range = 0..9
             )
-            Text("lbs") // CHANGE WITH SETTINGS
+            Text("lbs") // TODO() CHANGE WITH SETTINGS
         }
-        DateSelection()
+        DateSelection(viewModel)
         Button(
-            onClick = { viewModel.saveWeightRecord() },
+            onClick = { viewModel.saveRecord() },
             modifier = Modifier.padding(16.dp),
             enabled = viewModel.enableSaveWeightButton(),
             contentPadding = PaddingValues(8.dp)
@@ -181,10 +193,8 @@ fun WeighInWeight(viewModel: WeighInViewModel) {
 
 @Composable
 fun WeighInDiet(viewModel: WeighInViewModel) {
-    // TEMP STATE HOLDERS
-//    var calorieCount by remember { mutableStateOf(1543.0) }
-    val calorieCount by viewModel.calorieCountTodayLive.observeAsState(0.0)
-    var calorieNew by remember { mutableStateOf("") }
+    val calorieCount by viewModel.calorieCountTodayLive.observeAsState(0.0f)
+    val calorieNew by viewModel.calorieCountNowLive.observeAsState("")
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -206,7 +216,7 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
 
             TextField(
                 value = calorieNew,
-                onValueChange = { calorieNew = it },
+                onValueChange = { viewModel.updateCalorieNow(it) },
                 label = { Text("Add") },
                 trailingIcon = {
                     Icon(
@@ -214,7 +224,7 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
                         contentDescription = null,
                         modifier = Modifier.clickable {
                             viewModel.updateCalorieCount(calorieNew)
-                            calorieNew = ""
+                            viewModel.updateCalorieNow("")
                         }
                     )
                 },
@@ -228,9 +238,9 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
                 shape = MaterialTheme.shapes.small
             )
         }
-        DateSelection()
+        DateSelection(viewModel)
         Button(
-            onClick = { viewModel.saveCalorieRecord() },
+            onClick = { viewModel.saveRecord() },
             modifier = Modifier.padding(16.dp),
             enabled = viewModel.enableSaveDietButton(),
             contentPadding = PaddingValues(8.dp)
@@ -242,29 +252,17 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
 
 @Composable
 fun WeighInMeasurements(viewModel: WeighInViewModel) {
-    // TEMP STATE HOLDERS
-//    var upperArmLeft by remember { mutableStateOf("18.5") }
-//    var upperArmRight by remember { mutableStateOf("18.5") }
-//    var forearmLeft by remember { mutableStateOf("18.5") }
-//    var forearmRight by remember { mutableStateOf("18.5") }
-//    var chest by remember { mutableStateOf("54.0") }
-//    var thighLeft by remember { mutableStateOf("27.0") }
-//    var thighRight by remember { mutableStateOf("27.0") }
-//    var calfLeft by remember { mutableStateOf("18.5") }
-//    var calfRight by remember { mutableStateOf("18.5") }
-//    var waist by remember { mutableStateOf("30.0") }
-//    var shoulder by remember { mutableStateOf("18.5") }
-    val shoulder by viewModel.measureShoulderLive.observeAsState("18.5")
-    val upperArmLeft by viewModel.measureUpperArmLeftLive.observeAsState("18.5")
-    val upperArmRight by viewModel.measureUpperArmRightLive.observeAsState("18.5")
-    val forearmLeft by viewModel.measureForearmLeftLive.observeAsState("18.5")
-    val forearmRight by viewModel.measureForearmRightLive.observeAsState("18.5")
-    val chest by viewModel.measureChestLive.observeAsState("54.0")
-    val waist by viewModel.measureWaistLive.observeAsState("30.0")
-    val thighLeft by viewModel.measureThighLeftLive.observeAsState("18.5")
-    val thighRight by viewModel.measureThighRightLive.observeAsState("18.5")
-    val calfLeft by viewModel.measureCalfLive.observeAsState("18.5")
-    val calfRight by viewModel.measureCalfRightLive.observeAsState("18.5")
+    val shoulder by viewModel.measureShoulderLive.observeAsState("")
+    val upperArmLeft by viewModel.measureUpperArmLeftLive.observeAsState("")
+    val upperArmRight by viewModel.measureUpperArmRightLive.observeAsState("")
+    val forearmLeft by viewModel.measureForearmLeftLive.observeAsState("")
+    val forearmRight by viewModel.measureForearmRightLive.observeAsState("")
+    val chest by viewModel.measureChestLive.observeAsState("")
+    val waist by viewModel.measureWaistLive.observeAsState("")
+    val thighLeft by viewModel.measureThighLeftLive.observeAsState("")
+    val thighRight by viewModel.measureThighRightLive.observeAsState("")
+    val calfLeft by viewModel.measureCalfLive.observeAsState("")
+    val calfRight by viewModel.measureCalfRightLive.observeAsState("")
 
     val scrollState = rememberScrollState()
     val numberRegex = """^\d+(\.\d+)?$""".toRegex()
@@ -434,13 +432,13 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 label = "right"
             )
         }
-        DateSelection()
+        DateSelection(viewModel)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { viewModel.saveMeasurementsRecord() },
+                onClick = { viewModel.saveRecord() },
                 modifier = Modifier.padding(16.dp),
                 enabled = viewModel.enableSaveMeasurementsButton(),
                 contentPadding = PaddingValues(8.dp)
@@ -482,11 +480,8 @@ fun MeasurementField(
 
 @Composable
 fun WeighInBodyFat(viewModel: WeighInViewModel) {
-    // TEMP STATE HOLDERS
-//    var pickerPercentInt by remember { mutableStateOf(20) }
-//    var pickerPercentDec by remember { mutableStateOf(5) }
-    val pickerPercentInt by viewModel.bodyFatPickerIntLive.observeAsState(20)
-    val pickerPercentDec by viewModel.bodyFatPickerDecLive.observeAsState(5)
+    val pickerPercentInt by viewModel.bodyFatPickerIntLive.observeAsState(0)
+    val pickerPercentDec by viewModel.bodyFatPickerDecLive.observeAsState(0)
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -516,46 +511,14 @@ fun WeighInBodyFat(viewModel: WeighInViewModel) {
                 range = 0..9
             )
         }
-        DateSelection()
+        DateSelection(viewModel)
         Button(
-            onClick = { viewModel.saveBodyFatRecord() },
+            onClick = { viewModel.saveRecord() },
             modifier = Modifier.padding(16.dp),
             enabled = viewModel.enableSaveBodyFatButton(),
             contentPadding = PaddingValues(8.dp)
         ) {
             Text(text = "Save", style = MaterialTheme.typography.button)
         }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewWeighInWeight() {
-    HyperTrophyTheme {
-        WeighInWeight(viewModel = WeighInViewModel())
-    }
-}
-
-@Preview
-@Composable
-fun PreviewWeighInDiet() {
-    HyperTrophyTheme {
-        WeighInDiet(viewModel = WeighInViewModel())
-    }
-}
-
-@Preview
-@Composable
-fun PreviewWeighInMeasurements() {
-    HyperTrophyTheme {
-        WeighInMeasurements(viewModel = WeighInViewModel())
-    }
-}
-
-@Preview
-@Composable
-fun PreviewWeighInBodyFat() {
-    HyperTrophyTheme {
-        WeighInBodyFat(viewModel = WeighInViewModel())
     }
 }

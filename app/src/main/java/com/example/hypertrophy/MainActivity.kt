@@ -1,8 +1,11 @@
 package com.example.hypertrophy
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -17,17 +20,33 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.Screen_History
 import com.example.hypertrophy.ui.testHistory
+import com.example.hypertrophy.programs.ProgramNavRoutes
+import com.example.hypertrophy.programs.greyskull.GreySkullWorkoutALog
+import com.example.hypertrophy.programs.greyskull.GreySkullWorkoutBLog
+import com.example.hypertrophy.programs.pushpulllegs.LegWorkoutLog
+import com.example.hypertrophy.programs.pushpulllegs.PullWorkoutLog
+import com.example.hypertrophy.programs.pushpulllegs.PushWorkoutLog
+import com.example.hypertrophy.programs.startingstrength.StartingStrengthWorkoutALog
+import com.example.hypertrophy.programs.startingstrength.StartingStrengthWorkoutBLog
+import com.example.hypertrophy.programs.stronglifts.StrongLiftsWorkoutALog
+import com.example.hypertrophy.programs.stronglifts.StrongLiftsWorkoutBLog
+import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
 import com.example.hypertrophy.viewModel.ExercisesViewModel
 import com.example.hypertrophy.viewModel.ProgramViewModel
+import com.example.hypertrophy.viewModel.WeighInViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val programViewModel = ViewModelProvider(this).get(ProgramViewModel::class.java)
         val exercisesViewModel = ExercisesViewModel()
+        val weighInViewModel: WeighInViewModel by viewModels()
+
         setContent {
             HyperTrophyTheme {
 //                 A surface container using the 'background' color from the theme
@@ -35,7 +54,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SplashScreen()
+
+
+                    SplashScreen(weighInViewModel)
                 }
             }
         }
@@ -43,16 +64,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(weighInViewModel: WeighInViewModel) {
     //Create a navController here, send it through to the next screen as a parameter
     val navController = rememberNavController()
 
     //Implement a splashscreen here, then go to WelcomeScreen()
-    MainScreen(navController = navController)
+    MainScreen(navController = navController, weighInViewModel)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController, weighInViewModel: WeighInViewModel) {
     //Create NavHost to navigate between welcome and login/signup
     NavHost(
         navController = navController,
@@ -95,7 +117,7 @@ fun MainScreen(navController: NavHostController) {
         }
 
         composable(NavRoutes.WeighIn.route) {
-            WeighInScreen(navController = navController)
+            WeighInScreen(navController = navController, weighInViewModel)
         }
 
         composable(NavRoutes.CreateNewProgram.route) {
@@ -113,6 +135,43 @@ fun MainScreen(navController: NavHostController) {
         composable(NavRoutes.Browse.route) {
             Screen_BrowseAllExercise(exercisesViewModel = ExercisesViewModel())
         }
+
+        composable(ProgramNavRoutes.StartingStrengthWorkoutA.route) {
+            StartingStrengthWorkoutALog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.StartingStrengthWorkoutB.route) {
+            StartingStrengthWorkoutBLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.GreySkullWorkoutA.route) {
+            GreySkullWorkoutALog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.GreySkullWorkoutB.route) {
+            GreySkullWorkoutBLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.StrongLiftsWorkoutA.route) {
+            StrongLiftsWorkoutALog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.StrongLiftsWorkoutB.route) {
+            StrongLiftsWorkoutBLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.PushWorkout.route) {
+            PushWorkoutLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.PullWorkout.route) {
+            PullWorkoutLog(navController = navController)
+        }
+
+        composable(ProgramNavRoutes.LegWorkout.route) {
+            LegWorkoutLog(navController = navController)
+        }
+
     }
 }
 

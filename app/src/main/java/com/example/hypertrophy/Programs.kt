@@ -1,5 +1,6 @@
 package com.example.hypertrophy
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -9,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -27,6 +29,7 @@ import androidx.navigation.NavHostController
 import com.example.hypertrophy.data.ExerciseInfo
 import com.example.hypertrophy.data.Sets
 import com.example.hypertrophy.data.Template
+import com.example.hypertrophy.programs.ProgramNavRoutes
 
 @Composable
 fun SuggestedProgramsScreen(navController: NavHostController) {
@@ -35,8 +38,8 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
 
     Scaffold(
         topBar = { TopAppBar( title = {
-            IconButton(onClick = { navController.navigate(NavRoutes.Templates.route) }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Templates")
+            IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
+                Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
             Text(text = "Programs") },
 
@@ -86,6 +89,7 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
             }
 
         ) },
+        bottomBar = { BottomBarNavigation(navController = navController) },
         content = {
 
             ProgramsUI(selectedProgram = selectedProgram, navController = navController)
@@ -114,6 +118,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             Text(text = "Starting Strength")
             WorkoutCard(
                 title = "A",
+                workout = "StartingStrengthWorkoutA",
                 arrayOf(
                     Exercise("Squat", 3, 5),
                     Exercise("Bench Press", 3, 5),
@@ -141,6 +146,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "B",
+                workout = "StartingStrengthWorkoutB",
                 arrayOf(
                     Exercise("Squat", 3, 5),
                     Exercise("Overhead Press", 3, 5),
@@ -161,6 +167,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             Text(text = "GreySkull")
             WorkoutCard(
                 title = "A",
+                workout = "GreySkullWorkoutA",
                 exercises = arrayOf(
                     Exercise("Overhead Press", 3, 5),
                     Exercise("Chin up", 3, 5),
@@ -171,6 +178,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "B",
+                workout = "GreySkullWorkoutB",
                 exercises = arrayOf(
                     Exercise("Bench Press", 3, 5),
                     Exercise("Barbell Row", 3, 5),
@@ -189,6 +197,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             Text(text = "StrongLifts 5x5")
             WorkoutCard(
                 title = "A",
+                workout = "StrongLiftsWorkoutA",
                 arrayOf(
                     Exercise("Squat", 5, 5),
                     Exercise("Bench Press", 5, 5),
@@ -199,6 +208,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "B",
+                workout = "StrongLiftsWorkoutB",
                 arrayOf(
                     Exercise("Squat", 5, 5),
                     Exercise("Overhead Press", 5, 5),
@@ -219,6 +229,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             Text(text = "Push Pull Legs")
             WorkoutCard(
                 title = "Push",
+                workout = "PushWorkout",
                 arrayOf(
                     Exercise("Overhead Press", 3, 12),
                     Exercise("Bench Press", 3, 8),
@@ -229,6 +240,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "Pull",
+                workout = "PullWorkout",
                 arrayOf(
                     Exercise("Deadlift", 1, 5),
                     Exercise("Chin up", 5, 10),
@@ -239,6 +251,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
             WorkoutCard(
                 title = "Legs",
+                workout = "LegWorkout",
                 arrayOf(
                     Exercise("Squat", 3, 8),
                     Exercise("Leg Press", 3, 10),
@@ -255,14 +268,19 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
 
 @Composable
 fun WorkoutCard(
-    title: String, 
+    title: String,
+    workout: String,
     exercises: Array<Exercise>,
     navController: NavHostController
 ) {
+
+    var isOpen by rememberSaveable{ mutableStateOf(false) }
+
     Card(
         Modifier
             .padding(20.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = { isOpen = !isOpen }),
         elevation = 15.dp,
         shape = RoundedCornerShape(10.dp),
 
@@ -273,15 +291,14 @@ fun WorkoutCard(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            var isOpen by rememberSaveable{ mutableStateOf(false) }
-
-            ClickableText(
+            Text(text = title, style = MaterialTheme.typography.h6)
+            /*ClickableText(
                 text = AnnotatedString(title),
                 style = MaterialTheme.typography.h6,
                 onClick = {
                     isOpen = !isOpen
                 }
-            )
+            )*/
 
             Column(
                 horizontalAlignment = Alignment.Start
@@ -290,14 +307,21 @@ fun WorkoutCard(
                     exercises.forEach {
                         Text(text = it.exercise + ": " + it.sets + " sets of " + it.reps + " reps")
                     }
-                    
+                    var startWorkout by rememberSaveable { mutableStateOf(false)}
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        Button(onClick = { navController.navigate(NavRoutes.Log.route) }) {
+                        Button(onClick = { startWorkout = true }) {
                             Text(text = "Start")
                         }
+                    }
+                    if(startWorkout) {
+                        StartWorkout(
+                            navController = navController,
+                            workout = workout,
+                            //exercises = exercisesu
+                        )
                     }
                 }
             }
@@ -305,6 +329,41 @@ fun WorkoutCard(
     }
 }
 
+@Composable
+fun StartWorkout(
+    navController: NavHostController,
+    workout: String,
+    //exercises: Array<Exercise>
+) {
+    if(workout == "StartingStrengthWorkoutA") {
+        navController.navigate(ProgramNavRoutes.StartingStrengthWorkoutA.route)
+    }
+    if(workout == "StartingStrengthWorkoutB") {
+        navController.navigate(ProgramNavRoutes.StartingStrengthWorkoutB.route)
+    }
+    if(workout == "GreySkullWorkoutA") {
+        navController.navigate(ProgramNavRoutes.GreySkullWorkoutA.route)
+    }
+    if(workout == "GreySkullWorkoutB") {
+        navController.navigate(ProgramNavRoutes.GreySkullWorkoutB.route)
+    }
+    if(workout == "StrongLiftsWorkoutA") {
+        navController.navigate(ProgramNavRoutes.StrongLiftsWorkoutA.route)
+    }
+    if(workout == "StrongLiftsWorkoutB") {
+        navController.navigate(ProgramNavRoutes.StrongLiftsWorkoutB.route)
+    }
+    if(workout == "PushWorkout") {
+        navController.navigate(ProgramNavRoutes.PushWorkout.route)
+    }
+    if(workout == "PullWorkout") {
+        navController.navigate(ProgramNavRoutes.PullWorkout.route)
+    }
+    if(workout == "LegWorkout") {
+        navController.navigate(ProgramNavRoutes.LegWorkout.route)
+    }
+
+}
 
 @Composable
 fun FloatingActionButtonComponent(navController: NavHostController) {
@@ -313,7 +372,8 @@ fun FloatingActionButtonComponent(navController: NavHostController) {
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(10.dp), verticalArrangement = Arrangement.Bottom,
+        .padding(bottom = 70.dp, end = 10.dp), verticalArrangement = Arrangement.Bottom,
+        //.padding(10.dp), verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.End) {
 
 
