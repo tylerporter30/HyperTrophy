@@ -35,8 +35,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    testHistory(programViewModel = programViewModel)
-                    //SplashScreen()
+                    SplashScreen()
                 }
             }
         }
