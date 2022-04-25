@@ -22,6 +22,7 @@ fun SettingsScreen(navController: NavHostController) {
         },
         content = { SettingsUI() }
     )
+    EquipmentMatcherScreen(navController = navController)
 }
 
 @Composable
