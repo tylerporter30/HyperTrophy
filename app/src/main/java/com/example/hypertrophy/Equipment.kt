@@ -1,15 +1,15 @@
 package com.example.hypertrophy
 
-import android.content.Intent
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -127,56 +127,10 @@ fun EquipmentCheckbox() {
     EquipmentButton()
 }
 
-
-
-
-//    Column(
-//        modifier = Modifier
-//
-//            .fillMaxWidth()
-//            .padding(top = 50.dp)
-//            .size(525.dp)
-//            .verticalScroll(rememberScrollState())
-//    )
-//
-//    {
-//
-//        equipmentList.forEach { items ->
-//
-//            var isChecked = remember { mutableStateOf(false) }
-//
-//
-//            Row(
-//                Modifier
-//                    .toggleable(
-//                        value = isChecked.value,
-//                        role = Role.Checkbox,
-//                        onValueChange = { isChecked.value = it }
-//                    )
-//                    .padding(top = 25.dp, start = 35.dp, end = 35.dp)
-//                    .border(1.dp, color = Color.Black)
-//                    .height(60.dp)
-//                    .fillMaxWidth()
-//                    .padding(horizontal = 50.dp),
-//                verticalAlignment = Alignment.CenterVertically,
-//            ) {
-//
-//
-//                Checkbox(checked = isChecked.value, onCheckedChange = null)
-//
-//                Text(modifier = Modifier.padding(start = 10.dp), text = items, fontSize = 18.sp)
-//            }
-//        }
-//    }
-//    EquipmentButton()
-//}
-
-
 @Composable
 fun EquipmentButton() {
 
     var context = LocalContext.current
-
 
     Button(
         shape = RoundedCornerShape(10.dp),
