@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavHostController
@@ -24,7 +25,7 @@ import androidx.navigation.NavHostController
 @Composable
 fun LoginScreen(navController: NavHostController) {
     Scaffold(
-        topBar = { TopAppBar( title = { Text(text = "Login") } ) },
+        topBar = { TopAppBar( title = { Text(text = stringResource(R.string.login)) } ) },
         content = { LoginContent(navController = navController) }
     )
 }
@@ -44,7 +45,7 @@ fun LoginContent(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = "Login")
+            Text(text = stringResource(R.string.login))
 
             val focusManager = LocalFocusManager.current
 
@@ -59,7 +60,7 @@ fun LoginContent(navController: NavHostController) {
                     UsernameInput = text
                 },
                 label = {
-                    Text(text = "Username")
+                    Text(text = stringResource(R.string.username))
                 },
                 singleLine = true,
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -73,7 +74,7 @@ fun LoginContent(navController: NavHostController) {
                     PasswordInput = text
                 },
                 label = {
-                    Text(text = "Password")
+                    Text(text = stringResource(R.string.password))
                 },
                 singleLine = true,
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -106,7 +107,7 @@ fun LoginContent(navController: NavHostController) {
                 onClick = { navController.navigate(NavRoutes.Home.route) },
                 //enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank() //This is only commented out for development purposes.
             ) {
-                Text(text = "Login")
+                Text(text = stringResource(R.string.login))
             }
         }
     }

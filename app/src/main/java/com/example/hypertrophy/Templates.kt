@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.hypertrophy.data.Template
 
@@ -24,7 +25,7 @@ fun ListOfWorkoutTemplatesScreen(navController: NavHostController) {
                 IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
                     Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
                 }
-                Text(text = "Templates")
+                Text(text = stringResource(R.string.templates))
             },
             actions = {
                 var showMenu by rememberSaveable{ mutableStateOf(false) }
@@ -37,13 +38,13 @@ fun ListOfWorkoutTemplatesScreen(navController: NavHostController) {
                     DropdownMenuItem(onClick = {
                         navController.navigate(NavRoutes.Programs.route)
                     }) {
-                        Text(text = "Programs")
+                        Text(text = stringResource(R.string.programs))
                     }
 
                     DropdownMenuItem(onClick = {
                         navController.navigate(NavRoutes.Equipment.route)
                     }) {
-                        Text(text = "Equipment")
+                        Text(text = stringResource(R.string.equipment))
                     }
 
 

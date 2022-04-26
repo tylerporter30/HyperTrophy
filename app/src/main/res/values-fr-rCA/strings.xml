@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Connecter</string>
+    <string name="sign_up">Inscrire</string>
+    <string name="weigh_in">Peser Dedans</string>
+    <string name="weight">Poids</string>
+    <string name="diet">Régime</string>
+    <string name="measure">Mesurer</string>
+    <string name="body_fat_percent">Graisse Corporelle %</string>
+    <string name="body_fat_percentage">Pourcentage de Graisse Corporelle</string>
+    <string name="date_current">Date actuelle sélectionnée</string>
+    <string name="date_tap_change">Appuyez pour changer la date</string>
+    <string name="current_weight">Poids Actuel</string>
+    <string name="save">Enregistrer</string>
+    <string name="calories">Calories</string>
+    <string name="add">Ajouter</string>
+    <string name="shoulder">Épaule</string>
+    <string name="upper_arm">Bras Supérieur</string>
+    <string name="left">gauche</string>
+    <string name="right">droit</string>
+    <string name="forearm">Avant-Bras</string>
+    <string name="chest">Poitrine</string>
+    <string name="waist">Taille</string>
+    <string name="thigh">Cuisse</string>
+    <string name="calves">Mollets</string>
+    <string name="templates">Modèle</string>
+    <string name="programs">Programme</string>
+    <string name="equipment">Équipement</string>
+    <string name="username">Utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="settings">Réglages</string>
+    <string name="log">Journal</string>
+    <string name="reps">Répétitions</string>
+    <string name="set">Set</string>
+    <string name="add_set">Ajouter Set</string>
+    <string name="finish_workout">Terminer L\'Entraînement</string>
+    <string name="skip_set">Passer Set</string>
+    <string name="done">Finir</string>
+</resources>

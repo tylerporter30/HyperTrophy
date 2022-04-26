@@ -11,7 +11,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,7 +29,7 @@ fun LogScreen(navController: NavHostController, viewModel: LogViewModel = viewMo
             /*IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }*/
-            Text(text = "Log") }) },
+            Text(text = stringResource(R.string.log)) }) },
         //bottomBar = { BottomBarNavigation(navController = navController) },
         content = {
             Box(Modifier.padding(it)) {
@@ -47,9 +49,6 @@ fun LogScreenUI(viewModel: LogViewModel) {
 //    var pickerWeightsDec by remember { mutableStateOf(0) }
 //    var setNumberInt by remember { mutableStateOf(1) }
     var isNumberPickerEnabled by remember { mutableStateOf(false) }
-
-//    val exerciseName = "EXERCISE NAME"
-    val setNumberString = "SET"
 
     val exerciseName by viewModel.exerciseNameLive.observeAsState("EXERCISE NAME")
     val setNumberInt by viewModel.setsLive.observeAsState(1)
@@ -81,7 +80,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
                     style = MaterialTheme.typography.h4
                 )
                 Text(
-                    text = "$setNumberString $setNumberInt",
+                    text = "${ stringResource(R.string.set).uppercase() } $setNumberInt",
                     modifier = Modifier.padding(bottom = 8.dp),
                     style = MaterialTheme.typography.h6
                 )
@@ -99,7 +98,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Target reps, editable
-                Text("Reps")
+                Text(stringResource(R.string.reps))
                 NumberPicker(
                     value = pickerReps,
                     onValueChange = {
@@ -116,7 +115,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Target weight, editable
-                Text("Weight")
+                Text(stringResource(id = R.string.weight))
                 NumberPicker(
                     value = pickerWeightsInt,
                     onValueChange = {
@@ -152,7 +151,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
                 },
                 contentPadding = PaddingValues(16.dp)
             ) {
-                Text("Add Set")
+                Text(stringResource(R.string.add_set))
             }
             // Option to skip set (mark as incomplete)
             Button(
@@ -161,7 +160,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
                 },
                 contentPadding = PaddingValues(16.dp)
             ) {
-                Text("Skip Set")
+                Text(stringResource(R.string.skip_set))
             }
         }
 
@@ -182,7 +181,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
 //                colors = /*TODO*/,
                 contentPadding = PaddingValues(8.dp)
             ) {
-                Text("DONE")
+                Text(stringResource(R.string.done).uppercase())
             }
         }
 
@@ -193,7 +192,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
             horizontalArrangement = Arrangement.End
         ) {
             Button(onClick = { /*TODO*/ }) {
-                Text(text = "Finish Workout")
+                Text(text = stringResource(R.string.finish_workout))
             }
         }
     }

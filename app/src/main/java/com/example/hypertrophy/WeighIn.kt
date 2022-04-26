@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -38,7 +39,7 @@ fun WeighInScreen(
             IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
                 Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
             }
-            Text(text = "Weigh In") }) },
+            Text(text = stringResource(id = R.string.weigh_in)) }) },
         content = {
             Box(Modifier.padding(it)) {
                 WeighInScreenUI(viewModel)
@@ -55,7 +56,12 @@ fun WeighInScreenUI(viewModel: WeighInViewModel) {
     val body1 = MaterialTheme.typography.body1
     var textStyle by remember { mutableStateOf(body1) }
     var readyToDraw by remember { mutableStateOf(false) }
-    val titles = listOf("Weight", "Diet", "Measure", "Body Fat %")
+    val titles = listOf(
+        stringResource(id = R.string.weight),
+        stringResource(id = R.string.diet),
+        stringResource(id = R.string.measure),
+        stringResource(id = R.string.body_fat_percent)
+    )
 //    val pagerState = rememberPagerState()
 
     Column(
@@ -134,7 +140,8 @@ fun DateSelection(viewModel: WeighInViewModel) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Current date selected: $dateSelected\nTap to change date",
+            text = "${ stringResource(id = R.string.date_current) }: $dateSelected\n" +
+                    stringResource(id = R.string.date_tap_change),
             modifier = Modifier
                 .clickable { datePicker.show() }
                 .padding(8.dp)
@@ -155,7 +162,7 @@ fun WeighInWeight(viewModel: WeighInViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Current Weight",
+            text = stringResource(id = R.string.current_weight),
             modifier = Modifier.padding(vertical = 16.dp),
             style = MaterialTheme.typography.h4
         )
@@ -186,7 +193,10 @@ fun WeighInWeight(viewModel: WeighInViewModel) {
             enabled = viewModel.enableSaveWeightButton(),
             contentPadding = PaddingValues(8.dp)
         ) {
-            Text(text = "Save", style = MaterialTheme.typography.button)
+            Text(
+                text = stringResource(id = R.string.save),
+                style = MaterialTheme.typography.button
+            )
         }
     }
 }
@@ -201,7 +211,7 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Calories: ${ calorieCount.toInt() }",
+            text = "${ stringResource(id = R.string.calories) }: ${ calorieCount.toInt() }",
             modifier = Modifier.padding(top = 16.dp),
             style = MaterialTheme.typography.h4
         )
@@ -217,7 +227,7 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
             TextField(
                 value = calorieNew,
                 onValueChange = { viewModel.updateCalorieNow(it) },
-                label = { Text("Add") },
+                label = { Text(stringResource(id = R.string.add)) },
                 trailingIcon = {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -245,7 +255,10 @@ fun WeighInDiet(viewModel: WeighInViewModel) {
             enabled = viewModel.enableSaveDietButton(),
             contentPadding = PaddingValues(8.dp)
         ) {
-            Text(text = "Save", style = MaterialTheme.typography.button)
+            Text(
+                text = stringResource(id = R.string.save),
+                style = MaterialTheme.typography.button
+            )
         }
     }
 }
@@ -282,7 +295,7 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Shoulder",
+                text = stringResource(id = R.string.shoulder),
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
@@ -301,7 +314,7 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Upper Arm",
+                text = stringResource(R.string.upper_arm),
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
@@ -309,13 +322,13 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 value = upperArmLeft,
                 onValueChange = { viewModel.updateUpperArmLeft(it) },
                 regex = numberRegex,
-                label = "left"
+                label = stringResource(R.string.left)
             )
             MeasurementField(
                 value = upperArmRight,
                 onValueChange = { viewModel.updateUpperArmRight(it) },
                 regex = numberRegex,
-                label = "right"
+                label = stringResource(R.string.right)
             )
         }
         Row(
@@ -326,7 +339,7 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Forearm",
+                text = stringResource(R.string.forearm),
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
@@ -334,13 +347,13 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 value = forearmLeft,
                 onValueChange = { viewModel.updateForearmLeft(it) },
                 regex = numberRegex,
-                label = "left"
+                label = stringResource(R.string.left)
             )
             MeasurementField(
                 value = forearmRight,
                 onValueChange = { viewModel.updateForearmRight(it) },
                 regex = numberRegex,
-                label = "right"
+                label = stringResource(R.string.right)
             )
         }
         Row(
@@ -351,7 +364,7 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Chest",
+                text = stringResource(R.string.chest),
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
@@ -370,7 +383,7 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Waist",
+                text = stringResource(R.string.waist),
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
@@ -389,7 +402,7 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Thigh",
+                text = stringResource(R.string.thigh),
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
@@ -397,13 +410,13 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 value = thighLeft,
                 onValueChange = { viewModel.updateThighLeft(it) },
                 regex = numberRegex,
-                label = "left"
+                label = stringResource(R.string.left)
             )
             MeasurementField(
                 value = thighRight,
                 onValueChange = { viewModel.updateThighRight(it) },
                 regex = numberRegex,
-                label = "right"
+                label = stringResource(R.string.right)
             )
         }
         Row(
@@ -414,7 +427,7 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Calves",
+                text = stringResource(R.string.calves),
                 modifier = Modifier.fillMaxWidth(0.33f),
                 textAlign = TextAlign.Left
             )
@@ -422,14 +435,14 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 value = calfLeft,
                 onValueChange = { viewModel.updateCalfLeft(it) },
                 regex = numberRegex,
-                label = "left"
+                label = stringResource(R.string.left)
             )
             MeasurementField(
                 value = calfRight,
                 onValueChange = { viewModel.updateCalfRight(it) },
                 regex = numberRegex,
                 imeAction = ImeAction.Done,
-                label = "right"
+                label = stringResource(R.string.right)
             )
         }
         DateSelection(viewModel)
@@ -443,7 +456,10 @@ fun WeighInMeasurements(viewModel: WeighInViewModel) {
                 enabled = viewModel.enableSaveMeasurementsButton(),
                 contentPadding = PaddingValues(8.dp)
             ) {
-                Text(text = "Save", style = MaterialTheme.typography.button)
+                Text(
+                    text = stringResource(R.string.save),
+                    style = MaterialTheme.typography.button
+                )
             }
         }
         Spacer(Modifier.height(128.dp))
@@ -488,7 +504,7 @@ fun WeighInBodyFat(viewModel: WeighInViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Body Fat Percentage",
+            text = stringResource(R.string.body_fat_percentage),
             modifier = Modifier.padding(top = 16.dp),
             style = MaterialTheme.typography.h4
         )
@@ -518,7 +534,10 @@ fun WeighInBodyFat(viewModel: WeighInViewModel) {
             enabled = viewModel.enableSaveBodyFatButton(),
             contentPadding = PaddingValues(8.dp)
         ) {
-            Text(text = "Save", style = MaterialTheme.typography.button)
+            Text(
+                text = stringResource(R.string.save),
+                style = MaterialTheme.typography.button
+            )
         }
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hypertrophy.NavRoutes
@@ -18,7 +19,7 @@ import com.example.hypertrophy.R
 @Composable
 fun WelcomeScreen(navController: NavHostController) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text(text = "HyperTrophy")} ) },
+        topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name))} ) },
         content = { WelcomeContent(navController) },
         bottomBar = {  }
     )
@@ -39,7 +40,7 @@ fun WelcomeContent(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = "HyperTrophy")
+            Text(text = stringResource(id = R.string.app_name))
 //            Icon(painter = painterResource(id = R.drawable.fitness), contentDescription = "")
             Image(
                 painter = painterResource(id = R.drawable.htimage),
@@ -52,11 +53,11 @@ fun WelcomeContent(navController: NavHostController) {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(onClick = { navController.navigate(NavRoutes.Login.route) }) {
-                    Text(text = "Login")
+                    Text(text = stringResource(id = R.string.login))
                 }
 
                 Button(onClick = { navController.navigate(NavRoutes.SignUp.route) }) {
-                    Text(text = "Sign Up")
+                    Text(text = stringResource(id = R.string.sign_up))
                 }
 
             }

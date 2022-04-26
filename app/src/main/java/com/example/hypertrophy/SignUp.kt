@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavHostController
@@ -27,7 +28,7 @@ import androidx.navigation.NavHostController
 @Composable
 fun SignUpScreen(navController: NavHostController) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text(text = "Sign Up") }) },
+        topBar = { TopAppBar(title = { Text(text = stringResource(R.string.sign_up)) }) },
         content = { SignUpContent(navController = navController) }
     )
 }
@@ -47,7 +48,7 @@ fun SignUpContent(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = "Sign Up")
+            Text(text = stringResource(R.string.sign_up))
 
             val focusManager = LocalFocusManager.current
 
@@ -62,7 +63,7 @@ fun SignUpContent(navController: NavHostController) {
                     UsernameInput = text
                 },
                 label = {
-                    Text(text = "Username")
+                    Text(text = stringResource(R.string.username))
                 },
                 singleLine = true,
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -76,7 +77,7 @@ fun SignUpContent(navController: NavHostController) {
                     PasswordInput = text
                 },
                 label = {
-                    Text(text = "Password")
+                    Text(text = stringResource(R.string.password))
                 },
                 singleLine = true,
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -109,7 +110,7 @@ fun SignUpContent(navController: NavHostController) {
                 onClick = { navController.navigate(NavRoutes.Login.route) },
                 enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank()
             ) {
-                Text(text = "Sign Up")
+                Text(text = stringResource(R.string.sign_up))
             }
         }
     }
