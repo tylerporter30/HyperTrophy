@@ -480,7 +480,7 @@ fun MeasurementField(
 
 @Composable
 fun WeighInBodyFat(viewModel: WeighInViewModel) {
-    val pickerPercentInt by viewModel.bodyFatPickerIntLive.observeAsState(0)
+    val pickerPercentInt by viewModel.bodyFatPickerIntLive.observeAsState(20)
     val pickerPercentDec by viewModel.bodyFatPickerDecLive.observeAsState(0)
 
     Column(

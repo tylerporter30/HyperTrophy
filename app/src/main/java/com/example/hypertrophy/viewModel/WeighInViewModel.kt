@@ -36,7 +36,7 @@ class WeighInViewModel @Inject constructor(private val repository: WeighInReposi
         get() = weightPickerDec
 
     private val weightPickerInt = MutableLiveData<Int>()
-    private var weightInt: Int = 100
+    private var weightInt: Int = 0
     private val weightPickerDec = MutableLiveData<Int>()
     private var weightDec: Int = 0
 
