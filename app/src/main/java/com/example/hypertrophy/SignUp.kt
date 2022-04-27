@@ -1,22 +1,21 @@
 package com.example.hypertrophy
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -24,17 +23,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.navigation.NavHostController
+import com.example.hypertrophy.viewModel.User
+import com.example.hypertrophy.viewModel.UserViewModel
 
 @Composable
-fun SignUpScreen(navController: NavHostController) {
+fun SignUpScreen(
+    navController: NavHostController,
+    userViewModel: UserViewModel
+) {
     Scaffold(
         topBar = { TopAppBar(title = { Text(text = stringResource(R.string.sign_up)) }) },
-        content = { SignUpContent(navController = navController) }
+        content = { SignUpContent(
+            navController = navController,
+            userViewModel = userViewModel
+        ) }
     )
 }
 
 @Composable
-fun SignUpContent(navController: NavHostController) {
+fun SignUpContent(
+    navController: NavHostController,
+    userViewModel: UserViewModel
+) {
+    val searchResults by userViewModel.searchResults.observeAsState(listOf())
+
     Box(Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.htbackground),
@@ -44,24 +56,26 @@ fun SignUpContent(navController: NavHostController) {
             alpha = 0.3f
         )
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(0.6f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = stringResource(R.string.sign_up))
+            //Text(text = stringResource(R.string.sign_up))
 
             val focusManager = LocalFocusManager.current
 
-            var UsernameInput by rememberSaveable { mutableStateOf("") }
+            var UsernameInput by remember { mutableStateOf("") }
             var PasswordInput by rememberSaveable { mutableStateOf("") }
+
+            val onUsernameChange = { text: String ->
+                UsernameInput = text
+            }
 
             var showPassword by rememberSaveable { mutableStateOf(false) }
 
             OutlinedTextField(
                 value = UsernameInput,
-                onValueChange = { text: String ->
-                    UsernameInput = text
-                },
+                onValueChange = onUsernameChange,
                 label = {
                     Text(text = stringResource(R.string.username))
                 },
@@ -107,11 +121,15 @@ fun SignUpContent(navController: NavHostController) {
             )
 
             Button(
-                onClick = { navController.navigate(NavRoutes.Login.route) },
+                onClick = {
+                    userViewModel.addUser(user = User(username = UsernameInput, password = PasswordInput))
+                    navController.navigate(NavRoutes.Login.route)
+                          },
                 enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank()
             ) {
                 Text(text = stringResource(R.string.sign_up))
             }
+
         }
     }
 }

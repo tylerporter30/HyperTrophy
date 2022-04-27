@@ -1,5 +1,6 @@
 package com.example.hypertrophy
 
+import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -33,9 +36,7 @@ import com.example.hypertrophy.programs.stronglifts.StrongLiftsWorkoutBLog
 import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.ui.theme.WelcomeScreen
-import com.example.hypertrophy.viewModel.ExercisesViewModel
-import com.example.hypertrophy.viewModel.ProgramViewModel
-import com.example.hypertrophy.viewModel.WeighInViewModel
+import com.example.hypertrophy.viewModel.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -64,32 +65,56 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SplashScreen(weighInViewModel: WeighInViewModel) {
+fun SplashScreen(
+    weighInViewModel: WeighInViewModel,
+    userViewModel: UserViewModel = UserViewModel(LocalContext.current.applicationContext as Application)
+) {
+    //This will hold the list of users registered on this device
+    val searchResults by userViewModel.searchResults.observeAsState(listOf())
+
     //Create a navController here, send it through to the next screen as a parameter
     val navController = rememberNavController()
 
     //Implement a splashscreen here, then go to WelcomeScreen()
-    MainScreen(navController = navController, weighInViewModel)
+    MainScreen(
+        navController = navController,
+        weighInViewModel,
+        searchResults = searchResults,
+        userViewModel = userViewModel
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(navController: NavHostController, weighInViewModel: WeighInViewModel) {
+fun MainScreen(
+    navController: NavHostController,
+    weighInViewModel: WeighInViewModel,
+    searchResults: List<User>,
+    userViewModel: UserViewModel
+) {
     //Create NavHost to navigate between welcome and login/signup
     NavHost(
         navController = navController,
         startDestination = NavRoutes.Welcome.route
     ) {
         composable(NavRoutes.Welcome.route) {
-            WelcomeScreen(navController = navController)
+            WelcomeScreen(
+                navController = navController
+            )
         }
 
         composable(NavRoutes.Login.route) {
-            LoginScreen(navController = navController)
+            LoginScreen(
+                navController = navController,
+                userViewModel = userViewModel
+            )
         }
 
         composable(NavRoutes.SignUp.route) {
-            SignUpScreen(navController = navController)
+            SignUpScreen(
+                navController = navController,
+                userViewModel = userViewModel
+            )
         }
 
         composable(NavRoutes.Home.route) {

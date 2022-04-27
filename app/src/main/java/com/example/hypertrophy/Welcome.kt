@@ -1,32 +1,45 @@
 package com.example.hypertrophy.ui.theme
 
+import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hypertrophy.NavRoutes
 import com.example.hypertrophy.R
+import com.example.hypertrophy.viewModel.User
+import com.example.hypertrophy.viewModel.UserViewModel
 
 @Composable
-fun WelcomeScreen(navController: NavHostController) {
+fun WelcomeScreen(
+    navController: NavHostController
+) {
+
     Scaffold(
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name))} ) },
-        content = { WelcomeContent(navController) },
+        content = { WelcomeContent(
+            navController
+        ) },
         bottomBar = {  }
     )
 }
 
 @Composable
-fun WelcomeContent(navController: NavHostController) {
+fun WelcomeContent(
+    navController: NavHostController
+) {
+
     Box(Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.htbackground),
@@ -40,7 +53,7 @@ fun WelcomeContent(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(text = stringResource(id = R.string.app_name), style = MaterialTheme.typography.h3)
 //            Icon(painter = painterResource(id = R.drawable.fitness), contentDescription = "")
             Image(
                 painter = painterResource(id = R.drawable.htimage),
