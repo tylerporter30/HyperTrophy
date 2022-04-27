@@ -5,6 +5,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
@@ -189,7 +190,8 @@ fun graphCard(exerciseSelected: String) {
         Text(
             text = exerciseSelected,
             modifier = Modifier
-                .padding(20.dp)
+                .padding(20.dp),
+            style = MaterialTheme.typography.h4
         )
         Card(
             modifier = Modifier
@@ -199,12 +201,12 @@ fun graphCard(exerciseSelected: String) {
             shape = RoundedCornerShape(10.dp),
             elevation = 15.dp
         ) {
-            Box() {
+            Box(Modifier.background(colors.primary.copy(.7f))) {
                 Canvas(
                     modifier = Modifier
                         .padding(30.dp)
                         .fillMaxSize()
-                        .background(color = Color.LightGray)
+                        .background(color = Color.White)
                 ) {
                     val canvasWidth = size.width
                     val canvasHeight = size.height
@@ -246,9 +248,9 @@ fun graphCard(exerciseSelected: String) {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "225")
-                    Text(text = "180")
-                    Text(text = "135")
+                    Text(text = "225",color = colors.surface)
+                    Text(text = "180",color = colors.surface)
+                    Text(text = "135",color = colors.surface)
                 }
 
                 Row(
@@ -258,11 +260,11 @@ fun graphCard(exerciseSelected: String) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    Text(text = "4/1")
-                    Text(text = "4/3")
-                    Text(text = "4/5")
-                    Text(text = "4/7")
-                    Text(text = "4/9")
+                    Text(text = "4/1",color = colors.surface)
+                    Text(text = "4/3",color = colors.surface)
+                    Text(text = "4/5",color = colors.surface)
+                    Text(text = "4/7",color = colors.surface)
+                    Text(text = "4/9",color = colors.surface)
                 }
             }
         }
@@ -280,7 +282,8 @@ fun graphCardBodyWeight(bodyWeightSelected: String) {
         Text(
             text = bodyWeightSelected,
             modifier = Modifier
-                .padding(20.dp)
+                .padding(20.dp),
+            style = MaterialTheme.typography.h4
         )
         Card(
             modifier = Modifier
@@ -290,12 +293,12 @@ fun graphCardBodyWeight(bodyWeightSelected: String) {
             shape = RoundedCornerShape(10.dp),
             elevation = 15.dp
         ) {
-            Box() {
+            Box(Modifier.background(colors.primary.copy(.7f))) {
                 Canvas(
                     modifier = Modifier
                         .padding(30.dp)
                         .fillMaxSize()
-                        .background(color = Color.LightGray)
+                        .background(color = Color.White)
                 ) {
                     val canvasWidth = size.width
                     val canvasHeight = size.height
@@ -336,12 +339,12 @@ fun graphCardBodyWeight(bodyWeightSelected: String) {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "240")
-                    Text(text = "230")
-                    Text(text = "220")
-                    Text(text = "210")
-                    Text(text = "200")
-                    Text(text = "190")
+                    Text(text = "240",color = colors.surface)
+                    Text(text = "230",color = colors.surface)
+                    Text(text = "220",color = colors.surface)
+                    Text(text = "210",color = colors.surface)
+                    Text(text = "200",color = colors.surface)
+                    Text(text = "190",color = colors.surface)
                 }
 
                 Row(
@@ -351,13 +354,13 @@ fun graphCardBodyWeight(bodyWeightSelected: String) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    Text(text = "2/1")
-                    Text(text = "2/15")
-                    Text(text = "3/1")
-                    Text(text = "3/15")
-                    Text(text = "3/29")
-                    Text(text = "4/12")
-                    Text(text = "4/16")
+                    Text(text = "2/1",color = colors.surface)
+                    Text(text = "2/15",color = colors.surface)
+                    Text(text = "3/1",color = colors.surface)
+                    Text(text = "3/15",color = colors.surface)
+                    Text(text = "3/29",color = colors.surface)
+                    Text(text = "4/12",color = colors.surface)
+                    Text(text = "4/16",color = colors.surface)
                 }
             }
         }
@@ -375,7 +378,8 @@ fun graphCardBodyFat(bodyFatSelected: String) {
         Text(
             text = bodyFatSelected,
             modifier = Modifier
-                .padding(20.dp)
+                .padding(20.dp),
+            style = MaterialTheme.typography.h4
         )
         Card(
             modifier = Modifier
@@ -385,12 +389,12 @@ fun graphCardBodyFat(bodyFatSelected: String) {
             shape = RoundedCornerShape(10.dp),
             elevation = 15.dp
         ) {
-            Box() {
+            Box(Modifier.background(colors.primary.copy(.7f))) {
                 Canvas(
                     modifier = Modifier
                         .padding(30.dp)
                         .fillMaxSize()
-                        .background(color = Color.LightGray)
+                        .background(color = Color.White)
                 ) {
                     val canvasWidth = size.width
                     val canvasHeight = size.height
@@ -431,11 +435,11 @@ fun graphCardBodyFat(bodyFatSelected: String) {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "30%")
-                    Text(text = "25%")
-                    Text(text = "20%")
-                    Text(text = "15%")
-                    Text(text = "10%")
+                    Text(text = "30%",color = colors.surface)
+                    Text(text = "25%",color = colors.surface)
+                    Text(text = "20%",color = colors.surface)
+                    Text(text = "15%",color = colors.surface)
+                    Text(text = "10%",color = colors.surface)
                 }
 
                 Row(
@@ -445,13 +449,13 @@ fun graphCardBodyFat(bodyFatSelected: String) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom
                 ) {
-                    Text(text = "2/1")
-                    Text(text = "2/15")
-                    Text(text = "3/1")
-                    Text(text = "3/15")
-                    Text(text = "3/29")
-                    Text(text = "4/12")
-                    Text(text = "4/16")
+                    Text(text = "2/1",color = colors.surface)
+                    Text(text = "2/15",color = colors.surface)
+                    Text(text = "3/1",color = colors.surface)
+                    Text(text = "3/15",color = colors.surface)
+                    Text(text = "3/29",color = colors.surface)
+                    Text(text = "4/12",color = colors.surface)
+                    Text(text = "4/16",color = colors.surface)
                 }
             }
         }
