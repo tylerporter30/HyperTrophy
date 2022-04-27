@@ -1,5 +1,6 @@
 package com.example.hypertrophy
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,11 +16,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.hypertrophy.viewModel.User
 import com.example.hypertrophy.viewModel.UserViewModel
@@ -45,6 +48,8 @@ fun LoginContent(
 ) {
     val searchResults by userViewModel.searchResults.observeAsState(listOf())
 
+    val allUsers by userViewModel.allUsers.observeAsState(listOf())
+
     Box(Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.htbackground),
@@ -54,18 +59,23 @@ fun LoginContent(
             alpha = 0.3f
         )
         Column(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(0.6f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.6f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             //Text(text = stringResource(R.string.login))
 
+            val context = LocalContext.current
             val focusManager = LocalFocusManager.current
 
             var UsernameInput by rememberSaveable { mutableStateOf("") }
             var PasswordInput by rememberSaveable { mutableStateOf("") }
 
             var showPassword by rememberSaveable { mutableStateOf(false) }
+
+            var loginCorrect by rememberSaveable { mutableStateOf(false)}
 
             OutlinedTextField(
                 value = UsernameInput,
@@ -116,15 +126,40 @@ fun LoginContent(
                 keyboardOptions = KeyboardOptions.Default
             )
 
+            allUsers.forEach() {
+                if(it.username.equals(UsernameInput)) {
+                    //Text(text = "Correct Username")
+                    loginCorrect = it.password.equals(PasswordInput)
+                } else {
+                    loginCorrect = false
+                }
+                
+            }
+
             Button(
                 onClick = {
-                    navController.navigate(NavRoutes.Home.route)
+                    if(loginCorrect) {
+                        navController.navigate(NavRoutes.Home.route)
+                    } else {
+                        Toast.makeText(context, "Incorrect Username or Password", Toast.LENGTH_LONG).show()
+                    }
                     focusManager.clearFocus()
                           },
                 enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank() //This is only commented out for development purposes.
             ) {
                 Text(text = stringResource(R.string.login))
             }
+
+            /*Text(text = allUsers.size.toString())
+
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(allUsers) {
+                    Row() {
+                        Text(text = it.username)
+                    }
+                }
+            }*/
+
         }
     }
 }

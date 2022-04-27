@@ -3,9 +3,6 @@ package com.example.hypertrophy.viewModel
 import android.app.Application
 import android.content.Context
 import androidx.annotation.NonNull
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
@@ -13,6 +10,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.internal.synchronized
 
 class UserViewModel(application: Application) {
+
+    val allUsers: LiveData<List<User>>
 
     private val repository: UserRepository
     val searchResults: MutableLiveData<List<User>>
@@ -22,6 +21,7 @@ class UserViewModel(application: Application) {
         val userDao = userDb.userDao()
         repository = UserRepository(userDao = userDao)
 
+        allUsers = repository.allUsers
         searchResults = repository.searchResults
     }
 
@@ -41,10 +41,12 @@ class User {
     var id: Int = 0
 
     @ColumnInfo(name = "username")
-    var username: String? = null
+    var username: String = ""
 
     @ColumnInfo(name = "password")
-    var password: String? = null
+    var password: String = ""
+
+    constructor() {}
 
     constructor(username: String, password: String) {
         this.username = username
@@ -59,10 +61,14 @@ interface UserDao {
 
     @Insert
     fun addUser(user: User)
+
+    @Query("SELECT * FROM users")
+    fun getAllUsers(): LiveData<List<User>>
 }
 
 class UserRepository(private val userDao: UserDao) {
 
+    val allUsers: LiveData<List<User>> = userDao.getAllUsers()
     val searchResults = MutableLiveData<List<User>>()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -83,7 +89,7 @@ class UserRepository(private val userDao: UserDao) {
     }
 }
 
-@Database(entities = [(User::class)], version = 1)
+@Database(entities = [(User::class)], version = 2)
 abstract class UserRoomDatabase: RoomDatabase() {
     abstract fun userDao(): UserDao
 

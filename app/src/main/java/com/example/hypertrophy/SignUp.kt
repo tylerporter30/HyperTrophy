@@ -47,6 +47,8 @@ fun SignUpContent(
 ) {
     val searchResults by userViewModel.searchResults.observeAsState(listOf())
 
+    val allUsers by userViewModel.allUsers.observeAsState(listOf())
+
     Box(Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.htbackground),
@@ -56,7 +58,9 @@ fun SignUpContent(
             alpha = 0.3f
         )
         Column(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(0.6f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.6f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -130,6 +134,8 @@ fun SignUpContent(
             ) {
                 Text(text = stringResource(R.string.sign_up))
             }
+
+            //Text(text = allUsers.size.toString())
 
         }
     }
