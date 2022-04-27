@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import com.example.hypertrophy.data.ExerciseInfo
 
 @Composable
@@ -17,7 +19,12 @@ fun Screen_Templates() {
 
     var typeExpanded by remember { mutableStateOf(false) }
 
-    Scaffold {
+    Scaffold(topBar = {
+        Row(modifier = Modifier.semantics { contentDescription = "TopAppBar" }) {
+            Text(text = "Templates")
+        }
+    }
+    ) {
 
         Column {
 
