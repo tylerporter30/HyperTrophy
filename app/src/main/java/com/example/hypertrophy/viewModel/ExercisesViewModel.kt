@@ -15,6 +15,7 @@ class ExercisesViewModel:ViewModel() {
 
     var exerciseList: MutableState<List<ExerciseInfo>> = mutableStateOf(listOf())
     var bodyList: MutableState<List<String>> = mutableStateOf(listOf())
+    var equipmentSelectedList: MutableState<List<String>> = mutableStateOf(listOf())
 
     var bodyPartList = listOf<String>("back",
         "cardio",
@@ -27,9 +28,41 @@ class ExercisesViewModel:ViewModel() {
         "upper legs",
         "waist")
 
+    val equipmentList = listOf(
+        "Assisted",
+        "Band",
+        "Barbell",
+        "Body Weight",
+        "BOSU Ball",
+        "Cables",
+        "Dumbbell",
+        "Elliptical",
+        "eZ Bar",
+        "Hammer",
+        "Kettlebell",
+        "Leverage Machine",
+        "Medicine Ball",
+        "Olympic Barbell",
+        "Resistance Band",
+        "Roller",
+        "Rope",
+        "Skierg Machine",
+        "Sled Machine",
+        "Smith Machine",
+        "Stability Ball",
+        "Stationary Bike",
+        "Stepmill Machine",
+        "Tire",
+        "Trap Bar",
+        "Upper Body Erometer",
+        "Weighted",
+        "Wheel Roller"
+    )
+
     init{
         fetchBodyPart()
         fetchExercises()
+        fetchEquipment()
     }
 
     private fun fetchExercises(){
@@ -67,6 +100,28 @@ class ExercisesViewModel:ViewModel() {
                     responseService.body()?.let{
                             it ->
                         bodyList.value = it
+                    }
+                }else{
+                    responseService.errorBody()?.close()
+                }
+            }catch (e:Exception){
+
+                Log.d("fetchExercises", "Exception in networking $e")
+            }
+        }
+    }
+    private fun fetchEquipment(){
+
+        viewModelScope.launch {
+
+            try {
+                val fetchExercisesService = ExerciseDBHelper.getExerciseDBService()
+                val responseService = fetchExercisesService.fetchEquipmentList()
+
+                if(responseService.isSuccessful){
+                    responseService.body()?.let{
+                            it ->
+                        equipmentSelectedList.value = it
                     }
                 }else{
                     responseService.errorBody()?.close()

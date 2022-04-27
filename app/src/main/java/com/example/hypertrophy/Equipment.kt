@@ -1,5 +1,6 @@
 package com.example.hypertrophy
 
+import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.hypertrophy.viewModel.ProgramViewModel
 
 @Composable
 fun EquipmentMatcherScreen(navController: NavHostController) {
@@ -39,13 +43,14 @@ fun EquipmentMatcherScreen(navController: NavHostController) {
                 Text(text = "Equipment")
             })
         },
-        content = { EquipmentCheckbox() },
+                content = { EquipmentCheckbox(navController = navController) },
+//        content = { EquipmentCheckbox(programViewModel = ProgramViewModel(appObj = Application())) },
         //bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
 @Composable
-fun EquipmentCheckbox() {
+fun EquipmentCheckbox(navController: NavHostController) {
 
     //list of equipment
     val equipmentList = listOf(
@@ -92,9 +97,13 @@ fun EquipmentCheckbox() {
             var isChecked = remember { mutableStateOf(false) }
 
 
-            val selectedTint = Color.LightGray
+//            val selectedTint = Color.LightGray
+            val selectedTint = MaterialTheme.colors.primary.copy(alpha = .8f)
             val unSelectedTint = Color.White
+            val selectedColor = Color.White
+            val unselectedColor = Color.Black
             val backgroundTint = if (isChecked.value) selectedTint else unSelectedTint
+            val textColor = if (isChecked.value) selectedColor else unselectedColor
             Row(
                 Modifier
                     .padding(bottom = 25.dp)
@@ -113,29 +122,34 @@ fun EquipmentCheckbox() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
 
-                Checkbox(checked = isChecked.value, onCheckedChange = null, colors = CheckboxDefaults.colors(
+                Checkbox(checked = isChecked.value,
+                    onCheckedChange = null,
+                    colors = CheckboxDefaults.colors(
                     checkedColor = Color.White,
-                    checkmarkColor = Color.Red))
+                    checkmarkColor = Color.Black))
                 Text(items,
                     Modifier
                         .padding(start = 10.dp)
-                        .weight(1f))
+                        .weight(1f),
+                    style = MaterialTheme.typography.h6,
+                    color = textColor
+                )
             }
         }
     }
 
-    EquipmentButton()
+    EquipmentButton(navController = navController)
 }
 
 @Composable
-fun EquipmentButton() {
+fun EquipmentButton(navController: NavHostController) {
 
     var context = LocalContext.current
 
     Button(
         shape = RoundedCornerShape(10.dp),
         onClick = {
-            //context.startActivity(Intent(context, ExerciseCard::class.java))
+            navController.navigate(NavRoutes.ExerciseByEquipment.route)
         },
         modifier = Modifier
             .padding(top = 600.dp, start = 10.dp, end = 10.dp)

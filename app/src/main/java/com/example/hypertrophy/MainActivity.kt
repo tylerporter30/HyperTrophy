@@ -171,6 +171,9 @@ fun MainScreen(navController: NavHostController, weighInViewModel: WeighInViewMo
         composable(ProgramNavRoutes.LegWorkout.route) {
             LegWorkoutLog(navController = navController)
         }
+        composable(NavRoutes.ExerciseByEquipment.route) {
+            ExerciseByEquipment(navController = navController,exercisesViewModel = ExercisesViewModel())
+        }
 
     }
 }

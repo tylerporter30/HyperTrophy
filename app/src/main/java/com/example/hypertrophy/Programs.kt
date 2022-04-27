@@ -56,35 +56,35 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
                         selectedProgram = "Starting Strength"
                         showMenu = !showMenu
                     }) {
-                        Text(text = "Starting Strength")
+                        Text(text = "Starting Strength",style = MaterialTheme.typography.subtitle1)
                     }
 
                     DropdownMenuItem(onClick = {
                         selectedProgram = "GreySkull"
                         showMenu = !showMenu
                     }) {
-                        Text(text = "GreySkull")
+                        Text(text = "GreySkull",style = MaterialTheme.typography.subtitle1)
                     }
 
                     DropdownMenuItem(onClick = {
                         selectedProgram = "StrongLifts 5x5"
                         showMenu = !showMenu
                     }) {
-                        Text(text = "StrongLifts 5x5")
+                        Text(text = "StrongLifts 5x5",style = MaterialTheme.typography.subtitle1)
                     }
 
                     DropdownMenuItem(onClick = {
                         selectedProgram = "Push Pull Legs"
                         showMenu = !showMenu
                     }) {
-                        Text(text = "Push Pull Legs")
+                        Text(text = "Push Pull Legs",style = MaterialTheme.typography.subtitle1)
                     }
 
                     DropdownMenuItem(onClick = {
                         selectedProgram = "TGP"
                         showMenu = !showMenu
                     }) {
-                        Text(text = "Tyler's Great Program")
+                        Text(text = "Tyler's Great Program",style = MaterialTheme.typography.subtitle1)
                     }
                 }
             }
@@ -116,16 +116,20 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Starting Strength")
+            Text(text = "Starting Strength", style = MaterialTheme.typography.h3, modifier = Modifier.padding(top = 25.dp))
             WorkoutCard(
+
                 title = "A",
                 workout = "StartingStrengthWorkoutA",
+
+
                 arrayOf(
                     Exercise("Squat", 3, 5),
                     Exercise("Bench Press", 3, 5),
                     Exercise("Deadlift", 1, 5)
                 ),
-                navController = navController
+                navController = navController,
+
             )
             /*val startingStrengthTemplateA = Template(
                 templateName = "Starting Strength A",
@@ -165,7 +169,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "GreySkull")
+            Text(text = "GreySkull",style = MaterialTheme.typography.h3, modifier = Modifier.padding(top = 25.dp))
             WorkoutCard(
                 title = "A",
                 workout = "GreySkullWorkoutA",
@@ -195,7 +199,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "StrongLifts 5x5")
+            Text(text = "StrongLifts 5x5", style = MaterialTheme.typography.h3, modifier = Modifier.padding(top = 25.dp))
             WorkoutCard(
                 title = "A",
                 workout = "StrongLiftsWorkoutA",
@@ -227,8 +231,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Push Pull Legs")
+            Text(text = "Push Pull Legs", style = MaterialTheme.typography.h3, modifier = Modifier.padding(top = 25.dp))
             WorkoutCard(
+
                 title = "Push",
                 workout = "PushWorkout",
                 arrayOf(
@@ -314,7 +319,7 @@ fun WorkoutCard(
                         horizontalArrangement = Arrangement.End
                     ) {
                         Button(onClick = { startWorkout = true }) {
-                            Text(text = "Start")
+                            Text(text = "Start", style = MaterialTheme.typography.h6)
                         }
                     }
                     if(startWorkout) {
@@ -382,7 +387,8 @@ fun FloatingActionButtonComponent(navController: NavHostController) {
             onClick = {
                 navController.navigate(NavRoutes.CreateNewProgram.route)
             },
-            modifier = Modifier.size(50.dp), shape = CircleShape, backgroundColor = Color.Black
+            modifier = Modifier.size(50.dp), shape = CircleShape, backgroundColor = MaterialTheme.colors.primary
+//            backgroundColor = Color.Black
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_plus),

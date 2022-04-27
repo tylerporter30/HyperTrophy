@@ -50,7 +50,7 @@ fun CreateNewProgramTextField(navController: NavHostController) {
         Row(modifier = Modifier.fillMaxWidth(), Arrangement.Center) {
 
 
-            Text(text = "Create Program Name")
+            Text(text = "Create Program Name", style = MaterialTheme.typography.h3)
         }
 
 
@@ -70,7 +70,6 @@ fun CreateNewProgramTextField(navController: NavHostController) {
 @Composable
 fun FloatingActionButtonComponent2(navController: NavHostController, TemplateName: String) {
 
-    val context = LocalContext.current
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -84,7 +83,8 @@ fun FloatingActionButtonComponent2(navController: NavHostController, TemplateNam
                 navController.navigate(NavRoutes.CreateNewTemplate.route)
             },
 
-            modifier = Modifier.size(50.dp), shape = CircleShape, backgroundColor = Color.Black
+            modifier = Modifier.size(50.dp), shape = CircleShape, backgroundColor = MaterialTheme.colors.primary
+//            backgroundColor = Color.Black
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_plus),
