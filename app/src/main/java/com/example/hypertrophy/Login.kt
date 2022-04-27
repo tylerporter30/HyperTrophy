@@ -117,7 +117,10 @@ fun LoginContent(
             )
 
             Button(
-                onClick = { navController.navigate(NavRoutes.Home.route) },
+                onClick = {
+                    navController.navigate(NavRoutes.Home.route)
+                    focusManager.clearFocus()
+                          },
                 enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank() //This is only commented out for development purposes.
             ) {
                 Text(text = stringResource(R.string.login))

@@ -124,6 +124,7 @@ fun SignUpContent(
                 onClick = {
                     userViewModel.addUser(user = User(username = UsernameInput, password = PasswordInput))
                     navController.navigate(NavRoutes.Login.route)
+                    focusManager.clearFocus()
                           },
                 enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank()
             ) {
