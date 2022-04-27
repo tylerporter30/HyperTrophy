@@ -12,4 +12,7 @@ interface ExerciseDBService {
     @GET("exercises/bodyPartList")
     suspend fun fetchBodyPartList():Response<List<String>>
 
+    @GET("exercises/equipmentList")
+    suspend fun fetchEquipmentList():Response<List<String>>
+
 }

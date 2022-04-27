@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,7 +17,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -25,6 +28,7 @@ data class Programs(
     val id: Int,
     val name: String,
     val description: String,
+
 )
 
 
@@ -39,11 +43,11 @@ fun AllPrograms(programList: List<Programs>) {
         horizontalAlignment = CenterHorizontally
     ) {
 
-        Text(text = "Beginner", fontSize = 22.sp)
+        Text(text = "Beginner", style = MaterialTheme.typography.h5)
 
         LazyRow(
-
-            contentPadding = PaddingValues(top = 15.dp)   // this padding pushes the Beginner text up from the card
+            // this padding pushes the Beginner text up from the card
+            contentPadding = PaddingValues(top = 15.dp)
         )
         {
 
@@ -72,9 +76,8 @@ fun CreateNewProgram(name: String, description: String) {
             .requiredWidth(LocalConfiguration.current.screenWidthDp.dp * .96f)
             .clickable { isOpen = !isOpen },
 
-        elevation = 8.dp,
-        //backgroundColor = MaterialTheme.colors.surface
-
+        //elevation = 8.dp,
+       backgroundColor = MaterialTheme.colors.primary.copy(alpha = .7f)
     ) {
 
         //this column padding makes the card bigger or smaller due to the text padding in it
@@ -86,12 +89,13 @@ fun CreateNewProgram(name: String, description: String) {
             Text(
                 text = name,
                 style = MaterialTheme.typography.h6,
-                //color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.surface,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
             if (isOpen) {
-                Text(text = description)
+                Text(text = description,color = MaterialTheme.colors.surface, style = MaterialTheme.typography.h6)
+
             }
 
         }
@@ -169,7 +173,7 @@ fun AllPrograms1(programList1: List<Programs1>) {
                 .padding(top = 40.dp)
         ) {
 
-            Text(text = "Intermediate", fontSize = 22.sp)
+            Text(text = "Intermediate", style = MaterialTheme.typography.h5)
         }
     }
 
@@ -203,9 +207,8 @@ fun CreateNewProgram1(name: String, description: String) {
             .clickable(onClick = { isOpen = !isOpen }),
 
         //shape = MaterialTheme.shapes.medium,
-        elevation = 8.dp,
-        //backgroundColor = MaterialTheme.colors.surface
-
+        //elevation = 8.dp,
+        backgroundColor = MaterialTheme.colors.primary.copy(alpha = .7f)
 
     ) {
 
@@ -217,12 +220,12 @@ fun CreateNewProgram1(name: String, description: String) {
             Text(
                 text = name,
                 style = MaterialTheme.typography.h6,
-                //color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.surface,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
             if (isOpen) {
-                Text(text = description)
+                Text(text = description,color = MaterialTheme.colors.surface, style = MaterialTheme.typography.h6)
             }
         }
     }
@@ -303,7 +306,7 @@ fun AllPrograms2(programList2: List<Programs2>) {
                 .padding(top = 40.dp)
         ) {
 
-            Text(text = "Advanced", fontSize = 22.sp)
+            Text(text = "Advanced", style = MaterialTheme.typography.h5)
         }
     }
 
@@ -337,8 +340,8 @@ fun CreateNewProgram2(name: String, description: String) {
             .clickable { isOpen = !isOpen },
 
         //shape = MaterialTheme.shapes.medium,
-        elevation = 8.dp,
-        //backgroundColor = MaterialTheme.colors.surface
+        //elevation = 8.dp,
+        backgroundColor = MaterialTheme.colors.primary.copy(alpha = .7f)
 
     ) {
 
@@ -350,12 +353,12 @@ fun CreateNewProgram2(name: String, description: String) {
             Text(
                 text = name,
                 style = MaterialTheme.typography.h6,
-                //color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.surface,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
             if (isOpen) {
-                Text(text = description)
+                Text(text = description,color = MaterialTheme.colors.surface, style = MaterialTheme.typography.h5)
             }
         }
     }
