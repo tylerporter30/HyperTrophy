@@ -40,7 +40,7 @@ fun WelcomeContent(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(text = stringResource(id = R.string.app_name), style = MaterialTheme.typography.h2)
 //            Icon(painter = painterResource(id = R.drawable.fitness), contentDescription = "")
             Image(
                 painter = painterResource(id = R.drawable.htimage),
