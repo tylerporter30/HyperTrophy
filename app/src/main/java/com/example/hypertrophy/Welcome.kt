@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hypertrophy.NavRoutes
@@ -52,11 +53,15 @@ fun WelcomeContent(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(onClick = { navController.navigate(NavRoutes.Login.route) }) {
+                Button(onClick = { navController.navigate(NavRoutes.Login.route) },
+                    contentPadding = PaddingValues(start = 30.dp,end = 30.dp, top = 15.dp, bottom = 15.dp))
+                {
                     Text(text = stringResource(id = R.string.login))
                 }
 
-                Button(onClick = { navController.navigate(NavRoutes.SignUp.route) }) {
+                Button(onClick = { navController.navigate(NavRoutes.SignUp.route) },
+                    contentPadding = PaddingValues(start = 24.dp,end = 24.dp, top = 15.dp, bottom = 15.dp))
+                {
                     Text(text = stringResource(id = R.string.sign_up))
                 }
 
