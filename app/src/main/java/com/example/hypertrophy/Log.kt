@@ -35,7 +35,8 @@ fun LogScreen(navController: NavHostController, viewModel: LogViewModel = viewMo
             Box(Modifier.padding(it)) {
                 LogScreenUI(viewModel)
             }
-        }
+        },
+                bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
@@ -166,7 +167,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
 
         // Big, slap-able button to mark set as complete
         Row(
-            modifier = Modifier.padding(top = 50.dp, start = 32.dp, end = 32.dp, bottom = 30.dp),
+            modifier = Modifier.padding(top = 50.dp, start = 32.dp, end = 32.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
