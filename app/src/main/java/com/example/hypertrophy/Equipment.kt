@@ -1,6 +1,5 @@
 package com.example.hypertrophy
 
-import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -12,8 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.hypertrophy.viewModel.ProgramViewModel
+import com.example.hypertrophy.viewModel.ExercisesViewModel
 
 @Composable
 fun EquipmentMatcherScreen(navController: NavHostController) {
@@ -43,14 +40,14 @@ fun EquipmentMatcherScreen(navController: NavHostController) {
                 Text(text = "Equipment")
             })
         },
-                content = { EquipmentCheckbox(navController = navController) },
-//        content = { EquipmentCheckbox(programViewModel = ProgramViewModel(appObj = Application())) },
+                content = { EquipmentCheckbox(navController = navController, exercisesViewModel = ExercisesViewModel()) },
+
         //bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
 @Composable
-fun EquipmentCheckbox(navController: NavHostController) {
+fun EquipmentCheckbox(navController: NavHostController, exercisesViewModel: ExercisesViewModel) {
 
     //list of equipment
     val equipmentList = listOf(
@@ -96,8 +93,6 @@ fun EquipmentCheckbox(navController: NavHostController) {
         equipmentList.forEach { items ->
             var isChecked = remember { mutableStateOf(false) }
 
-
-//            val selectedTint = Color.LightGray
             val selectedTint = MaterialTheme.colors.primary.copy(alpha = .8f)
             val unSelectedTint = Color.White
             val selectedColor = Color.White
@@ -138,17 +133,18 @@ fun EquipmentCheckbox(navController: NavHostController) {
         }
     }
 
-    EquipmentButton(navController = navController)
+    EquipmentButton(navController = navController, exercisesViewModel = ExercisesViewModel())
 }
 
 @Composable
-fun EquipmentButton(navController: NavHostController) {
+fun EquipmentButton(navController: NavHostController,exercisesViewModel: ExercisesViewModel) {
 
     var context = LocalContext.current
 
     Button(
         shape = RoundedCornerShape(10.dp),
         onClick = {
+            //exercisesViewModel.exerciseList.value.filter { true }
             navController.navigate(NavRoutes.ExerciseByEquipment.route)
         },
         modifier = Modifier

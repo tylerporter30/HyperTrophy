@@ -29,7 +29,7 @@ class ProgramViewModel(appObj: Application) : AndroidViewModel(appObj) {
 
     var listOfHistoryRecord:LiveData<List<HistoryRecord>> = programDao.fetchAllHistoryRecord()
 
-    var listOfEquipment:LiveData<List<Program>> = programDao.fetchAllProgram()
+    //var listOfEquipment:LiveData<List<Program>> = programDao.fetchAllProgram()
 
 
     //for program
