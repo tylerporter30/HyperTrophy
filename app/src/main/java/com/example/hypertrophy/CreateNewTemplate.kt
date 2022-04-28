@@ -1,6 +1,8 @@
 package com.example.hypertrophy
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,31 +21,43 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.hypertrophy.data.Template
+import com.example.hypertrophy.viewModel.ProgramViewModel
 
 @Composable
-fun CreateNewTemplate(navController: NavHostController) {
+fun CreateNewTemplate(navController: NavHostController, programViewModel: ProgramViewModel) {
     Scaffold(
-        topBar = { TopAppBar(
-            title = {
-                IconButton(onClick = { navController.navigate(NavRoutes.CreateNewProgram.route) }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back Arrow")
+        topBar = {
+            TopAppBar(
+                title = {
+                    IconButton(onClick = { navController.navigate(NavRoutes.CreateNewProgram.route) }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back Arrow"
+                        )
+                    }
+                    Text(text = "Create New Template")
                 }
-                Text(text = "Create New Template")
-            }
-        ) },
-        content = { CreateWorkoutTemplateScreen(navController = navController) }
+            )
+        },
+        content = {
+            CreateWorkoutTemplateScreen(
+                navController = navController,
+                programViewModel = programViewModel
+            )
+        }
     )
 }
 
 @Composable
-fun CreateWorkoutTemplateScreen(navController: NavHostController) {
-    Column(
-
-    ) {
+fun CreateWorkoutTemplateScreen(
+    navController: NavHostController,
+    programViewModel: ProgramViewModel
+) {
+    Column {
         val focusManager = LocalFocusManager.current
 
         //Add Title
-        var TemplateTitle by rememberSaveable {mutableStateOf("")}
+        var TemplateTitle by rememberSaveable { mutableStateOf("") }
         //var ListOfExercises by rememberSaveable { mutableStateOf(List<Exercise>())}
 
         //This should create a new instance of Template class, with a name a list of exercises
@@ -56,7 +70,7 @@ fun CreateWorkoutTemplateScreen(navController: NavHostController) {
                 TemplateTitle = text
             },
             label = {
-                    Text(text = "Enter Title")
+                Text(text = "Enter Title")
             },
             singleLine = true,
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -64,28 +78,18 @@ fun CreateWorkoutTemplateScreen(navController: NavHostController) {
             keyboardOptions = KeyboardOptions.Default
         )
 
-        //Card to Display Template
-        Card(
-            modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth(),
-            elevation = 15.dp,
-            shape = RoundedCornerShape(10.dp)
-            ) {
-            Column(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .fillMaxWidth()
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(text = TemplateTitle)
-                }
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+
+            items(programViewModel.currentTemplate.value.listOfExercise) {
+
+                    item ->
+                ExerciseInfoCard(exerciseInfo = item.exerciseInfo)
 
             }
+
+
         }
+        //Card to Display Template
 
         //Add Exercise
         Row(
@@ -99,7 +103,12 @@ fun CreateWorkoutTemplateScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.width(20.dp))
 
-            Button(onClick = {  }) {
+            Button(onClick = {
+                programViewModel.currentProgram.templates.plus(programViewModel.currentTemplate)
+                programViewModel.insertProgram(programViewModel.currentProgram)
+                navController.navigate(NavRoutes.CreateNewProgram.route)
+            }) {
+
                 Text(text = "Save Template")
             }
         }

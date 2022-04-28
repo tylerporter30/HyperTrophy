@@ -10,15 +10,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.decode.GifDecoder
+import com.example.hypertrophy.NavRoutes
 import com.example.hypertrophy.R
+import com.example.hypertrophy.data.Exercise
 import com.example.hypertrophy.data.ExerciseInfo
+import com.example.hypertrophy.data.Template
 import com.example.hypertrophy.viewModel.ExercisesViewModel
+import com.example.hypertrophy.viewModel.ProgramViewModel
 
 @Composable
-fun Screen_BrowseAllExercise(exercisesViewModel: ExercisesViewModel) {
+fun Screen_BrowseAllExercise(navController: NavHostController, exercisesViewModel: ExercisesViewModel, programViewModel: ProgramViewModel) {
 
     var tabIndex by remember { mutableStateOf(0) }
 
@@ -33,13 +38,13 @@ fun Screen_BrowseAllExercise(exercisesViewModel: ExercisesViewModel) {
                         text = { Text(text = title) })
                 }
             }
-            TabContent(tabIndex, exercisesViewModel)
+            TabContent(navController = navController,tabIndex, exercisesViewModel, programViewModel = programViewModel)
         }
     }
 }
 
 @Composable
-fun TabContent(tabIndex: Int, exercisesViewModel: ExercisesViewModel) {
+fun TabContent(navController: NavHostController,tabIndex: Int, exercisesViewModel: ExercisesViewModel,programViewModel: ProgramViewModel) {
 
     var typeExpanded by remember { mutableStateOf(false) }
 
@@ -61,7 +66,7 @@ fun TabContent(tabIndex: Int, exercisesViewModel: ExercisesViewModel) {
             items(exercisesViewModel.exerciseList.value.filter { it.bodyPart == exercisesViewModel.bodyPartList[tabIndex] /*&& targetedMuscle in it.target*/ }) {
 
                     it ->
-                ExerciseInfoCard(exerciseInfo = it)
+                ExerciseInfoCard(navController = navController, exerciseInfo = it, programViewModel = programViewModel)
             }
         }
     }
@@ -70,7 +75,7 @@ fun TabContent(tabIndex: Int, exercisesViewModel: ExercisesViewModel) {
 
 @ExperimentalCoilApi
 @Composable
-fun ExerciseInfoCard(exerciseInfo: ExerciseInfo) {
+fun ExerciseInfoCard(navController: NavHostController,exerciseInfo: ExerciseInfo,programViewModel: ProgramViewModel) {
 
     Card(
         modifier = Modifier
@@ -114,7 +119,12 @@ fun ExerciseInfoCard(exerciseInfo: ExerciseInfo) {
                     Text(text = "Equipment: ${exerciseInfo.equipment}")
                 }
 
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    programViewModel.currentTemplate.value = Template(programViewModel.currentTemplate.value.templateName,programViewModel.currentTemplate.value.listOfExercise.plus(
+                        Exercise(exerciseInfo)
+                    ))
+                    navController.navigate(NavRoutes.CreateNewTemplate.route)
+                     }) {
                     Text(text = "Add to Template")
                 }
             }

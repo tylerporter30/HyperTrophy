@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
 
-                    SplashScreen(weighInViewModel)
+                    SplashScreen(weighInViewModel, programViewModel = programViewModel)
                 }
             }
         }
@@ -68,7 +68,9 @@ class MainActivity : ComponentActivity() {
 fun SplashScreen(
     weighInViewModel: WeighInViewModel,
     userViewModel: UserViewModel = UserViewModel(LocalContext.current.applicationContext as Application),
-    historyViewModel: HistoryViewModel = HistoryViewModel(LocalContext.current.applicationContext as Application)
+    historyViewModel: HistoryViewModel = HistoryViewModel(LocalContext.current.applicationContext as Application),
+    programViewModel: ProgramViewModel
+
 ) {
     //This will hold the list of users registered on this device
     val searchResults by userViewModel.searchResults.observeAsState(listOf())
@@ -81,7 +83,8 @@ fun SplashScreen(
         navController = navController,
         weighInViewModel,
         userViewModel = userViewModel,
-        historyViewModel = historyViewModel
+        historyViewModel = historyViewModel,
+        programViewModel = programViewModel
     )
 }
 
@@ -91,7 +94,8 @@ fun MainScreen(
     navController: NavHostController,
     weighInViewModel: WeighInViewModel,
     userViewModel: UserViewModel,
-    historyViewModel: HistoryViewModel
+    historyViewModel: HistoryViewModel,
+    programViewModel: ProgramViewModel
 ) {
     //Create NavHost to navigate between welcome and login/signup
     NavHost(
@@ -147,7 +151,7 @@ fun MainScreen(
         }
 
         composable(NavRoutes.CreateNewProgram.route) {
-            CreateNewProgram(navController = navController)
+            CreateNewProgram(navController = navController, programViewModel = programViewModel)
         }
 
         composable(NavRoutes.Settings.route) {
@@ -155,11 +159,11 @@ fun MainScreen(
         }
 
         composable(NavRoutes.CreateNewTemplate.route) {
-            CreateNewTemplate(navController = navController)
+            CreateNewTemplate(navController = navController,programViewModel)
         }
 
         composable(NavRoutes.Browse.route) {
-            Screen_BrowseAllExercise(exercisesViewModel = ExercisesViewModel())
+            Screen_BrowseAllExercise(navController = navController, exercisesViewModel = ExercisesViewModel(),programViewModel)
         }
 
         composable(ProgramNavRoutes.StartingStrengthWorkoutA.route) {

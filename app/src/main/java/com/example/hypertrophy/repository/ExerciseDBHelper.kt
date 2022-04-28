@@ -30,7 +30,7 @@ object ExerciseDBHelper {
             .addInterceptor(loggingInterceptor)
             .addInterceptor(Interceptor { chain ->
                 val request: Request =
-                    chain.request().newBuilder().addHeader("X-RapidAPI-Host", "exercisedb.p.rapidapi.com").addHeader("X-RapidAPI-Key", "9cb751ec3fmsh37e768bc47c7b8dp1a20a9jsn2fe2fc7b68e6").build()
+                    chain.request().newBuilder().addHeader("X-RapidAPI-Host", "exercisedb.p.rapidapi.com").addHeader("X-RapidAPI-Key", "81c79720abmsh54c25c2d79198c5p1541adjsnbbb64f32fd42").build()
                 chain.proceed(request)
             })
             .writeTimeout(0, TimeUnit.MICROSECONDS)

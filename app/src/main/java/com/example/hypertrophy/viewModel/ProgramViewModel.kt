@@ -1,6 +1,8 @@
 package com.example.hypertrophy.viewModel
 
 import android.app.Application
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -8,11 +10,16 @@ import com.example.hypertrophy.data.HistoryRecord
 import com.example.hypertrophy.data.PersonalWeightInRecord
 import com.example.hypertrophy.database.ExerciseDao
 import com.example.hypertrophy.data.Program
+import com.example.hypertrophy.data.Template
 import com.example.hypertrophy.database.ProgramDatabase
 import kotlinx.coroutines.launch
 
 
 class ProgramViewModel(appObj: Application) : AndroidViewModel(appObj) {
+
+    lateinit var currentProgram:Program
+
+    lateinit var currentTemplate: MutableState<Template>
 
     var programDao:ExerciseDao
 
