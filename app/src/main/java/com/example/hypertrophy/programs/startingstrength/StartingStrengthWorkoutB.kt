@@ -22,11 +22,14 @@ import com.example.hypertrophy.history.ExerciseData
 import com.example.hypertrophy.history.HistoryCard
 import com.example.hypertrophy.history.HistoryCardView
 import com.example.hypertrophy.programs.ExerciseRow
+import com.example.hypertrophy.viewModel.HistoryViewModel
 import java.util.*
 
 
 @Composable
-fun StartingStrengthWorkoutBLog(navController: NavHostController) {
+fun StartingStrengthWorkoutBLog(navController: NavHostController,
+                                historyViewModel: HistoryViewModel
+) {
 
     var showHistoryCard by rememberSaveable{ mutableStateOf(false) }
 
@@ -46,7 +49,7 @@ fun StartingStrengthWorkoutBLog(navController: NavHostController) {
             ) {
                 Button(
                     onClick = {
-                        navController.navigate(NavRoutes.Home.route)
+                        navController.navigate(NavRoutes.Analyze.route)
                         //Should also save the workout somewhere
                     }
                 ) {

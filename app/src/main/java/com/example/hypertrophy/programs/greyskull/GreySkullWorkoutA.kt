@@ -27,6 +27,7 @@ import com.example.hypertrophy.history.ExerciseData
 import com.example.hypertrophy.history.HistoryCard
 import com.example.hypertrophy.history.HistoryCardView
 import com.example.hypertrophy.programs.ExerciseRow
+import com.example.hypertrophy.viewModel.HistoryViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -35,7 +36,9 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun GreySkullWorkoutALog(navController: NavHostController) {
+fun GreySkullWorkoutALog(navController: NavHostController,
+                         historyViewModel: HistoryViewModel
+) {
 
     var showHistoryCard by rememberSaveable{ mutableStateOf(false) }
 

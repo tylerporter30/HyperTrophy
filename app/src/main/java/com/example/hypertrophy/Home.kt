@@ -4,6 +4,8 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -16,6 +18,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -30,10 +33,12 @@ import androidx.navigation.NavHostController
 import com.example.hypertrophy.history.HistoryCard
 import com.example.hypertrophy.history.HistoryCardView
 import com.example.hypertrophy.history.ListOfHistory
+import com.example.hypertrophy.viewModel.HistoryViewModel
 import java.util.ArrayList
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController,
+               historyViewModel: HistoryViewModel) {
     Scaffold(
         topBar = { TopAppBar(
             title = { Text(text = "Home")},
@@ -46,13 +51,16 @@ fun HomeScreen(navController: NavHostController) {
             }
 
         )},
-        content = { HomeContent(navController = navController) },
+        content = { HomeContent(navController = navController, historyViewModel) },
         bottomBar = { BottomBarNavigation(navController = navController) }
     )
 }
 
 @Composable
-fun HomeContent(navController: NavHostController) {
+fun HomeContent(navController: NavHostController,
+                historyViewModel: HistoryViewModel
+) {
+    val allHistory by historyViewModel.allHistory.observeAsState(listOf())
 
     val context = LocalContext.current
 
@@ -118,7 +126,15 @@ fun HomeContent(navController: NavHostController) {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
+            allHistory.forEach() {
+                Text(text = it.history)
+            }
+            /*LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(allHistory) {
+                    it.history // This is for strings. below is for historycards
+                    //HistoryCardView(historyCardObject = it.history)
+                }
+            }*/
             //CompletedWorkoutCard(date = "4/11", title = "Back/Biceps")
 
             //Should show a list of completed workout cards here using history cards

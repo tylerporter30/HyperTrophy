@@ -1,12 +1,9 @@
 package com.example.hypertrophy.programs.startingstrength
 
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -16,10 +13,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.hypertrophy.NavRoutes
@@ -27,15 +20,15 @@ import com.example.hypertrophy.history.ExerciseData
 import com.example.hypertrophy.history.HistoryCard
 import com.example.hypertrophy.history.HistoryCardView
 import com.example.hypertrophy.programs.ExerciseRow
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import com.example.hypertrophy.viewModel.History
+import com.example.hypertrophy.viewModel.HistoryViewModel
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun StartingStrengthWorkoutALog(navController: NavHostController) {
+fun StartingStrengthWorkoutALog(navController: NavHostController,
+                                historyViewModel: HistoryViewModel
+) {
 
     var showHistoryCard by rememberSaveable{ mutableStateOf(false) }
 
@@ -55,8 +48,14 @@ fun StartingStrengthWorkoutALog(navController: NavHostController) {
             ) {
                 Button(
                     onClick = {
-                        //navController.navigate(NavRoutes.Home.route)
-                        //Should also save the workout somewhere
+                        /*historyViewModel.addHistory(
+                            history = History(history =
+                            todaysDate//historyCard
+                            )
+                        )
+                        navController.navigate(NavRoutes.Analyze.route)
+                        *///Should also save the workout somewhere
+                            //Need to add the historycardobject to a room db
                         showHistoryCard = true
 
                     }
@@ -110,7 +109,19 @@ fun StartingStrengthWorkoutALog(navController: NavHostController) {
             var historyCard = HistoryCard(workoutTemplate = "Starting Strength Workout A", date = todaysDate, exercises = listOfExercises)
 
             if(showHistoryCard) {
-                HistoryCardView(historyCardObject = historyCard)
+
+                historyViewModel.addHistory(
+                    history = History(history = todaysDate)
+                )
+                navController.navigate(NavRoutes.Analyze.route)
+
+
+                //HistoryCardView(historyCardObject = historyCard)
+                /*historyViewModel.addHistory(
+                    history = History(history =
+                    "Test"//historyCard
+                    )
+                )*/
             }
         }
     }

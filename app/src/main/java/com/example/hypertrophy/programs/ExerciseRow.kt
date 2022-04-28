@@ -15,6 +15,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.hypertrophy.viewModel.History
+import com.example.hypertrophy.viewModel.HistoryViewModel
 import java.util.*
 
 
@@ -70,4 +72,17 @@ fun ExerciseRow(setNum: String, suggestedReps: String) : String {
         }
     }
     return "Reps: $numReps Weight: $weight"
+}
+
+@Composable
+fun saveDate(workout: String, historyViewModel: HistoryViewModel) {
+    val calendar = Calendar.getInstance()
+
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    val month = calendar.get(Calendar.MONTH)+1
+    val year = calendar.get(Calendar.YEAR)
+    val todaysDate = "$month/$day/$year"
+    historyViewModel.addHistory(
+        history = History(history = "$workout $todaysDate")
+    )
 }

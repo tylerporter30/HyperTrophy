@@ -31,9 +31,11 @@ import com.example.hypertrophy.data.ExerciseInfo
 import com.example.hypertrophy.data.Sets
 import com.example.hypertrophy.data.Template
 import com.example.hypertrophy.programs.ProgramNavRoutes
+import com.example.hypertrophy.programs.saveDate
+import com.example.hypertrophy.viewModel.HistoryViewModel
 
 @Composable
-fun SuggestedProgramsScreen(navController: NavHostController) {
+fun SuggestedProgramsScreen(navController: NavHostController, historyViewModel: HistoryViewModel) {
 
     var selectedProgram by rememberSaveable{ mutableStateOf("") }
 
@@ -93,7 +95,7 @@ fun SuggestedProgramsScreen(navController: NavHostController) {
         bottomBar = { BottomBarNavigation(navController = navController) },
         content = {
 
-            ProgramsUI(selectedProgram = selectedProgram, navController = navController)
+            ProgramsUI(selectedProgram = selectedProgram, navController = navController, historyViewModel = historyViewModel)
 
             if(selectedProgram == "TGP" || selectedProgram == "") {
                 AllPrograms(programList = programs)
@@ -110,7 +112,7 @@ class Exercise(exercise: String, sets: Int, reps: Int) {
 }
 
 @Composable
-fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
+fun ProgramsUI (selectedProgram: String, navController: NavHostController, historyViewModel: HistoryViewModel) {
     if (selectedProgram.equals("Starting Strength")) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -129,6 +131,7 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Deadlift", 1, 5)
                 ),
                 navController = navController,
+                historyViewModel = historyViewModel
 
             )
             /*val startingStrengthTemplateA = Template(
@@ -157,7 +160,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Overhead Press", 3, 5),
                     Exercise("Power Clean", 5, 3)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
 
 
@@ -178,7 +183,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Chin up", 3, 5),
                     Exercise("Squat", 3, 5)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
 
             WorkoutCard(
@@ -189,7 +196,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Barbell Row", 3, 5),
                     Exercise("Deadlift", 1, 5)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
         }
     }
@@ -208,7 +217,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Bench Press", 5, 5),
                     Exercise("Barbell Row", 5, 5)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
 
             WorkoutCard(
@@ -219,7 +230,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Overhead Press", 5, 5),
                     Exercise("Deadlift", 1, 5)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
         }
     }
@@ -241,7 +254,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Bench Press", 3, 8),
                     Exercise("Cable Push down", 3, 10)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
 
             WorkoutCard(
@@ -252,7 +267,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Chin up", 5, 10),
                     Exercise("Dumbbell Curl", 3, 15)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
 
             WorkoutCard(
@@ -263,7 +280,9 @@ fun ProgramsUI (selectedProgram: String, navController: NavHostController) {
                     Exercise("Leg Press", 3, 10),
                     Exercise("Leg Curl", 3, 10)
                 ),
-                navController = navController
+                navController = navController,
+                historyViewModel = historyViewModel
+
             )
         }
     }
@@ -277,7 +296,8 @@ fun WorkoutCard(
     title: String,
     workout: String,
     exercises: Array<Exercise>,
-    navController: NavHostController
+    navController: NavHostController,
+    historyViewModel: HistoryViewModel
 ) {
 
     var isOpen by rememberSaveable{ mutableStateOf(false) }
@@ -319,15 +339,17 @@ fun WorkoutCard(
                         horizontalArrangement = Arrangement.End
                     ) {
                         Button(onClick = { startWorkout = true }) {
-                            Text(text = "Start", style = MaterialTheme.typography.h6)
+                            Text(text = "Save", style = MaterialTheme.typography.h6)
                         }
                     }
                     if(startWorkout) {
-                        StartWorkout(
+                        saveDate(workout = workout, historyViewModel = historyViewModel)
+
+                        /*StartWorkout(
                             navController = navController,
                             workout = workout,
                             //exercises = exercisesu
-                        )
+                        )*/
                     }
                 }
             }

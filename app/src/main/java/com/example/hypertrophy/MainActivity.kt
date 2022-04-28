@@ -67,7 +67,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SplashScreen(
     weighInViewModel: WeighInViewModel,
-    userViewModel: UserViewModel = UserViewModel(LocalContext.current.applicationContext as Application)
+    userViewModel: UserViewModel = UserViewModel(LocalContext.current.applicationContext as Application),
+    historyViewModel: HistoryViewModel = HistoryViewModel(LocalContext.current.applicationContext as Application)
 ) {
     //This will hold the list of users registered on this device
     val searchResults by userViewModel.searchResults.observeAsState(listOf())
@@ -79,8 +80,8 @@ fun SplashScreen(
     MainScreen(
         navController = navController,
         weighInViewModel,
-        searchResults = searchResults,
-        userViewModel = userViewModel
+        userViewModel = userViewModel,
+        historyViewModel = historyViewModel
     )
 }
 
@@ -89,8 +90,8 @@ fun SplashScreen(
 fun MainScreen(
     navController: NavHostController,
     weighInViewModel: WeighInViewModel,
-    searchResults: List<User>,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    historyViewModel: HistoryViewModel
 ) {
     //Create NavHost to navigate between welcome and login/signup
     NavHost(
@@ -118,7 +119,7 @@ fun MainScreen(
         }
 
         composable(NavRoutes.Home.route) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, historyViewModel)
         }
 
         composable(NavRoutes.Analyze.route) {
@@ -134,7 +135,7 @@ fun MainScreen(
         }
 
         composable(NavRoutes.Programs.route) {
-            SuggestedProgramsScreen(navController = navController)
+            SuggestedProgramsScreen(navController = navController, historyViewModel = historyViewModel)
         }
 
         composable(NavRoutes.Equipment.route) {
@@ -162,39 +163,39 @@ fun MainScreen(
         }
 
         composable(ProgramNavRoutes.StartingStrengthWorkoutA.route) {
-            StartingStrengthWorkoutALog(navController = navController)
+            StartingStrengthWorkoutALog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.StartingStrengthWorkoutB.route) {
-            StartingStrengthWorkoutBLog(navController = navController)
+            StartingStrengthWorkoutBLog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.GreySkullWorkoutA.route) {
-            GreySkullWorkoutALog(navController = navController)
+            GreySkullWorkoutALog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.GreySkullWorkoutB.route) {
-            GreySkullWorkoutBLog(navController = navController)
+            GreySkullWorkoutBLog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.StrongLiftsWorkoutA.route) {
-            StrongLiftsWorkoutALog(navController = navController)
+            StrongLiftsWorkoutALog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.StrongLiftsWorkoutB.route) {
-            StrongLiftsWorkoutBLog(navController = navController)
+            StrongLiftsWorkoutBLog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.PushWorkout.route) {
-            PushWorkoutLog(navController = navController)
+            PushWorkoutLog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.PullWorkout.route) {
-            PullWorkoutLog(navController = navController)
+            PullWorkoutLog(navController = navController, historyViewModel)
         }
 
         composable(ProgramNavRoutes.LegWorkout.route) {
-            LegWorkoutLog(navController = navController)
+            LegWorkoutLog(navController = navController, historyViewModel)
         }
         composable(NavRoutes.ExerciseByEquipment.route) {
             ExerciseByEquipment(navController = navController,exercisesViewModel = ExercisesViewModel())
