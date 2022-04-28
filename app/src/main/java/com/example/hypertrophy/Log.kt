@@ -63,10 +63,10 @@ fun LogScreenUI(viewModel: LogViewModel) {
     ) {
         // Current Exercise and Set number
         Card(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(top = 40.dp, bottom = 70.dp),
             shape = MaterialTheme.shapes.medium,
             backgroundColor = MaterialTheme.colors.surface,
-            border = BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
+            border = BorderStroke(2.dp, MaterialTheme.colors.primary),
             elevation = 16.dp
         ) {
             Column(
@@ -140,7 +140,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp),
+                .padding(top = 30.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -166,7 +166,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
 
         // Big, slap-able button to mark set as complete
         Row(
-            modifier = Modifier.padding(32.dp),
+            modifier = Modifier.padding(top = 50.dp, start = 32.dp, end = 32.dp, bottom = 30.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -177,9 +177,9 @@ fun LogScreenUI(viewModel: LogViewModel) {
                 //modifier = Modifier.fillMaxSize(),
                 modifier = Modifier.fillMaxWidth(),
 //                elevation = ButtonElevation.elevation(enabled = true, interactionSource = TODO()),
-                shape = MaterialTheme.shapes.medium,
+                //shape = MaterialTheme.shapes.medium,
 //                colors = /*TODO*/,
-                contentPadding = PaddingValues(8.dp)
+                contentPadding = PaddingValues(12.dp)
             ) {
                 Text(stringResource(R.string.done).uppercase())
             }

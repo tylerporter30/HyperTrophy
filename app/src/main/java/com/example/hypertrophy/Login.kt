@@ -145,7 +145,9 @@ fun LoginContent(
                     }
                     focusManager.clearFocus()
                           },
-                enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank() //This is only commented out for development purposes.
+                enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank(), //This is only commented out for development purposes.
+
+                contentPadding = PaddingValues(start = 120.dp,end = 120.dp, top = 15.dp, bottom = 15.dp)
             ) {
                 Text(text = stringResource(R.string.login))
             }

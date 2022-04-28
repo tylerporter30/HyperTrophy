@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.hypertrophy.viewModel.User
 import com.example.hypertrophy.viewModel.UserViewModel
@@ -130,7 +131,9 @@ fun SignUpContent(
                     navController.navigate(NavRoutes.Login.route)
                     focusManager.clearFocus()
                           },
-                enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank()
+                enabled = PasswordInput.isNotBlank() && UsernameInput.isNotBlank(),
+
+                contentPadding = PaddingValues(start = 120.dp,end = 120.dp, top = 15.dp, bottom = 15.dp)
             ) {
                 Text(text = stringResource(R.string.sign_up))
             }
