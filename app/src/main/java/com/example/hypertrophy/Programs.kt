@@ -309,8 +309,9 @@ fun WorkoutCard(
             .padding(20.dp)
             .fillMaxWidth()
             .clickable(onClick = { isOpen = !isOpen }),
-        elevation = 15.dp,
+        //elevation = 15.dp,
         shape = RoundedCornerShape(10.dp),
+        backgroundColor = MaterialTheme.colors.primary.copy(alpha = .7f)
 
         ) {
         Column(
@@ -319,7 +320,7 @@ fun WorkoutCard(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            Text(text = title, style = MaterialTheme.typography.h6)
+            Text(text = title, style = MaterialTheme.typography.h6,color = MaterialTheme.colors.surface)
             /*ClickableText(
                 text = AnnotatedString(title),
                 style = MaterialTheme.typography.h6,
@@ -333,15 +334,15 @@ fun WorkoutCard(
             ) {
                 if (isOpen) {
                     exercises.forEach {
-                        Text(text = it.exercise + ": " + it.sets + " sets of " + it.reps + " reps")
+                        Text(text = it.exercise + ": " + it.sets + " sets of " + it.reps + " reps",color = MaterialTheme.colors.surface)
                     }
                     var startWorkout by rememberSaveable { mutableStateOf(false)}
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        Button(onClick = { startWorkout = true }) {
-                            Text(text = "Save", style = MaterialTheme.typography.h6)
+                        Button(onClick = { startWorkout = true }, colors = ButtonDefaults.buttonColors(MaterialTheme.colors.surface)){
+                            Text(text = "Save", style = MaterialTheme.typography.h6,color = MaterialTheme.colors.primary)
                         }
                     }
                     if(startWorkout) {
