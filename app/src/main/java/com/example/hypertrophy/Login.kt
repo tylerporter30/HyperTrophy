@@ -150,9 +150,9 @@ fun LoginContent(
                 Text(text = stringResource(R.string.login))
             }
 
-            /*Text(text = allUsers.size.toString())
+            //Text(text = allUsers.size.toString())
 
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            /*LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(allUsers) {
                     Row() {
                         Text(text = it.username)

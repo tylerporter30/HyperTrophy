@@ -126,8 +126,12 @@ fun HomeContent(navController: NavHostController,
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            //Text(text = allHistory.size.toString())
+
             allHistory.forEach() {
-                Text(text = it.history)
+                if (it.id % 2 == 0) {
+                    Text(text = it.history)
+                }
             }
             /*LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(allHistory) {
