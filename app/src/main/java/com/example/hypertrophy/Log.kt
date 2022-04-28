@@ -64,7 +64,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
     ) {
         // Current Exercise and Set number
         Card(
-            modifier = Modifier.padding(top = 40.dp, bottom = 70.dp),
+            modifier = Modifier.padding(top = 40.dp, bottom = 50.dp),
             shape = MaterialTheme.shapes.medium,
             backgroundColor = MaterialTheme.colors.surface,
             border = BorderStroke(2.dp, MaterialTheme.colors.primary),
@@ -141,7 +141,7 @@ fun LogScreenUI(viewModel: LogViewModel) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp),
+                .padding(top = 30.dp, bottom = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
