@@ -22,11 +22,11 @@ object NavBarItems {
             image = Icons.Filled.List,
             route = "programs"
         ),
-       /* BarItem(
+        BarItem(
             title = "Log",
             image = Icons.Filled.PlayArrow,
             route = "log"
-        ),*/ // Commented this out because it is going to be accessed by hitting 'start' on a template
+        ), // Commented this out because it is going to be accessed by hitting 'start' on a template
         /*BarItem(
             title = "Programs",
             image = Icons.Filled.Settings,

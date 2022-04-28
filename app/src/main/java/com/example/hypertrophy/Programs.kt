@@ -30,7 +30,9 @@ import androidx.navigation.NavHostController
 import com.example.hypertrophy.data.ExerciseInfo
 import com.example.hypertrophy.data.Sets
 import com.example.hypertrophy.data.Template
+import com.example.hypertrophy.programs.AllPrograms
 import com.example.hypertrophy.programs.ProgramNavRoutes
+import com.example.hypertrophy.programs.programs
 import com.example.hypertrophy.programs.saveDate
 import com.example.hypertrophy.viewModel.HistoryViewModel
 
