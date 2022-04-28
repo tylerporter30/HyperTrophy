@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -27,11 +28,8 @@ fun CreateNewProgram(navController: NavHostController, programViewModel: Program
     Scaffold(
         topBar = {
             TopAppBar(title = {
-                IconButton(onClick = { navController.navigate(NavRoutes.Programs.route) }) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Create New Program"
-                    )
+                IconButton(onClick = { navController.navigate(NavRoutes.Home.route) }) {
+                    Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
                 }
 
                 Text(text = "Create New Program")
@@ -56,8 +54,10 @@ fun CreateNewProgramTextField(
     Column(
         modifier = Modifier
             .fillMaxSize(),
-        Arrangement.Center
+        Arrangement.Top
     ) {
+
+        Spacer(modifier = Modifier.height(100.dp))
 
         Row(modifier = Modifier.fillMaxWidth(), Arrangement.Center) {
             Text(text = "Create Program Name", style = MaterialTheme.typography.h3)
@@ -91,9 +91,10 @@ fun CreateNewProgramTextField(
 
                 Card(
                     modifier = Modifier
+                        .padding(bottom = 10.dp)
                         .border(
                             1.dp,
-                            color = MaterialTheme.colors.secondary,
+                            color = MaterialTheme.colors.secondaryVariant,
                             shape = MaterialTheme.shapes.medium
                         )
                         .padding(16.dp)
