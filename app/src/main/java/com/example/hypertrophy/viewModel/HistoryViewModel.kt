@@ -37,26 +37,26 @@ class HistoryViewModel(application: Application) {
 }
 
 @Entity(tableName = "history")
-class History {
+class History (//{
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "userId")
-    var id: Int = 0
+    var id: Int = 0,
 
     @ColumnInfo(name = "history")
-    var history: String = ""
+    var history: String
     //var history: HistoryCard = HistoryCard(workoutTemplate = "", date = "", exercises = arrayListOf(ExerciseData(exercisename = "", setsAndReps = arrayListOf(""))))
 
-
+)
 
     //constructor() {}
 
-    constructor(history:
+ /*   constructor(history:
                 String//HistoryCard
     ) {
         this.history = history
     }
-}
+}*/
 
 @Dao
 interface HistoryDao {
