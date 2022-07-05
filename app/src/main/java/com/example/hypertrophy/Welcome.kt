@@ -20,7 +20,7 @@ import com.example.hypertrophy.R
 @Composable
 fun WelcomeScreen(navController: NavHostController) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name))} ) },
+       // topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name))} ) },
         content = { WelcomeContent(navController) },
         bottomBar = {  }
     )
@@ -56,13 +56,13 @@ fun WelcomeContent(navController: NavHostController) {
                 Button(onClick = { navController.navigate(NavRoutes.Login.route) },
                     contentPadding = PaddingValues(start = 30.dp,end = 30.dp, top = 15.dp, bottom = 15.dp))
                 {
-                    Text(text = stringResource(id = R.string.login))
+                   Text(text = stringResource(id = R.string.login), style = MaterialTheme.typography.subtitle1)
                 }
 
                 Button(onClick = { navController.navigate(NavRoutes.SignUp.route) },
                     contentPadding = PaddingValues(start = 24.dp,end = 24.dp, top = 15.dp, bottom = 15.dp))
                 {
-                    Text(text = stringResource(id = R.string.sign_up))
+                   Text(text = stringResource(id = R.string.sign_up), style = MaterialTheme.typography.subtitle1)
                 }
 
             }
